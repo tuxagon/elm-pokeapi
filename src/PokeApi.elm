@@ -6,42 +6,109 @@ import Json.Decode.Pipeline as Pipeline exposing (decode, required)
 
 
 type ResourceLoadMsg
-    = LoadPokemon (Result Http.Error Pokemon)
+    = LoadPokemon (Result Http.Error ApiResourceList)
+
+
+type alias ListOptions =
+    { limit : Int
+    , page : Int
+    , offset : Int
+    }
 
 
 
 -- URLS
 
 
-type alias Endpoint =
+v2 : String
+v2 =
+    "https://pokeapi.co/api/v2/"
+
+
+makeUrl :
     String
+    -> String
+    -> String
+makeUrl resource param =
+    String.concat [ v2, resource, "/", param ]
 
 
-type alias Parameter =
+makeUrlWithOptions :
     String
-
-
-url : String -> String -> String
-url resource param =
-    String.concat
-        [ "https://pokeapi.co/api/v2/"
-        , resource
-        , "/"
-        , param
-        ]
-
-
-getPokemon : String -> Cmd ResourceLoadMsg
-getPokemon idOrName =
+    -> String
+    -> ListOptions
+    -> String
+makeUrlWithOptions resource param opts =
     let
-        url_ =
-            url "pokemon" idOrName
+        q =
+            "?"
+                ++ String.join "&"
+                    [ "limit="
+                    , toString opts.limit
+                    , "page="
+                    , toString opts.page
+                    , "offset="
+                    , toString opts.offset
+                    ]
     in
-        Http.send LoadPokemon (Http.get url_ pokemonDecoder)
+        makeUrl resource param ++ q
+
+
+get :
+    Decoder a
+    -> String
+    -> Http.Request a
+get decoder url =
+    Http.get url decoder
+
+
+getPokemon : Cmd ResourceLoadMsg
+getPokemon =
+    getPokemonWithOptions
+        { limit = 20
+        , page = 1
+        , offset = 0
+        }
+
+
+getPokemonWithOptions :
+    ListOptions
+    -> Cmd ResourceLoadMsg
+getPokemonWithOptions opts =
+    let
+        request =
+            get apiResourceListDecoder <|
+                makeUrlWithOptions "pokemon" "" opts
+    in
+        Http.send LoadPokemon request
+
+
+getPokemonById : Int -> Cmd ResourceLoadMsg
+getPokemonById id =
+    let
+        request =
+            get pokemonDecoder <|
+                makeUrl "pokemon" (toString id)
+    in
+        Http.send LoadPokemon request
 
 
 
 -- TYPES
+
+
+type alias ApiResource =
+    { name : String
+    , url : String
+    }
+
+
+type alias ApiResourceList =
+    { count : Int
+    , next : Maybe String
+    , previous : Maybe String
+    , results : List ApiResource
+    }
 
 
 type alias NamedApiResource =
@@ -136,6 +203,22 @@ type alias VersionGameIndex =
 
 
 -- DECODERS
+
+
+apiResourceDecoder : Decoder ApiResource
+apiResourceDecoder =
+    decode ApiResource
+        |> required "name" string
+        |> required "url" string
+
+
+apiResourceListDecoder : Decoder ApiResourceList
+apiResourceListDecoder =
+    decode ApiResourceList
+        |> required "count" int
+        |> required "next" (maybe string)
+        |> required "previous" (maybe string)
+        |> required "results" (list apiResourceDecoder)
 
 
 namedApiResourceDecoder : Decoder NamedApiResource

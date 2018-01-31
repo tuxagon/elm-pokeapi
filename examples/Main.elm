@@ -19,7 +19,7 @@ main =
 
 type alias Model =
     { idOrName : Maybe String
-    , pokemon : Maybe PokeApi.Pokemon
+    , pokemon : Maybe PokeApi.ApiResourceList
     }
 
 
@@ -59,7 +59,8 @@ update msg model =
                     Cmd.none
 
                 Just idOrName ->
-                    Cmd.map PokeApiMsg <| PokeApi.getPokemon idOrName
+                    Cmd.map PokeApiMsg <|
+                        PokeApi.getPokemon
             )
 
         PokeApiMsg (LoadPokemon (Ok pokemon)) ->
