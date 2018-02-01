@@ -113,4 +113,26 @@ viewInput model =
                 ]
                 [ text "Get" ]
             ]
+        , viewPokemon model
         ]
+
+
+viewPokemon : Model -> Html Msg
+viewPokemon model =
+    let
+        viewSinglePokemon pokemon =
+            li [] [ text pokemon.name ]
+    in
+        div
+            [ style
+                [ ( "margin", "auto" ) ]
+            ]
+            [ ul []
+                (case model.pokemon of
+                    Just data ->
+                        List.map viewSinglePokemon data.results
+
+                    Nothing ->
+                        []
+                )
+            ]
