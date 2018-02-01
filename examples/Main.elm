@@ -35,7 +35,7 @@ init =
 type Msg
     = EditIdOrName String
     | GetClicked
-    | PokeApiMsg PokeApi.ResourceLoadMsg
+    | PokeApiListMsg PokeApi.ListMsg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -59,14 +59,14 @@ update msg model =
                     Cmd.none
 
                 Just idOrName ->
-                    Cmd.map PokeApiMsg <|
+                    Cmd.map PokeApiListMsg <|
                         PokeApi.getPokemon
             )
 
-        PokeApiMsg (LoadPokemon (Ok pokemon)) ->
+        PokeApiListMsg (Loaded Pokemon_ (Ok pokemon)) ->
             ( { model | pokemon = Just pokemon }, Cmd.none )
 
-        PokeApiMsg (LoadPokemon (Err err)) ->
+        PokeApiListMsg (Loaded Pokemon_ (Err err)) ->
             let
                 _ =
                     Debug.log "error" err

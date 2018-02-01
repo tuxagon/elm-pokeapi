@@ -5,8 +5,16 @@ import Json.Decode as Decode exposing (Decoder, bool, int, list, maybe, string)
 import Json.Decode.Pipeline as Pipeline exposing (decode, required)
 
 
+type ListMsg
+    = Loaded Resource (Result Http.Error ApiResourceList)
+
+
 type ResourceLoadMsg
-    = LoadPokemon (Result Http.Error ApiResourceList)
+    = LoadedResources (Result Http.Error ApiResourceList)
+
+
+type Resource
+    = Pokemon_
 
 
 type alias ListOptions =
@@ -62,7 +70,7 @@ get decoder url =
     Http.get url decoder
 
 
-getPokemon : Cmd ResourceLoadMsg
+getPokemon : Cmd ListMsg
 getPokemon =
     getPokemonWithOptions
         { limit = 20
@@ -73,27 +81,27 @@ getPokemon =
 
 getPokemonWithOptions :
     ListOptions
-    -> Cmd ResourceLoadMsg
+    -> Cmd ListMsg
 getPokemonWithOptions opts =
     let
         request =
             get apiResourceListDecoder <|
                 makeUrlWithOptions "pokemon" "" opts
     in
-        Http.send LoadPokemon request
-
-
-getPokemonById : Int -> Cmd ResourceLoadMsg
-getPokemonById id =
-    let
-        request =
-            get pokemonDecoder <|
-                makeUrl "pokemon" (toString id)
-    in
-        Http.send LoadPokemon request
+        Http.send (Loaded Pokemon_) request
 
 
 
+{-
+   getPokemonById : Int -> Cmd ResourceLoadMsg
+   getPokemonById id =
+       let
+           request =
+               get pokemonDecoder <|
+                   makeUrl "pokemon" (toString id)
+       in
+           Http.send LoadedApiResourceList request
+-}
 -- TYPES
 
 
