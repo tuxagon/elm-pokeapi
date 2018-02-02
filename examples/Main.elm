@@ -1,10 +1,32 @@
 module Main exposing (..)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Color exposing (..)
+import Element exposing (..)
+import Element.Attributes exposing (..)
+import Element.Input as Input
+import Html exposing (Html)
+import Html.Attributes
+import Html.Events
+import Maybe
 import PokeApi exposing (..)
 import String exposing (trim)
+import Style
+import Style.Color as Color
+import Style.Font as Font
+
+
+type Styles
+    = None
+    | H1
+
+
+stylesheet : Style.StyleSheet Styles variation
+stylesheet =
+    Style.styleSheet
+        [ Style.style None []
+        , Style.style H1
+            [ Font.size 24 ]
+        ]
 
 
 main : Program Never Model Msg
@@ -28,7 +50,8 @@ init =
     ( { idOrName = Nothing
       , pokemon = Nothing
       }
-    , Cmd.none
+    , Cmd.map PokeApiListMsg <|
+        PokeApi.getPokemon
     )
 
 
@@ -76,63 +99,50 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div
-        []
-        [ viewInput model ]
-
-
-viewInput : Model -> Html Msg
-viewInput model =
-    div
-        [ style
-            [ ( "display", "flex" )
-            , ( "margin", "15px" )
-            , ( "padding", "10px" )
-            , ( "justify-content", "space-around" )
+    Element.viewport stylesheet <|
+        column None
+            [ padding 15
             ]
-        ]
-        [ div
-            [ style
-                [ ( "margin", "auto" ) ]
-            ]
-            [ input
-                [ onInput EditIdOrName
-                , style
-                    [ ( "padding", "8px" )
-                    , ( "font-size", "1.2em" )
-                    ]
-                , placeholder "Pokemon id or name"
+            [ h1 H1
+                [ center
+                , paddingTop 15
+                , paddingBottom 30
                 ]
+                (text "Pokemon Example")
+            , row None
                 []
-            , button
-                [ style
-                    [ ( "padding", "8px" )
-                    , ( "font-size", "1.2em" )
+                [ Input.search None
+                    [ center
+                    , width (px 300)
+                    , padding 8
                     ]
-                , onClick GetClicked
+                    { onChange = EditIdOrName
+                    , value =
+                        Maybe.withDefault
+                            ""
+                            model.idOrName
+                    , label =
+                        Input.placeholder
+                            { text = "Pokemon id or name"
+                            , label = Input.hiddenLabel ""
+                            }
+                    , options = [ Input.focusOnLoad ]
+                    }
                 ]
-                [ text "Get" ]
-            ]
-        , viewPokemon model
-        ]
-
-
-viewPokemon : Model -> Html Msg
-viewPokemon model =
-    let
-        viewSinglePokemon pokemon =
-            li [] [ text pokemon.name ]
-    in
-        div
-            [ style
-                [ ( "margin", "auto" ) ]
-            ]
-            [ ul []
+            , column None
+                [ center
+                , paddingTop 25
+                ]
                 (case model.pokemon of
-                    Just data ->
-                        List.map viewSinglePokemon data.results
-
                     Nothing ->
                         []
+
+                    Just data ->
+                        List.map viewResource data.results
                 )
             ]
+
+
+viewResource : ApiResource -> Element Styles variation Msg
+viewResource pokemon =
+    text pokemon.name
