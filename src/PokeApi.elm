@@ -24,7 +24,7 @@ type alias HttpResult a =
 
 
 type ListMsg
-    = Loaded Resource (HttpResult ApiResourceList)
+    = Loaded Resource (HttpResult NamedApiResourceList)
 
 
 type ResourceMsg
@@ -35,6 +35,10 @@ type Resource
     = Pokemon_
 
 
+type ApiVersion
+    = V2
+
+
 
 -- URLS
 
@@ -43,6 +47,12 @@ type alias ListOptions =
     { limit : Int
     , page : Int
     , offset : Int
+    , version : ApiVersion
+    }
+
+
+type alias ResourceOptions =
+    { version : ApiVersion
     }
 
 
@@ -51,77 +61,109 @@ v2 =
     "https://pokeapi.co/api/v2/"
 
 
-makeUrl :
-    String
-    -> String
-    -> String
-makeUrl resource param =
-    String.concat [ v2, resource, "/", param ]
+baseUrl : ApiVersion -> String
+baseUrl ver =
+    case ver of
+        V2 ->
+            v2
 
 
-makeUrlWithOptions :
-    String
+makeResourceUrl :
+    ( String, String )
+    -> ResourceOptions
     -> String
+makeResourceUrl ( endpoint, param ) opts =
+    String.concat
+        [ baseUrl opts.version
+        , endpoint
+        , param
+        , "/"
+        ]
+
+
+makeListUrl :
+    String
     -> ListOptions
     -> String
-makeUrlWithOptions resource param opts =
+makeListUrl endpoint opts =
     let
         q =
-            "?"
-                ++ String.join "&"
-                    [ "limit="
-                    , toString opts.limit
-                    , "page="
-                    , toString opts.page
-                    , "offset="
-                    , toString opts.offset
-                    ]
+            String.join "&"
+                [ "limit="
+                , toString opts.limit
+                , "page="
+                , toString opts.page
+                , "offset="
+                , toString opts.offset
+                ]
     in
-        makeUrl resource param ++ q
+        String.concat
+            [ baseUrl opts.version
+            , endpoint
+            , "/?"
+            , q
+            ]
+
+
+getWithOptions :
+    ListOptions
+    -> Resource
+    -> Cmd ListMsg
+getWithOptions opts res =
+    let
+        ( endpoint, msg ) =
+            case res of
+                Pokemon_ ->
+                    ( "pokemon", Pokemon_ )
+
+        url =
+            makeListUrl endpoint opts
+    in
+        decodeNamedApiResourceList
+            |> Http.get url
+            |> Http.send (Loaded msg)
 
 
 get :
-    Decoder a
-    -> String
-    -> Http.Request a
-get decoder url =
-    Http.get url decoder
-
-
-getPokemon : Cmd ListMsg
-getPokemon =
-    getPokemonWithOptions
+    Resource
+    -> Cmd ListMsg
+get =
+    getWithOptions
         { limit = 20
         , page = 1
         , offset = 0
+        , version = V2
         }
 
 
-getPokemonWithOptions :
-    ListOptions
-    -> Cmd ListMsg
-getPokemonWithOptions opts =
+getByWithOptions :
+    ResourceOptions
+    -> Resource
+    -> String
+    -> Cmd ResourceMsg
+getByWithOptions opts res param =
     let
-        request =
-            get decodeApiResourceList <|
-                makeUrlWithOptions "pokemon" "" opts
+        ( decoder, endpoint, msg ) =
+            case res of
+                Pokemon_ ->
+                    ( decodePokemon, "pokemon", LoadedPokemon )
+
+        url =
+            makeResourceUrl ( endpoint, param ) opts
     in
-        Http.send (Loaded Pokemon_) request
+        decoder
+            |> Http.get url
+            |> Http.send msg
 
 
-getPokemonById : Int -> Cmd ResourceMsg
-getPokemonById id =
-    getPokemonByName (toString id)
-
-
-getPokemonByName : String -> Cmd ResourceMsg
-getPokemonByName name =
-    let
-        request =
-            get decodePokemon <|
-                makeUrl "pokemon" name
-    in
-        Http.send LoadedPokemon request
+getBy :
+    Resource
+    -> String
+    -> Cmd ResourceMsg
+getBy =
+    getByWithOptions
+        { version = V2
+        }
 
 
 

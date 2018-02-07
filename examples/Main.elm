@@ -41,7 +41,7 @@ main =
 
 type alias Model =
     { idOrName : Maybe String
-    , pokemon : Maybe PokeApi.ApiResourceList
+    , pokemon : Maybe PokeApi.NamedApiResourceList
     }
 
 
@@ -51,7 +51,7 @@ init =
       , pokemon = Nothing
       }
     , Cmd.map PokeApiListMsg <|
-        PokeApi.getPokemon
+        PokeApi.get Pokemon_
     )
 
 
@@ -83,7 +83,7 @@ update msg model =
 
                 Just idOrName ->
                     Cmd.map PokeApiListMsg <|
-                        PokeApi.getPokemon
+                        PokeApi.get Pokemon_
             )
 
         PokeApiListMsg (Loaded Pokemon_ (Ok pokemon)) ->
@@ -143,6 +143,6 @@ view model =
             ]
 
 
-viewResource : ApiResource -> Element Styles variation Msg
+viewResource : NamedApiResource -> Element Styles variation Msg
 viewResource pokemon =
     text pokemon.name
