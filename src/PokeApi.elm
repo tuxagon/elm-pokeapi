@@ -1,8 +1,9 @@
 module PokeApi
     exposing
         ( Resource(..)
+        , Page(..)
+        , PageSize
         , ListMsg(..)
-        , ListConfig
         , ResourceMsg(..)
         , Ability
         , AbilityEffectChange
@@ -117,101 +118,53 @@ module PokeApi
         , VersionGroup
         , VersionGroupFlavorText
         , getAbilities
-        , getAbilitiesWithConfig
         , getBerries
-        , getBerriesWithConfig
         , getBerryFirmnesses
-        , getBerryFirmnessesWithConfig
         , getBerryFlavors
-        , getBerryFlavorsWithConfig
         , getCharacteristics
-        , getCharacteristicsWithConfig
         , getContestEffects
-        , getContestEffectsWithConfig
         , getContestTypes
-        , getContestTypesWithConfig
         , getEggGroups
-        , getEggGroupsWithConfig
         , getEncounterConditions
-        , getEncounterConditionsWithConfig
         , getEncounterConditionValues
-        , getEncounterConditionValuesWithConfig
         , getEncounterMethods
-        , getEncounterMethodsWithConfig
         , getEvolutionChains
-        , getEvolutionChainsWithConfig
         , getEvolutionTriggers
-        , getEvolutionTriggersWithConfig
         , getGenders
-        , getGendersWithConfig
         , getGenerations
-        , getGenerationsWithConfig
         , getGrowthRates
-        , getGrowthRatesWithConfig
         , getItems
-        , getItemsWithConfig
         , getItemAttributes
-        , getItemAttributesWithConfig
         , getItemCategories
-        , getItemCategoriesWithConfig
         , getItemFlingEffects
-        , getItemFlingEffectsWithConfig
         , getItemPockets
-        , getItemPocketsWithConfig
         , getLanguages
-        , getLanguagesWithConfig
         , getLocations
-        , getLocationsWithConfig
         , getLocationAreas
-        , getLocationAreasWithConfig
         , getMachines
-        , getMachinesWithConfig
         , getMoves
-        , getMovesWithConfig
         , getMoveAilments
-        , getMoveAilmentsWithConfig
         , getMoveBattleStyles
-        , getMoveBattleStylesWithConfig
         , getMoveCategories
-        , getMoveCategoriesWithConfig
         , getMoveDamageClasses
-        , getMoveDamageClassesWithConfig
         , getMoveLearnMethods
-        , getMoveLearnMethodsWithConfig
         , getMoveTargets
-        , getMoveTargetsWithConfig
         , getNatures
-        , getNaturesWithConfig
         , getPalParkAreas
-        , getPalParkAreasWithConfig
         , getPokeathlonStats
-        , getPokeathlonStatsWithConfig
         , getPokedexes
-        , getPokedexesWithConfig
         , getPokemon
-        , getPokemonWithConfig
         , getPokemonColors
-        , getPokemonColorsWithConfig
         , getPokemonForms
-        , getPokemonFormsWithConfig
         , getPokemonHabitats
-        , getPokemonHabitatsWithConfig
         , getPokemonShapes
-        , getPokemonShapesWithConfig
         , getPokemonSpecies
-        , getPokemonSpeciesWithConfig
         , getRegions
-        , getRegionsWithConfig
         , getStats
-        , getStatsWithConfig
         , getSuperContestEffects
-        , getSuperContestEffectsWithConfig
         , getTypes
-        , getTypesWithConfig
         , getVersions
-        , getVersionsWithConfig
         , getVersionGroups
-        , getVersionGroupsWithConfig
         , getAbilityBy
         , getBerryBy
         , getBerryFirmnessBy
@@ -278,42 +231,23 @@ Retrieves a list of the specific resource for that function
 Example
 
     -- gets a list of pokemon
-    getPokemon
+    getPokemon (OnPage 1)
 
     -- gets a list of berries
-    getBerries
+    getBerries (OnPage 1)
 
-@docs ListMsg, ListConfig, getAbilities, getAbilitiesWithConfig, getBerries,
-getBerriesWithConfig, getBerryFirmnesses, getBerryFirmnessesWithConfig,
-getBerryFlavors, getBerryFlavorsWithConfig, getCharacteristics,
-getCharacteristicsWithConfig, getContestEffects, getContestEffectsWithConfig,
-getContestTypes, getContestTypesWithConfig, getEggGroups,
-getEggGroupsWithConfig, getEncounterConditions,
-getEncounterConditionsWithConfig, getEncounterConditionValues,
-getEncounterConditionValuesWithConfig, getEncounterMethods,
-getEncounterMethodsWithConfig, getEvolutionChains, getEvolutionChainsWithConfig,
-getEvolutionTriggers, getEvolutionTriggersWithConfig, getGenders,
-getGendersWithConfig, getGenerations, getGenerationsWithConfig, getGrowthRates,
-getGrowthRatesWithConfig, getItems, getItemsWithConfig, getItemAttributes,
-getItemAttributesWithConfig, getItemCategories, getItemCategoriesWithConfig,
-getItemFlingEffects, getItemFlingEffectsWithConfig, getItemPockets,
-getItemPocketsWithConfig, getLanguages, getLanguagesWithConfig, getLocations,
-getLocationsWithConfig, getLocationAreas, getLocationAreasWithConfig,
-getMachines, getMachinesWithConfig, getMoves, getMovesWithConfig,
-getMoveAilments, getMoveAilmentsWithConfig, getMoveBattleStyles,
-getMoveBattleStylesWithConfig, getMoveCategories, getMoveCategoriesWithConfig,
-getMoveDamageClasses, getMoveDamageClassesWithConfig, getMoveLearnMethods,
-getMoveLearnMethodsWithConfig, getMoveTargets, getMoveTargetsWithConfig,
-getNatures, getNaturesWithConfig, getPalParkAreas, getPalParkAreasWithConfig,
-getPokeathlonStats, getPokeathlonStatsWithConfig, getPokedexes,
-getPokedexesWithConfig, getPokemon, getPokemonWithConfig, getPokemonColors,
-getPokemonColorsWithConfig, getPokemonForms, getPokemonFormsWithConfig,
-getPokemonHabitats, getPokemonHabitatsWithConfig, getPokemonShapes,
-getPokemonShapesWithConfig, getPokemonSpecies, getPokemonSpeciesWithConfig,
-getRegions, getRegionsWithConfig, getStats, getStatsWithConfig,
-getSuperContestEffects, getSuperContestEffectsWithConfig, getTypes,
-getTypesWithConfig, getVersions, getVersionsWithConfig, getVersionGroups,
-getVersionGroupsWithConfig
+@docs ListMsg, getAbilities, getBerries, getBerryFirmnesses, getBerryFlavors,
+getCharacteristics, getContestEffects, getContestTypes, getEggGroups,
+getEncounterConditions, getEncounterConditionValues, getEncounterMethods,
+getEvolutionChains, getEvolutionTriggers, getGenders, getGenerations,
+getGrowthRates, getItems, getItemAttributes, getItemCategories,
+getItemFlingEffects, getItemPockets, getLanguages, getLocations,
+getLocationAreas, getMachines, getMoves, getMoveAilments, getMoveBattleStyles,
+getMoveCategories, getMoveDamageClasses, getMoveLearnMethods, getMoveTargets,
+getNatures, getPalParkAreas, getPokeathlonStats, getPokedexes, getPokemon,
+getPokemonColors, getPokemonForms, getPokemonHabitats, getPokemonShapes,
+getPokemonSpecies, getRegions, getStats, getSuperContestEffects, getTypes,
+getVersions, getVersionGroups
 
 
 # Single Items
@@ -468,647 +402,345 @@ type ListMsg
     = LoadedList Resource (Result Http.Error NamedApiResourceList)
 
 
-{-| Provides the ability to page the list results where `limit` is the number of
-resources in the list and `offset` is how many to skip
+{-| -}
+type alias PageSize =
+    Int
 
-Example
 
-    -- get the second page of pokemon
-    getPokemonWithOptions
-        { limit = 100,
-        , offset = 100
-        }
-
+{-| Specify what page and how big that page should be
 -}
-type alias ListConfig =
-    { limit : Int
-    , offset : Int
-    }
+type Page
+    = OnPage Int
+    | OnPageOfSize Int PageSize
 
 
 {-| -}
-defaultListConfig : ListConfig
-defaultListConfig =
-    { limit = 20
-    , offset = 0
-    }
-
-
-{-| -}
-getAbilities : Cmd ListMsg
+getAbilities : Page -> Task Http.Error NamedApiResourceList
 getAbilities =
-    getWithOptions Ability_ defaultListConfig
+    get Ability_ decodeNamedApiResourceList
 
 
 {-| -}
-getAbilitiesWithConfig : ListConfig -> Cmd ListMsg
-getAbilitiesWithConfig =
-    getWithOptions Ability_
-
-
-{-| -}
-getBerries : Cmd ListMsg
+getBerries : Page -> Task Http.Error NamedApiResourceList
 getBerries =
-    getWithOptions Berry_ defaultListConfig
+    get Berry_ decodeNamedApiResourceList
 
 
 {-| -}
-getBerriesWithConfig : ListConfig -> Cmd ListMsg
-getBerriesWithConfig =
-    getWithOptions Berry_
-
-
-{-| -}
-getBerryFirmnesses : Cmd ListMsg
+getBerryFirmnesses : Page -> Task Http.Error NamedApiResourceList
 getBerryFirmnesses =
-    getWithOptions BerryFirmness_ defaultListConfig
+    get BerryFirmness_ decodeNamedApiResourceList
 
 
 {-| -}
-getBerryFirmnessesWithConfig : ListConfig -> Cmd ListMsg
-getBerryFirmnessesWithConfig =
-    getWithOptions BerryFirmness_
-
-
-{-| -}
-getBerryFlavors : Cmd ListMsg
+getBerryFlavors : Page -> Task Http.Error NamedApiResourceList
 getBerryFlavors =
-    getWithOptions BerryFlavor_ defaultListConfig
+    get BerryFlavor_ decodeNamedApiResourceList
 
 
 {-| -}
-getBerryFlavorsWithConfig : ListConfig -> Cmd ListMsg
-getBerryFlavorsWithConfig =
-    getWithOptions BerryFlavor_
-
-
-{-| -}
-getCharacteristics : Cmd ListMsg
+getCharacteristics : Page -> Task Http.Error ApiResourceList
 getCharacteristics =
-    getWithOptions Characteristic_ defaultListConfig
+    get Characteristic_ decodeApiResourceList
 
 
 {-| -}
-getCharacteristicsWithConfig : ListConfig -> Cmd ListMsg
-getCharacteristicsWithConfig =
-    getWithOptions Characteristic_
-
-
-{-| -}
-getContestEffects : Cmd ListMsg
+getContestEffects : Page -> Task Http.Error ApiResourceList
 getContestEffects =
-    getWithOptions ContestEffect_ defaultListConfig
+    get ContestEffect_ decodeApiResourceList
 
 
 {-| -}
-getContestEffectsWithConfig : ListConfig -> Cmd ListMsg
-getContestEffectsWithConfig =
-    getWithOptions ContestEffect_
-
-
-{-| -}
-getContestTypes : Cmd ListMsg
+getContestTypes : Page -> Task Http.Error NamedApiResourceList
 getContestTypes =
-    getWithOptions ContestType_ defaultListConfig
+    get ContestType_ decodeNamedApiResourceList
 
 
 {-| -}
-getContestTypesWithConfig : ListConfig -> Cmd ListMsg
-getContestTypesWithConfig =
-    getWithOptions ContestType_
-
-
-{-| -}
-getEggGroups : Cmd ListMsg
+getEggGroups : Page -> Task Http.Error NamedApiResourceList
 getEggGroups =
-    getWithOptions EggGroup_ defaultListConfig
+    get EggGroup_ decodeNamedApiResourceList
 
 
 {-| -}
-getEggGroupsWithConfig : ListConfig -> Cmd ListMsg
-getEggGroupsWithConfig =
-    getWithOptions EggGroup_
-
-
-{-| -}
-getEncounterConditions : Cmd ListMsg
+getEncounterConditions : Page -> Task Http.Error NamedApiResourceList
 getEncounterConditions =
-    getWithOptions EncounterCondition_ defaultListConfig
+    get EncounterCondition_ decodeNamedApiResourceList
 
 
 {-| -}
-getEncounterConditionsWithConfig : ListConfig -> Cmd ListMsg
-getEncounterConditionsWithConfig =
-    getWithOptions EncounterCondition_
-
-
-{-| -}
-getEncounterConditionValues : Cmd ListMsg
+getEncounterConditionValues : Page -> Task Http.Error NamedApiResourceList
 getEncounterConditionValues =
-    getWithOptions EncounterConditionValue_ defaultListConfig
+    get EncounterConditionValue_ decodeNamedApiResourceList
 
 
 {-| -}
-getEncounterConditionValuesWithConfig : ListConfig -> Cmd ListMsg
-getEncounterConditionValuesWithConfig =
-    getWithOptions EncounterConditionValue_
-
-
-{-| -}
-getEncounterMethods : Cmd ListMsg
+getEncounterMethods : Page -> Task Http.Error NamedApiResourceList
 getEncounterMethods =
-    getWithOptions EncounterMethod_ defaultListConfig
+    get EncounterMethod_ decodeNamedApiResourceList
 
 
 {-| -}
-getEncounterMethodsWithConfig : ListConfig -> Cmd ListMsg
-getEncounterMethodsWithConfig =
-    getWithOptions EncounterMethod_
-
-
-{-| -}
-getEvolutionChains : Cmd ListMsg
+getEvolutionChains : Page -> Task Http.Error ApiResourceList
 getEvolutionChains =
-    getWithOptions EvolutionChain_ defaultListConfig
+    get EvolutionChain_ decodeApiResourceList
 
 
 {-| -}
-getEvolutionChainsWithConfig : ListConfig -> Cmd ListMsg
-getEvolutionChainsWithConfig =
-    getWithOptions EvolutionChain_
-
-
-{-| -}
-getEvolutionTriggers : Cmd ListMsg
+getEvolutionTriggers : Page -> Task Http.Error NamedApiResourceList
 getEvolutionTriggers =
-    getWithOptions EvolutionTrigger_ defaultListConfig
+    get EvolutionTrigger_ decodeNamedApiResourceList
 
 
 {-| -}
-getEvolutionTriggersWithConfig : ListConfig -> Cmd ListMsg
-getEvolutionTriggersWithConfig =
-    getWithOptions EvolutionTrigger_
-
-
-{-| -}
-getGenders : Cmd ListMsg
+getGenders : Page -> Task Http.Error NamedApiResourceList
 getGenders =
-    getWithOptions Gender_ defaultListConfig
+    get Gender_ decodeNamedApiResourceList
 
 
 {-| -}
-getGendersWithConfig : ListConfig -> Cmd ListMsg
-getGendersWithConfig =
-    getWithOptions Gender_
-
-
-{-| -}
-getGenerations : Cmd ListMsg
+getGenerations : Page -> Task Http.Error NamedApiResourceList
 getGenerations =
-    getWithOptions Generation_ defaultListConfig
+    get Generation_ decodeNamedApiResourceList
 
 
 {-| -}
-getGenerationsWithConfig : ListConfig -> Cmd ListMsg
-getGenerationsWithConfig =
-    getWithOptions Generation_
-
-
-{-| -}
-getGrowthRates : Cmd ListMsg
+getGrowthRates : Page -> Task Http.Error NamedApiResourceList
 getGrowthRates =
-    getWithOptions GrowthRate_ defaultListConfig
+    get GrowthRate_ decodeNamedApiResourceList
 
 
 {-| -}
-getGrowthRatesWithConfig : ListConfig -> Cmd ListMsg
-getGrowthRatesWithConfig =
-    getWithOptions GrowthRate_
-
-
-{-| -}
-getItems : Cmd ListMsg
+getItems : Page -> Task Http.Error NamedApiResourceList
 getItems =
-    getWithOptions Item_ defaultListConfig
+    get Item_ decodeNamedApiResourceList
 
 
 {-| -}
-getItemsWithConfig : ListConfig -> Cmd ListMsg
-getItemsWithConfig =
-    getWithOptions Item_
-
-
-{-| -}
-getItemAttributes : Cmd ListMsg
+getItemAttributes : Page -> Task Http.Error NamedApiResourceList
 getItemAttributes =
-    getWithOptions ItemAttribute_ defaultListConfig
+    get ItemAttribute_ decodeNamedApiResourceList
 
 
 {-| -}
-getItemAttributesWithConfig : ListConfig -> Cmd ListMsg
-getItemAttributesWithConfig =
-    getWithOptions ItemAttribute_
-
-
-{-| -}
-getItemCategories : Cmd ListMsg
+getItemCategories : Page -> Task Http.Error NamedApiResourceList
 getItemCategories =
-    getWithOptions ItemCategory_ defaultListConfig
+    get ItemCategory_ decodeNamedApiResourceList
 
 
 {-| -}
-getItemCategoriesWithConfig : ListConfig -> Cmd ListMsg
-getItemCategoriesWithConfig =
-    getWithOptions ItemCategory_
-
-
-{-| -}
-getItemFlingEffects : Cmd ListMsg
+getItemFlingEffects : Page -> Task Http.Error NamedApiResourceList
 getItemFlingEffects =
-    getWithOptions ItemFlingEffect_ defaultListConfig
+    get ItemFlingEffect_ decodeNamedApiResourceList
 
 
 {-| -}
-getItemFlingEffectsWithConfig : ListConfig -> Cmd ListMsg
-getItemFlingEffectsWithConfig =
-    getWithOptions ItemFlingEffect_
-
-
-{-| -}
-getItemPockets : Cmd ListMsg
+getItemPockets : Page -> Task Http.Error NamedApiResourceList
 getItemPockets =
-    getWithOptions ItemPocket_ defaultListConfig
+    get ItemPocket_ decodeNamedApiResourceList
 
 
 {-| -}
-getItemPocketsWithConfig : ListConfig -> Cmd ListMsg
-getItemPocketsWithConfig =
-    getWithOptions ItemPocket_
-
-
-{-| -}
-getLanguages : Cmd ListMsg
+getLanguages : Page -> Task Http.Error NamedApiResourceList
 getLanguages =
-    getWithOptions Language_ defaultListConfig
+    get Language_ decodeNamedApiResourceList
 
 
 {-| -}
-getLanguagesWithConfig : ListConfig -> Cmd ListMsg
-getLanguagesWithConfig =
-    getWithOptions Language_
-
-
-{-| -}
-getLocations : Cmd ListMsg
+getLocations : Page -> Task Http.Error NamedApiResourceList
 getLocations =
-    getWithOptions Location_ defaultListConfig
+    get Location_ decodeNamedApiResourceList
 
 
 {-| -}
-getLocationsWithConfig : ListConfig -> Cmd ListMsg
-getLocationsWithConfig =
-    getWithOptions Location_
-
-
-{-| -}
-getLocationAreas : Cmd ListMsg
+getLocationAreas : Page -> Task Http.Error NamedApiResourceList
 getLocationAreas =
-    getWithOptions LocationArea_ defaultListConfig
+    get LocationArea_ decodeNamedApiResourceList
 
 
 {-| -}
-getLocationAreasWithConfig : ListConfig -> Cmd ListMsg
-getLocationAreasWithConfig =
-    getWithOptions LocationArea_
-
-
-{-| -}
-getMachines : Cmd ListMsg
+getMachines : Page -> Task Http.Error ApiResourceList
 getMachines =
-    getWithOptions Machine_ defaultListConfig
+    get Machine_ decodeApiResourceList
 
 
 {-| -}
-getMachinesWithConfig : ListConfig -> Cmd ListMsg
-getMachinesWithConfig =
-    getWithOptions Machine_
-
-
-{-| -}
-getMoves : Cmd ListMsg
+getMoves : Page -> Task Http.Error NamedApiResourceList
 getMoves =
-    getWithOptions Move_ defaultListConfig
+    get Move_ decodeNamedApiResourceList
 
 
 {-| -}
-getMovesWithConfig : ListConfig -> Cmd ListMsg
-getMovesWithConfig =
-    getWithOptions Move_
-
-
-{-| -}
-getMoveAilments : Cmd ListMsg
+getMoveAilments : Page -> Task Http.Error NamedApiResourceList
 getMoveAilments =
-    getWithOptions MoveAilment_ defaultListConfig
+    get MoveAilment_ decodeNamedApiResourceList
 
 
 {-| -}
-getMoveAilmentsWithConfig : ListConfig -> Cmd ListMsg
-getMoveAilmentsWithConfig =
-    getWithOptions MoveAilment_
-
-
-{-| -}
-getMoveBattleStyles : Cmd ListMsg
+getMoveBattleStyles : Page -> Task Http.Error NamedApiResourceList
 getMoveBattleStyles =
-    getWithOptions MoveBattleStyle_ defaultListConfig
+    get MoveBattleStyle_ decodeNamedApiResourceList
 
 
 {-| -}
-getMoveBattleStylesWithConfig : ListConfig -> Cmd ListMsg
-getMoveBattleStylesWithConfig =
-    getWithOptions MoveBattleStyle_
-
-
-{-| -}
-getMoveCategories : Cmd ListMsg
+getMoveCategories : Page -> Task Http.Error NamedApiResourceList
 getMoveCategories =
-    getWithOptions MoveCategory_ defaultListConfig
+    get MoveCategory_ decodeNamedApiResourceList
 
 
 {-| -}
-getMoveCategoriesWithConfig : ListConfig -> Cmd ListMsg
-getMoveCategoriesWithConfig =
-    getWithOptions MoveCategory_
-
-
-{-| -}
-getMoveDamageClasses : Cmd ListMsg
+getMoveDamageClasses : Page -> Task Http.Error NamedApiResourceList
 getMoveDamageClasses =
-    getWithOptions MoveDamageClass_ defaultListConfig
+    get MoveDamageClass_ decodeNamedApiResourceList
 
 
 {-| -}
-getMoveDamageClassesWithConfig : ListConfig -> Cmd ListMsg
-getMoveDamageClassesWithConfig =
-    getWithOptions MoveDamageClass_
-
-
-{-| -}
-getMoveLearnMethods : Cmd ListMsg
+getMoveLearnMethods : Page -> Task Http.Error NamedApiResourceList
 getMoveLearnMethods =
-    getWithOptions MoveLearnMethod_ defaultListConfig
+    get MoveLearnMethod_ decodeNamedApiResourceList
 
 
 {-| -}
-getMoveLearnMethodsWithConfig : ListConfig -> Cmd ListMsg
-getMoveLearnMethodsWithConfig =
-    getWithOptions MoveLearnMethod_
-
-
-{-| -}
-getMoveTargets : Cmd ListMsg
+getMoveTargets : Page -> Task Http.Error NamedApiResourceList
 getMoveTargets =
-    getWithOptions MoveTarget_ defaultListConfig
+    get MoveTarget_ decodeNamedApiResourceList
 
 
 {-| -}
-getMoveTargetsWithConfig : ListConfig -> Cmd ListMsg
-getMoveTargetsWithConfig =
-    getWithOptions MoveTarget_
-
-
-{-| -}
-getNatures : Cmd ListMsg
+getNatures : Page -> Task Http.Error NamedApiResourceList
 getNatures =
-    getWithOptions Nature_ defaultListConfig
+    get Nature_ decodeNamedApiResourceList
 
 
 {-| -}
-getNaturesWithConfig : ListConfig -> Cmd ListMsg
-getNaturesWithConfig =
-    getWithOptions Nature_
-
-
-{-| -}
-getPalParkAreas : Cmd ListMsg
+getPalParkAreas : Page -> Task Http.Error NamedApiResourceList
 getPalParkAreas =
-    getWithOptions PalParkArea_ defaultListConfig
+    get PalParkArea_ decodeNamedApiResourceList
 
 
 {-| -}
-getPalParkAreasWithConfig : ListConfig -> Cmd ListMsg
-getPalParkAreasWithConfig =
-    getWithOptions PalParkArea_
-
-
-{-| -}
-getPokeathlonStats : Cmd ListMsg
+getPokeathlonStats : Page -> Task Http.Error NamedApiResourceList
 getPokeathlonStats =
-    getWithOptions PokeathlonStat_ defaultListConfig
+    get PokeathlonStat_ decodeNamedApiResourceList
 
 
 {-| -}
-getPokeathlonStatsWithConfig : ListConfig -> Cmd ListMsg
-getPokeathlonStatsWithConfig =
-    getWithOptions PokeathlonStat_
-
-
-{-| -}
-getPokedexes : Cmd ListMsg
+getPokedexes : Page -> Task Http.Error NamedApiResourceList
 getPokedexes =
-    getWithOptions Pokedex_ defaultListConfig
+    get Pokedex_ decodeNamedApiResourceList
 
 
 {-| -}
-getPokedexesWithConfig : ListConfig -> Cmd ListMsg
-getPokedexesWithConfig =
-    getWithOptions Pokedex_
-
-
-{-| -}
-getPokemon : Cmd ListMsg
+getPokemon : Page -> Task Http.Error NamedApiResourceList
 getPokemon =
-    getWithOptions Pokemon_ defaultListConfig
+    get Pokemon_ decodeNamedApiResourceList
 
 
 {-| -}
-getPokemonWithConfig : ListConfig -> Cmd ListMsg
-getPokemonWithConfig =
-    getWithOptions Pokemon_
-
-
-{-| -}
-getPokemonColors : Cmd ListMsg
+getPokemonColors : Page -> Task Http.Error NamedApiResourceList
 getPokemonColors =
-    getWithOptions PokemonColor_ defaultListConfig
+    get PokemonColor_ decodeNamedApiResourceList
 
 
 {-| -}
-getPokemonColorsWithConfig : ListConfig -> Cmd ListMsg
-getPokemonColorsWithConfig =
-    getWithOptions PokemonColor_
-
-
-{-| -}
-getPokemonForms : Cmd ListMsg
+getPokemonForms : Page -> Task Http.Error NamedApiResourceList
 getPokemonForms =
-    getWithOptions PokemonForm_ defaultListConfig
+    get PokemonForm_ decodeNamedApiResourceList
 
 
 {-| -}
-getPokemonFormsWithConfig : ListConfig -> Cmd ListMsg
-getPokemonFormsWithConfig =
-    getWithOptions PokemonForm_
-
-
-{-| -}
-getPokemonHabitats : Cmd ListMsg
+getPokemonHabitats : Page -> Task Http.Error NamedApiResourceList
 getPokemonHabitats =
-    getWithOptions PokemonHabitat_ defaultListConfig
+    get PokemonHabitat_ decodeNamedApiResourceList
 
 
 {-| -}
-getPokemonHabitatsWithConfig : ListConfig -> Cmd ListMsg
-getPokemonHabitatsWithConfig =
-    getWithOptions PokemonHabitat_
-
-
-{-| -}
-getPokemonShapes : Cmd ListMsg
+getPokemonShapes : Page -> Task Http.Error NamedApiResourceList
 getPokemonShapes =
-    getWithOptions PokemonShape_ defaultListConfig
+    get PokemonShape_ decodeNamedApiResourceList
 
 
 {-| -}
-getPokemonShapesWithConfig : ListConfig -> Cmd ListMsg
-getPokemonShapesWithConfig =
-    getWithOptions PokemonShape_
-
-
-{-| -}
-getPokemonSpecies : Cmd ListMsg
+getPokemonSpecies : Page -> Task Http.Error NamedApiResourceList
 getPokemonSpecies =
-    getWithOptions PokemonSpecies_ defaultListConfig
+    get PokemonSpecies_ decodeNamedApiResourceList
 
 
 {-| -}
-getPokemonSpeciesWithConfig : ListConfig -> Cmd ListMsg
-getPokemonSpeciesWithConfig =
-    getWithOptions PokemonSpecies_
-
-
-{-| -}
-getRegions : Cmd ListMsg
+getRegions : Page -> Task Http.Error NamedApiResourceList
 getRegions =
-    getWithOptions Region_ defaultListConfig
+    get Region_ decodeNamedApiResourceList
 
 
 {-| -}
-getRegionsWithConfig : ListConfig -> Cmd ListMsg
-getRegionsWithConfig =
-    getWithOptions Region_
-
-
-{-| -}
-getStats : Cmd ListMsg
+getStats : Page -> Task Http.Error NamedApiResourceList
 getStats =
-    getWithOptions Stat_ defaultListConfig
+    get Stat_ decodeNamedApiResourceList
 
 
 {-| -}
-getStatsWithConfig : ListConfig -> Cmd ListMsg
-getStatsWithConfig =
-    getWithOptions Stat_
-
-
-{-| -}
-getSuperContestEffects : Cmd ListMsg
+getSuperContestEffects : Page -> Task Http.Error ApiResourceList
 getSuperContestEffects =
-    getWithOptions SuperContestEffect_ defaultListConfig
+    get SuperContestEffect_ decodeApiResourceList
 
 
 {-| -}
-getSuperContestEffectsWithConfig : ListConfig -> Cmd ListMsg
-getSuperContestEffectsWithConfig =
-    getWithOptions SuperContestEffect_
-
-
-{-| -}
-getTypes : Cmd ListMsg
+getTypes : Page -> Task Http.Error NamedApiResourceList
 getTypes =
-    getWithOptions Type_ defaultListConfig
+    get Type_ decodeNamedApiResourceList
 
 
 {-| -}
-getTypesWithConfig : ListConfig -> Cmd ListMsg
-getTypesWithConfig =
-    getWithOptions Type_
-
-
-{-| -}
-getVersions : Cmd ListMsg
+getVersions : Page -> Task Http.Error NamedApiResourceList
 getVersions =
-    getWithOptions Version_ defaultListConfig
+    get Version_ decodeNamedApiResourceList
 
 
 {-| -}
-getVersionsWithConfig : ListConfig -> Cmd ListMsg
-getVersionsWithConfig =
-    getWithOptions Version_
-
-
-{-| -}
-getVersionGroups : Cmd ListMsg
+getVersionGroups : Page -> Task Http.Error NamedApiResourceList
 getVersionGroups =
-    getWithOptions VersionGroup_ defaultListConfig
-
-
-{-| -}
-getVersionGroupsWithConfig : ListConfig -> Cmd ListMsg
-getVersionGroupsWithConfig =
-    getWithOptions VersionGroup_
+    get VersionGroup_ decodeNamedApiResourceList
 
 
 {-| Allows you to specify custom paging when retrieving a list of some resource
 
-    getWithOptions Pokemon_
-        { limit = 100
-        , page = 2
-        , offset = 100
-        }
+    get Pokemon_ (OnPage 1)
 
 -}
-getWithOptions :
-    Resource
-    -> ListConfig
-    -> Cmd ListMsg
-getWithOptions res config =
+get : Resource -> Decoder a -> Page -> Task Http.Error a
+get res decoder page =
     let
         endpoint =
             resourceAsString res
 
         url =
-            makeListUrl endpoint config
+            makeListUrl endpoint page
     in
-        decodeNamedApiResourceList
+        decoder
             |> Http.get url
-            |> Http.send (LoadedList res)
+            |> Http.toTask
 
 
 {-| -}
-makeListUrl :
-    String
-    -> ListConfig
-    -> String
-makeListUrl endpoint config =
+makeListUrl : String -> Page -> String
+makeListUrl endpoint page =
     let
+        ( pageNum, limit ) =
+            case page of
+                OnPage num ->
+                    ( num, 20 )
+
+                OnPageOfSize num limit ->
+                    ( num, limit )
+
         q =
             String.join "&"
                 [ "limit="
-                , toString config.limit
+                , toString limit
                 , "offset="
-                , toString config.offset
+                , (pageNum - 1)
+                    |> (*) limit
+                    |> toString
                 ]
     in
         String.concat
