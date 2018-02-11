@@ -1081,6 +1081,7 @@ makeResourceUrl ( endpoint, param ) =
     String.concat
         [ v2
         , endpoint
+        , "/"
         , param
         , "/"
         ]
