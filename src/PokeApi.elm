@@ -1517,8 +1517,8 @@ decodeContestComboSets =
 
 {-| -}
 type alias ContestComboDetail =
-    { useBefore : List NamedApiResource
-    , useAfter : List NamedApiResource
+    { useBefore : Maybe (List NamedApiResource)
+    , useAfter : Maybe (List NamedApiResource)
     }
 
 
@@ -1526,8 +1526,8 @@ type alias ContestComboDetail =
 decodeContestComboDetail : Decoder ContestComboDetail
 decodeContestComboDetail =
     decode ContestComboDetail
-        |> required "use_before" (list decodeNamedApiResource)
-        |> required "use_after" (list decodeNamedApiResource)
+        |> required "use_before" ((maybe << list) decodeNamedApiResource)
+        |> required "use_after" ((maybe << list) decodeNamedApiResource)
 
 
 {-| -}
@@ -1680,7 +1680,7 @@ decodeEncounterCondition =
 type alias EncounterConditionValue =
     { id : Int
     , name : String
-    , condition : List NamedApiResource
+    , condition : NamedApiResource
     , names : List Name
     }
 
@@ -1691,7 +1691,7 @@ decodeEncounterConditionValue =
     decode EncounterConditionValue
         |> required "id" int
         |> required "name" string
-        |> required "condition" (list decodeNamedApiResource)
+        |> required "condition" decodeNamedApiResource
         |> required "names" (list decodeName)
 
 
@@ -1747,7 +1747,7 @@ decodeEncounterVersionDetails =
 {-| -}
 type alias EvolutionChain =
     { id : Int
-    , babyTriggerItem : NamedApiResource
+    , babyTriggerItem : Maybe NamedApiResource
     , chain : ChainLink
     }
 
@@ -1757,29 +1757,29 @@ decodeEvolutionChain : Decoder EvolutionChain
 decodeEvolutionChain =
     decode EvolutionChain
         |> required "id" int
-        |> required "baby_trigger_item" decodeNamedApiResource
+        |> required "baby_trigger_item" (maybe decodeNamedApiResource)
         |> required "chain" decodeChainLink
 
 
 {-| -}
 type alias EvolutionDetail =
-    { item : NamedApiResource
+    { item : Maybe NamedApiResource
     , trigger : NamedApiResource
-    , gender : Int
-    , heldItem : NamedApiResource
-    , knownMove : NamedApiResource
-    , knownMoveType : NamedApiResource
-    , location : NamedApiResource
+    , gender : Maybe Int
+    , heldItem : Maybe NamedApiResource
+    , knownMove : Maybe NamedApiResource
+    , knownMoveType : Maybe NamedApiResource
+    , location : Maybe NamedApiResource
     , minLevel : Int
-    , minHappiness : Int
-    , minBeauty : Int
-    , minAffection : Int
+    , minHappiness : Maybe Int
+    , minBeauty : Maybe Int
+    , minAffection : Maybe Int
     , needsOverworldRain : Bool
-    , partySpecies : NamedApiResource
-    , partyType : NamedApiResource
-    , relativePhysicalStats : Int
+    , partySpecies : Maybe NamedApiResource
+    , partyType : Maybe NamedApiResource
+    , relativePhysicalStats : Maybe Int
     , timeOfDay : String
-    , tradeSpecies : NamedApiResource
+    , tradeSpecies : Maybe NamedApiResource
     , turnUpsideDown : Bool
     }
 
@@ -1788,23 +1788,23 @@ type alias EvolutionDetail =
 decodeEvolutionDetail : Decoder EvolutionDetail
 decodeEvolutionDetail =
     decode EvolutionDetail
-        |> required "item" decodeNamedApiResource
+        |> required "item" (maybe decodeNamedApiResource)
         |> required "trigger" decodeNamedApiResource
-        |> required "gender" int
-        |> required "held_item" decodeNamedApiResource
-        |> required "known_move" decodeNamedApiResource
-        |> required "known_move_type" decodeNamedApiResource
-        |> required "location" decodeNamedApiResource
+        |> required "gender" (maybe int)
+        |> required "held_item" (maybe decodeNamedApiResource)
+        |> required "known_move" (maybe decodeNamedApiResource)
+        |> required "known_move_type" (maybe decodeNamedApiResource)
+        |> required "location" (maybe decodeNamedApiResource)
         |> required "min_level" int
-        |> required "min_happiness" int
-        |> required "min_beauty" int
-        |> required "min_affection" int
+        |> required "min_happiness" (maybe int)
+        |> required "min_beauty" (maybe int)
+        |> required "min_affection" (maybe int)
         |> required "needs_overworld_rain" bool
-        |> required "party_species" decodeNamedApiResource
-        |> required "party_type" decodeNamedApiResource
-        |> required "relative_physical_stat" int
+        |> required "party_species" (maybe decodeNamedApiResource)
+        |> required "party_type" (maybe decodeNamedApiResource)
+        |> required "relative_physical_stats" (maybe int)
         |> required "time_of_day" string
-        |> required "trade_species" decodeNamedApiResource
+        |> required "trade_species" (maybe decodeNamedApiResource)
         |> required "turn_upside_down" bool
 
 
@@ -1984,17 +1984,17 @@ type alias Item =
     { id : Int
     , name : String
     , cost : Int
-    , flingPower : Int
-    , flingEffect : NamedApiResource
+    , flingPower : Maybe Int
+    , flingEffect : Maybe NamedApiResource
     , attributes : List NamedApiResource
-    , category : ItemCategory
+    , category : NamedApiResource
     , effectEntries : List VerboseEffect
     , flavorTextEntries : List VersionGroupFlavorText
     , gameIndicies : List GenerationGameIndex
     , names : List Name
     , sprites : ItemSprites
     , heldByPokemon : List ItemHolderPokemon
-    , babyTriggerFor : ApiResource
+    , babyTriggerFor : Maybe ApiResource
     , machines : List MachineVersionDetail
     }
 
@@ -2006,17 +2006,17 @@ decodeItem =
         |> required "id" int
         |> required "name" string
         |> required "cost" int
-        |> required "fling_power" int
-        |> required "fling_effect" decodeNamedApiResource
+        |> required "fling_power" (maybe int)
+        |> required "fling_effect" (maybe decodeNamedApiResource)
         |> required "attributes" (list decodeNamedApiResource)
-        |> required "category" decodeItemCategory
+        |> required "category" decodeNamedApiResource
         |> required "effect_entries" (list decodeVerboseEffect)
         |> required "flavor_text_entries" (list decodeVersionGroupFlavorText)
         |> required "game_indices" (list decodeGenerationGameIndex)
         |> required "names" (list decodeName)
         |> required "sprites" decodeItemSprites
         |> required "held_by_pokemon" (list decodeItemHolderPokemon)
-        |> required "baby_trigger_for" decodeApiResource
+        |> required "baby_trigger_for" (maybe decodeApiResource)
         |> required "machines" (list decodeMachineVersionDetail)
 
 
@@ -2268,7 +2268,7 @@ type alias Move =
     { id : Int
     , name : String
     , accuracy : Int
-    , effectChance : Int
+    , effectChance : Maybe Int
     , pp : Int
     , priority : Int
     , power : Int
@@ -2298,7 +2298,7 @@ decodeMove =
         |> required "id" int
         |> required "name" string
         |> required "accuracy" int
-        |> required "effect_chance" int
+        |> required "effect_chance" (maybe int)
         |> required "pp" int
         |> required "priority" int
         |> required "power" int
@@ -2455,10 +2455,10 @@ decodeMoveLearnMethod =
 type alias MoveMetaData =
     { ailment : NamedApiResource
     , category : NamedApiResource
-    , minHits : Int
-    , maxHits : Int
-    , minTurns : Int
-    , maxTurns : Int
+    , minHits : Maybe Int
+    , maxHits : Maybe Int
+    , minTurns : Maybe Int
+    , maxTurns : Maybe Int
     , drain : Int
     , healing : Int
     , critRate : Int
@@ -2474,11 +2474,11 @@ decodeMoveMetaData =
     decode MoveMetaData
         |> required "ailment" decodeNamedApiResource
         |> required "category" decodeNamedApiResource
-        |> required "min_hits" int
-        |> required "max_hits" int
-        |> required "min_turns" int
-        |> required "max_turns" int
-        |> required "drains" int
+        |> required "min_hits" (maybe int)
+        |> required "max_hits" (maybe int)
+        |> required "min_turns" (maybe int)
+        |> required "max_turns" (maybe int)
+        |> required "drain" int
         |> required "healing" int
         |> required "crit_rate" int
         |> required "ailment_chance" int
@@ -2605,10 +2605,10 @@ decodeNamedApiResourceList =
 type alias Nature =
     { id : Int
     , name : String
-    , decreasedStat : NamedApiResource
-    , increasedStat : NamedApiResource
-    , hatesFlavor : NamedApiResource
-    , likesFlavor : NamedApiResource
+    , decreasedStat : Maybe NamedApiResource
+    , increasedStat : Maybe NamedApiResource
+    , hatesFlavor : Maybe NamedApiResource
+    , likesFlavor : Maybe NamedApiResource
     , pokeathlonStatChanges : List NatureStatChange
     , moveBattleStylePreferences : List MoveBattleStylePreference
     , names : List Name
@@ -2621,10 +2621,10 @@ decodeNature =
     decode Nature
         |> required "id" int
         |> required "name" string
-        |> required "decreased_stat" decodeNamedApiResource
-        |> required "increased_stat" decodeNamedApiResource
-        |> required "hates_flavor" decodeNamedApiResource
-        |> required "likes_flavor" decodeNamedApiResource
+        |> required "decreased_stat" (maybe decodeNamedApiResource)
+        |> required "increased_stat" (maybe decodeNamedApiResource)
+        |> required "hates_flavor" (maybe decodeNamedApiResource)
+        |> required "likes_flavor" (maybe decodeNamedApiResource)
         |> required "pokeathlon_stat_changes" (list decodeNatureStatChange)
         |> required "move_battle_style_preferences" (list decodeMoveBattleStylePreference)
         |> required "names" (list decodeName)
@@ -2795,7 +2795,7 @@ type alias Pokedex =
     , descriptions : List Description
     , names : List Name
     , pokemonEntries : List PokemonEntry
-    , region : NamedApiResource
+    , region : Maybe NamedApiResource
     , versionGroups : List NamedApiResource
     }
 
@@ -2810,7 +2810,7 @@ decodePokedex =
         |> required "descriptions" (list decodeDescription)
         |> required "names" (list decodeName)
         |> required "pokemon_entries" (list decodePokemonEntry)
-        |> required "region" decodeNamedApiResource
+        |> required "region" (maybe decodeNamedApiResource)
         |> required "version_groups"
             (list decodeNamedApiResource)
 
@@ -3103,7 +3103,7 @@ type alias PokemonSpecies =
     , eggGroups : List NamedApiResource
     , color : NamedApiResource
     , shape : NamedApiResource
-    , evolvesFromSpecies : NamedApiResource
+    , evolvesFromSpecies : Maybe NamedApiResource
     , evolutionChain : ApiResource
     , habitat : NamedApiResource
     , generation : NamedApiResource
@@ -3135,7 +3135,7 @@ decodePokemonSpecies =
         |> required "egg_groups" (list decodeNamedApiResource)
         |> required "color" decodeNamedApiResource
         |> required "shape" decodeNamedApiResource
-        |> required "evolves_from_species" decodeNamedApiResource
+        |> required "evolves_from_species" (maybe decodeNamedApiResource)
         |> required "evolution_chain" decodeApiResource
         |> required "habitat" decodeNamedApiResource
         |> required "generation" decodeNamedApiResource
@@ -3285,7 +3285,7 @@ type alias Stat =
     , affectingMoves : MoveStatAffectSets
     , affectingNatures : NatureStatAffectSets
     , characteristics : List ApiResource
-    , moveDamageClass : NamedApiResource
+    , moveDamageClass : Maybe NamedApiResource
     , names : List Name
     }
 
@@ -3301,7 +3301,7 @@ decodeStat =
         |> required "affecting_moves" decodeMoveStatAffectSets
         |> required "affecting_natures" decodeNatureStatAffectSets
         |> required "characteristics" (list decodeApiResource)
-        |> required "move_damage_class" decodeNamedApiResource
+        |> required "move_damage_class" (maybe decodeNamedApiResource)
         |> required "names" (list decodeName)
 
 
