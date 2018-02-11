@@ -318,6 +318,7 @@ import Json.Decode as Decode
         , map
         )
 import Json.Decode.Pipeline exposing (decode, required)
+import Task exposing (Task)
 
 
 v2 : String
@@ -772,295 +773,295 @@ type ResourceMsg resource
 
 
 {-| -}
-getAbilityBy : String -> Cmd (ResourceMsg Ability)
+getAbilityBy : String -> Task Http.Error Ability
 getAbilityBy =
     getBy Ability_ decodeAbility
 
 
 {-| -}
-getBerryBy : String -> Cmd (ResourceMsg Berry)
+getBerryBy : String -> Task Http.Error Berry
 getBerryBy =
     getBy Berry_ decodeBerry
 
 
 {-| -}
-getBerryFirmnessBy : String -> Cmd (ResourceMsg BerryFirmness)
+getBerryFirmnessBy : String -> Task Http.Error BerryFirmness
 getBerryFirmnessBy =
     getBy BerryFirmness_ decodeBerryFirmness
 
 
 {-| -}
-getBerryFlavorBy : String -> Cmd (ResourceMsg BerryFlavor)
+getBerryFlavorBy : String -> Task Http.Error BerryFlavor
 getBerryFlavorBy =
     getBy BerryFlavor_ decodeBerryFlavor
 
 
 {-| -}
-getCharacteristicBy : String -> Cmd (ResourceMsg Characteristic)
+getCharacteristicBy : String -> Task Http.Error Characteristic
 getCharacteristicBy =
     getBy Characteristic_ decodeCharacteristic
 
 
 {-| -}
-getContestEffectBy : String -> Cmd (ResourceMsg ContestEffect)
+getContestEffectBy : String -> Task Http.Error ContestEffect
 getContestEffectBy =
     getBy ContestEffect_ decodeContestEffect
 
 
 {-| -}
-getContestTypeBy : String -> Cmd (ResourceMsg ContestType)
+getContestTypeBy : String -> Task Http.Error ContestType
 getContestTypeBy =
     getBy ContestType_ decodeContestType
 
 
 {-| -}
-getEggGroupBy : String -> Cmd (ResourceMsg EggGroup)
+getEggGroupBy : String -> Task Http.Error EggGroup
 getEggGroupBy =
     getBy EggGroup_ decodeEggGroup
 
 
 {-| -}
-getEncounterConditionBy : String -> Cmd (ResourceMsg EncounterCondition)
+getEncounterConditionBy : String -> Task Http.Error EncounterCondition
 getEncounterConditionBy =
     getBy EncounterCondition_ decodeEncounterCondition
 
 
 {-| -}
-getEncounterConditionValueBy : String -> Cmd (ResourceMsg EncounterConditionValue)
+getEncounterConditionValueBy : String -> Task Http.Error EncounterConditionValue
 getEncounterConditionValueBy =
     getBy EncounterConditionValue_ decodeEncounterConditionValue
 
 
 {-| -}
-getEncounterMethodBy : String -> Cmd (ResourceMsg EncounterMethod)
+getEncounterMethodBy : String -> Task Http.Error EncounterMethod
 getEncounterMethodBy =
     getBy EncounterMethod_ decodeEncounterMethod
 
 
 {-| -}
-getEvolutionChainBy : String -> Cmd (ResourceMsg EvolutionChain)
+getEvolutionChainBy : String -> Task Http.Error EvolutionChain
 getEvolutionChainBy =
     getBy EvolutionChain_ decodeEvolutionChain
 
 
 {-| -}
-getEvolutionTriggerBy : String -> Cmd (ResourceMsg EvolutionTrigger)
+getEvolutionTriggerBy : String -> Task Http.Error EvolutionTrigger
 getEvolutionTriggerBy =
     getBy EvolutionTrigger_ decodeEvolutionTrigger
 
 
 {-| -}
-getGenderBy : String -> Cmd (ResourceMsg Gender)
+getGenderBy : String -> Task Http.Error Gender
 getGenderBy =
     getBy Gender_ decodeGender
 
 
 {-| -}
-getGenerationBy : String -> Cmd (ResourceMsg Generation)
+getGenerationBy : String -> Task Http.Error Generation
 getGenerationBy =
     getBy Generation_ decodeGeneration
 
 
 {-| -}
-getGrowthRateBy : String -> Cmd (ResourceMsg GrowthRate)
+getGrowthRateBy : String -> Task Http.Error GrowthRate
 getGrowthRateBy =
     getBy GrowthRate_ decodeGrowthRate
 
 
 {-| -}
-getItemBy : String -> Cmd (ResourceMsg Item)
+getItemBy : String -> Task Http.Error Item
 getItemBy =
     getBy Item_ decodeItem
 
 
 {-| -}
-getItemAttributeBy : String -> Cmd (ResourceMsg ItemAttribute)
+getItemAttributeBy : String -> Task Http.Error ItemAttribute
 getItemAttributeBy =
     getBy ItemAttribute_ decodeItemAttribute
 
 
 {-| -}
-getItemCategoryBy : String -> Cmd (ResourceMsg ItemCategory)
+getItemCategoryBy : String -> Task Http.Error ItemCategory
 getItemCategoryBy =
     getBy ItemCategory_ decodeItemCategory
 
 
 {-| -}
-getItemFlingEffectBy : String -> Cmd (ResourceMsg ItemFlingEffect)
+getItemFlingEffectBy : String -> Task Http.Error ItemFlingEffect
 getItemFlingEffectBy =
     getBy ItemFlingEffect_ decodeItemFlingEffect
 
 
 {-| -}
-getItemPocketBy : String -> Cmd (ResourceMsg ItemPocket)
+getItemPocketBy : String -> Task Http.Error ItemPocket
 getItemPocketBy =
     getBy ItemPocket_ decodeItemPocket
 
 
 {-| -}
-getLanguageBy : String -> Cmd (ResourceMsg Language)
+getLanguageBy : String -> Task Http.Error Language
 getLanguageBy =
     getBy Language_ decodeLanguage
 
 
 {-| -}
-getLocationBy : String -> Cmd (ResourceMsg Location)
+getLocationBy : String -> Task Http.Error Location
 getLocationBy =
     getBy Location_ decodeLocation
 
 
 {-| -}
-getLocationAreaBy : String -> Cmd (ResourceMsg LocationArea)
+getLocationAreaBy : String -> Task Http.Error LocationArea
 getLocationAreaBy =
     getBy LocationArea_ decodeLocationArea
 
 
 {-| -}
-getMachineBy : String -> Cmd (ResourceMsg Machine)
+getMachineBy : String -> Task Http.Error Machine
 getMachineBy =
     getBy Machine_ decodeMachine
 
 
 {-| -}
-getMoveBy : String -> Cmd (ResourceMsg Move)
+getMoveBy : String -> Task Http.Error Move
 getMoveBy =
     getBy Move_ decodeMove
 
 
 {-| -}
-getMoveAilmentBy : String -> Cmd (ResourceMsg MoveAilment)
+getMoveAilmentBy : String -> Task Http.Error MoveAilment
 getMoveAilmentBy =
     getBy MoveAilment_ decodeMoveAilment
 
 
 {-| -}
-getMoveBattleStyleBy : String -> Cmd (ResourceMsg MoveBattleStyle)
+getMoveBattleStyleBy : String -> Task Http.Error MoveBattleStyle
 getMoveBattleStyleBy =
     getBy MoveBattleStyle_ decodeMoveBattleStyle
 
 
 {-| -}
-getMoveCategoryBy : String -> Cmd (ResourceMsg MoveCategory)
+getMoveCategoryBy : String -> Task Http.Error MoveCategory
 getMoveCategoryBy =
     getBy MoveCategory_ decodeMoveCategory
 
 
 {-| -}
-getMoveDamageClassBy : String -> Cmd (ResourceMsg MoveDamageClass)
+getMoveDamageClassBy : String -> Task Http.Error MoveDamageClass
 getMoveDamageClassBy =
     getBy MoveDamageClass_ decodeMoveDamageClass
 
 
 {-| -}
-getMoveLearnMethodBy : String -> Cmd (ResourceMsg MoveLearnMethod)
+getMoveLearnMethodBy : String -> Task Http.Error MoveLearnMethod
 getMoveLearnMethodBy =
     getBy MoveLearnMethod_ decodeMoveLearnMethod
 
 
 {-| -}
-getMoveTargetBy : String -> Cmd (ResourceMsg MoveTarget)
+getMoveTargetBy : String -> Task Http.Error MoveTarget
 getMoveTargetBy =
     getBy MoveTarget_ decodeMoveTarget
 
 
 {-| -}
-getNatureBy : String -> Cmd (ResourceMsg Nature)
+getNatureBy : String -> Task Http.Error Nature
 getNatureBy =
     getBy Nature_ decodeNature
 
 
 {-| -}
-getPalParkAreaBy : String -> Cmd (ResourceMsg PalParkArea)
+getPalParkAreaBy : String -> Task Http.Error PalParkArea
 getPalParkAreaBy =
     getBy PalParkArea_ decodePalParkArea
 
 
 {-| -}
-getPokeathlonStatBy : String -> Cmd (ResourceMsg PokeathlonStat)
+getPokeathlonStatBy : String -> Task Http.Error PokeathlonStat
 getPokeathlonStatBy =
     getBy PokeathlonStat_ decodePokeathlonStat
 
 
 {-| -}
-getPokedexBy : String -> Cmd (ResourceMsg Pokedex)
+getPokedexBy : String -> Task Http.Error Pokedex
 getPokedexBy =
     getBy Pokedex_ decodePokedex
 
 
 {-| -}
-getPokemonBy : String -> Cmd (ResourceMsg Pokemon)
+getPokemonBy : String -> Task Http.Error Pokemon
 getPokemonBy =
     getBy Pokemon_ decodePokemon
 
 
 {-| -}
-getPokemonColorBy : String -> Cmd (ResourceMsg PokemonColor)
+getPokemonColorBy : String -> Task Http.Error PokemonColor
 getPokemonColorBy =
     getBy PokemonColor_ decodePokemonColor
 
 
 {-| -}
-getPokemonFormBy : String -> Cmd (ResourceMsg PokemonForm)
+getPokemonFormBy : String -> Task Http.Error PokemonForm
 getPokemonFormBy =
     getBy PokemonForm_ decodePokemonForm
 
 
 {-| -}
-getPokemonHabitatBy : String -> Cmd (ResourceMsg PokemonHabitat)
+getPokemonHabitatBy : String -> Task Http.Error PokemonHabitat
 getPokemonHabitatBy =
     getBy PokemonHabitat_ decodePokemonHabitat
 
 
 {-| -}
-getPokemonShapeBy : String -> Cmd (ResourceMsg PokemonShape)
+getPokemonShapeBy : String -> Task Http.Error PokemonShape
 getPokemonShapeBy =
     getBy PokemonShape_ decodePokemonShape
 
 
 {-| -}
-getPokemonSpeciesBy : String -> Cmd (ResourceMsg PokemonSpecies)
+getPokemonSpeciesBy : String -> Task Http.Error PokemonSpecies
 getPokemonSpeciesBy =
     getBy PokemonSpecies_ decodePokemonSpecies
 
 
 {-| -}
-getRegionBy : String -> Cmd (ResourceMsg Region)
+getRegionBy : String -> Task Http.Error Region
 getRegionBy =
     getBy Region_ decodeRegion
 
 
 {-| -}
-getStatBy : String -> Cmd (ResourceMsg Stat)
+getStatBy : String -> Task Http.Error Stat
 getStatBy =
     getBy Stat_ decodeStat
 
 
 {-| -}
-getSuperContestEffectBy : String -> Cmd (ResourceMsg SuperContestEffect)
+getSuperContestEffectBy : String -> Task Http.Error SuperContestEffect
 getSuperContestEffectBy =
     getBy SuperContestEffect_ decodeSuperContestEffect
 
 
 {-| -}
-getTypeBy : String -> Cmd (ResourceMsg Type)
+getTypeBy : String -> Task Http.Error Type
 getTypeBy =
     getBy Type_ decodeType
 
 
 {-| -}
-getVersionBy : String -> Cmd (ResourceMsg Version)
+getVersionBy : String -> Task Http.Error Version
 getVersionBy =
     getBy Version_ decodeVersion
 
 
 {-| -}
-getVersionGroupBy : String -> Cmd (ResourceMsg VersionGroup)
+getVersionGroupBy : String -> Task Http.Error VersionGroup
 getVersionGroupBy =
     getBy VersionGroup_ decodeVersionGroup
 
 
 {-| -}
-getBy : Resource -> Decoder a -> String -> Cmd (ResourceMsg a)
+getBy : Resource -> Decoder a -> String -> Task Http.Error a
 getBy res decoder param =
     let
         endpoint =
@@ -1071,7 +1072,7 @@ getBy res decoder param =
     in
         decoder
             |> Http.get url
-            |> Http.send (LoadedResource res)
+            |> Http.toTask
 
 
 {-| -}
