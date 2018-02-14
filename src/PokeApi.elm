@@ -3,8 +3,6 @@ module PokeApi
         ( Resource(..)
         , Page(..)
         , PageSize
-        , ListMsg(..)
-        , ResourceMsg(..)
         , Ability
         , AbilityEffectChange
         , AbilityFlavorText
@@ -236,7 +234,7 @@ Example
     -- gets a list of berries
     getBerries (OnPage 1)
 
-@docs ListMsg, getAbilities, getBerries, getBerryFirmnesses, getBerryFlavors,
+@docs getAbilities, getBerries, getBerryFirmnesses, getBerryFlavors,
 getCharacteristics, getContestEffects, getContestTypes, getEggGroups,
 getEncounterConditions, getEncounterConditionValues, getEncounterMethods,
 getEvolutionChains, getEvolutionTriggers, getGenders, getGenerations,
@@ -260,7 +258,7 @@ Retrieves a single resource of the specific resource for that function
     -- gets the berry with id 5
     getBerryBy "5"
 
-@docs ResourceMsg, getAbilityBy, getBerryBy, getBerryFirmnessBy,
+@docs getAbilityBy, getBerryBy, getBerryFirmnessBy,
 getBerryFlavorBy, getCharacteristicBy, getContestEffectBy, getContestTypeBy,
 getEggGroupBy, getEncounterConditionBy, getEncounterConditionValueBy,
 getEncounterMethodBy, getEvolutionChainBy, getEvolutionTriggerBy, getGenderBy,
@@ -381,26 +379,6 @@ type Resource
     | Type_
     | Version_
     | VersionGroup_
-
-
-{-| Message type that can be used to handle a result from the API when
-requesting a list of resources
-
-    type alias Model =
-        { pokemon : Maybe NamedApiResourceList
-        }
-
-    update msg model =
-        case msg of
-            LoadedList Pokemon_ (Ok pokemon) ->
-                ( { model | pokemon = Just pokemon }, Cmd.none )
-
-            LoadedList Pokemon_ (Err reason) ->
-                ( { model | pokemon = Nothing }, Cmd.none )
-
--}
-type ListMsg
-    = LoadedList Resource (Result Http.Error NamedApiResourceList)
 
 
 {-| -}
@@ -750,26 +728,6 @@ makeListUrl endpoint page =
             , "/?"
             , q
             ]
-
-
-{-| Message type that can be used to handle a result from the API when
-requesting an individual resource
-
-    type alias Model =
-        { pokemon : Maybe Pokemon
-        }
-
-    update msg model =
-        case msg of
-            LoadedResource Pokemon_ (Ok pokemon) ->
-                ( { model | pokemon = Just pokemon }, Cmd.none )
-
-            LoadedResource Pokemon_ (Err reason) ->
-                ( { model | pokemon = Nothing }, Cmd.none )
-
--}
-type ResourceMsg resource
-    = LoadedResource Resource (Result Http.Error resource)
 
 
 {-| -}
