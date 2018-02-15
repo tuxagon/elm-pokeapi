@@ -66,8 +66,6 @@ module Json.Decode.PokeApi
         , decodeMoveStatChange
         , decodeMoveTarget
         , decodeName
-        , decodeNamedApiResource
-        , decodeNamedApiResourceList
         , decodeNature
         , decodeNaturePokeathlonStatAffect
         , decodeNaturePokeathlonStatAffectSets
@@ -138,8 +136,7 @@ decodeMove, decodeMoveAilment, decodeMoveBattleStyle,
 decodeMoveBattleStylePreference, decodeMoveCategory, decodeMoveDamageClass,
 decodeMoveFlavorText, decodeMoveLearnMethod, decodeMoveMetaData,
 decodeMoveStatAffect, decodeMoveStatAffectSets, decodeMoveStatChange,
-decodeMoveTarget, decodeName, decodeNamedApiResource,
-decodeNamedApiResourceList, decodeNature, decodeNaturePokeathlonStatAffect,
+decodeMoveTarget, decodeName, decodeNature, decodeNaturePokeathlonStatAffect,
 decodeNaturePokeathlonStatAffectSets, decodeNatureStatAffectSets,
 decodeNatureStatChange, decodePalParkArea, decodePalParkEncounterArea,
 decodePalParkEncounterSpecies, decodePastMoveStatValues, decodePokeathlonStat,
@@ -168,7 +165,7 @@ import Json.Decode as Decode
         , lazy
         , map
         )
-import Json.Decode.Pipeline exposing (decode, required)
+import Json.Decode.Pipeline exposing (decode, optional, required)
 import PokeApi exposing (..)
 
 
@@ -179,7 +176,7 @@ decodeAbility =
         |> required "id" int
         |> required "name" string
         |> required "is_main_series" bool
-        |> required "generation" decodeNamedApiResource
+        |> required "generation" decodeApiResource
         |> required "names" (list decodeName)
         |> required "effect_entries" (list decodeVerboseEffect)
         |> required "effect_changes" (list decodeAbilityEffectChange)
@@ -192,7 +189,7 @@ decodeAbilityEffectChange : Decoder AbilityEffectChange
 decodeAbilityEffectChange =
     decode AbilityEffectChange
         |> required "effect_entries" (list decodeEffect)
-        |> required "version_group" decodeNamedApiResource
+        |> required "version_group" decodeApiResource
 
 
 {-| -}
@@ -200,8 +197,8 @@ decodeAbilityFlavorText : Decoder AbilityFlavorText
 decodeAbilityFlavorText =
     decode AbilityFlavorText
         |> required "flavor_text" string
-        |> required "language" decodeNamedApiResource
-        |> required "version_group" decodeNamedApiResource
+        |> required "language" decodeApiResource
+        |> required "version_group" decodeApiResource
 
 
 {-| -}
@@ -210,13 +207,14 @@ decodeAbilityPokemon =
     decode AbilityPokemon
         |> required "is_hidden" bool
         |> required "slot" int
-        |> required "pokemon" decodeNamedApiResource
+        |> required "pokemon" decodeApiResource
 
 
 {-| -}
 decodeApiResource : Decoder ApiResource
 decodeApiResource =
     decode ApiResource
+        |> optional "name" string ""
         |> required "url" string
 
 
@@ -235,7 +233,7 @@ decodeAwesomeName : Decoder AwesomeName
 decodeAwesomeName =
     decode AwesomeName
         |> required "awesome_name" string
-        |> required "language" decodeNamedApiResource
+        |> required "language" decodeApiResource
 
 
 {-| -}
@@ -250,10 +248,10 @@ decodeBerry =
         |> required "size" int
         |> required "smoothness" int
         |> required "soil_dryness" int
-        |> required "firmness" decodeNamedApiResource
+        |> required "firmness" decodeApiResource
         |> required "flavors" (list decodeBerryFlavorMap)
-        |> required "item" decodeNamedApiResource
-        |> required "natural_gift_type" decodeNamedApiResource
+        |> required "item" decodeApiResource
+        |> required "natural_gift_type" decodeApiResource
 
 
 {-| -}
@@ -262,7 +260,7 @@ decodeBerryFirmness =
     decode BerryFirmness
         |> required "id" int
         |> required "name" string
-        |> required "berries" (list decodeNamedApiResource)
+        |> required "berries" (list decodeApiResource)
         |> required "names" (list decodeName)
 
 
@@ -273,7 +271,7 @@ decodeBerryFlavor =
         |> required "id" int
         |> required "name" string
         |> required "berries" (list decodeFlavorBerryMap)
-        |> required "contest_type" decodeNamedApiResource
+        |> required "contest_type" decodeApiResource
         |> required "names" (list decodeName)
 
 
@@ -282,7 +280,7 @@ decodeBerryFlavorMap : Decoder BerryFlavorMap
 decodeBerryFlavorMap =
     decode BerryFlavorMap
         |> required "potency" int
-        |> required "flavor" decodeNamedApiResource
+        |> required "flavor" decodeApiResource
 
 
 {-| -}
@@ -290,7 +288,7 @@ decodeChainLink : Decoder ChainLink
 decodeChainLink =
     decode ChainLink
         |> required "is_baby" bool
-        |> required "species" decodeNamedApiResource
+        |> required "species" decodeApiResource
         |> required "evolution_details"
             (list decodeEvolutionDetail)
         |> required "evolves_to"
@@ -319,8 +317,8 @@ decodeContestComboSets =
 decodeContestComboDetail : Decoder ContestComboDetail
 decodeContestComboDetail =
     decode ContestComboDetail
-        |> required "use_before" ((maybe << list) decodeNamedApiResource)
-        |> required "use_after" ((maybe << list) decodeNamedApiResource)
+        |> required "use_before" ((maybe << list) decodeApiResource)
+        |> required "use_after" ((maybe << list) decodeApiResource)
 
 
 {-| -}
@@ -340,7 +338,7 @@ decodeContestName =
     decode ContestName
         |> required "name" string
         |> required "color" string
-        |> required "language" decodeNamedApiResource
+        |> required "language" decodeApiResource
 
 
 {-| -}
@@ -349,7 +347,7 @@ decodeContestType =
     decode ContestType
         |> required "id" int
         |> required "name" string
-        |> required "berry_flavor" decodeNamedApiResource
+        |> required "berry_flavor" decodeApiResource
         |> required "names" (list decodeContestName)
 
 
@@ -358,7 +356,7 @@ decodeDescription : Decoder Description
 decodeDescription =
     decode Description
         |> required "description" string
-        |> required "language" decodeNamedApiResource
+        |> required "language" decodeApiResource
 
 
 {-| -}
@@ -366,7 +364,7 @@ decodeEffect : Decoder Effect
 decodeEffect =
     decode Effect
         |> required "effect" string
-        |> required "language" decodeNamedApiResource
+        |> required "language" decodeApiResource
 
 
 {-| -}
@@ -376,7 +374,7 @@ decodeEggGroup =
         |> required "id" int
         |> required "name" string
         |> required "names" (list decodeName)
-        |> required "pokemon_species" (list decodeNamedApiResource)
+        |> required "pokemon_species" (list decodeApiResource)
 
 
 {-| -}
@@ -385,9 +383,9 @@ decodeEncounter =
     decode Encounter
         |> required "min_level" int
         |> required "max_level" int
-        |> required "condition_values" (list decodeNamedApiResource)
+        |> required "condition_values" (list decodeApiResource)
         |> required "chance" int
-        |> required "method" decodeNamedApiResource
+        |> required "method" decodeApiResource
 
 
 {-| -}
@@ -397,7 +395,7 @@ decodeEncounterCondition =
         |> required "id" int
         |> required "name" string
         |> required "names" (list decodeName)
-        |> required "values" (list decodeNamedApiResource)
+        |> required "values" (list decodeApiResource)
 
 
 {-| -}
@@ -406,7 +404,7 @@ decodeEncounterConditionValue =
     decode EncounterConditionValue
         |> required "id" int
         |> required "name" string
-        |> required "condition" decodeNamedApiResource
+        |> required "condition" decodeApiResource
         |> required "names" (list decodeName)
 
 
@@ -424,7 +422,7 @@ decodeEncounterMethod =
 decodeEncounterMethodRate : Decoder EncounterMethodRate
 decodeEncounterMethodRate =
     decode EncounterMethodRate
-        |> required "encounter_method" decodeNamedApiResource
+        |> required "encounter_method" decodeApiResource
         |> required "version_details" (list decodeEncounterVersionDetails)
 
 
@@ -433,7 +431,7 @@ decodeEncounterVersionDetails : Decoder EncounterVersionDetails
 decodeEncounterVersionDetails =
     decode EncounterVersionDetails
         |> required "rate" int
-        |> required "version" decodeNamedApiResource
+        |> required "version" decodeApiResource
 
 
 {-| -}
@@ -441,7 +439,7 @@ decodeEvolutionChain : Decoder EvolutionChain
 decodeEvolutionChain =
     decode EvolutionChain
         |> required "id" int
-        |> required "baby_trigger_item" (maybe decodeNamedApiResource)
+        |> required "baby_trigger_item" (maybe decodeApiResource)
         |> required "chain" decodeChainLink
 
 
@@ -449,23 +447,23 @@ decodeEvolutionChain =
 decodeEvolutionDetail : Decoder EvolutionDetail
 decodeEvolutionDetail =
     decode EvolutionDetail
-        |> required "item" (maybe decodeNamedApiResource)
-        |> required "trigger" decodeNamedApiResource
+        |> required "item" (maybe decodeApiResource)
+        |> required "trigger" decodeApiResource
         |> required "gender" (maybe int)
-        |> required "held_item" (maybe decodeNamedApiResource)
-        |> required "known_move" (maybe decodeNamedApiResource)
-        |> required "known_move_type" (maybe decodeNamedApiResource)
-        |> required "location" (maybe decodeNamedApiResource)
+        |> required "held_item" (maybe decodeApiResource)
+        |> required "known_move" (maybe decodeApiResource)
+        |> required "known_move_type" (maybe decodeApiResource)
+        |> required "location" (maybe decodeApiResource)
         |> required "min_level" int
         |> required "min_happiness" (maybe int)
         |> required "min_beauty" (maybe int)
         |> required "min_affection" (maybe int)
         |> required "needs_overworld_rain" bool
-        |> required "party_species" (maybe decodeNamedApiResource)
-        |> required "party_type" (maybe decodeNamedApiResource)
+        |> required "party_species" (maybe decodeApiResource)
+        |> required "party_type" (maybe decodeApiResource)
         |> required "relative_physical_stats" (maybe int)
         |> required "time_of_day" string
-        |> required "trade_species" (maybe decodeNamedApiResource)
+        |> required "trade_species" (maybe decodeApiResource)
         |> required "turn_upside_down" bool
 
 
@@ -477,7 +475,7 @@ decodeEvolutionTrigger =
         |> required "name" string
         |> required "names" (list decodeName)
         |> required "pokemon_species"
-            (list decodeNamedApiResource)
+            (list decodeApiResource)
 
 
 {-| -}
@@ -485,7 +483,7 @@ decodeFlavorBerryMap : Decoder FlavorBerryMap
 decodeFlavorBerryMap =
     decode FlavorBerryMap
         |> required "potency" int
-        |> required "berry" decodeNamedApiResource
+        |> required "berry" decodeApiResource
 
 
 {-| -}
@@ -493,7 +491,7 @@ decodeFlavorText : Decoder FlavorText
 decodeFlavorText =
     decode FlavorText
         |> required "flavor_text" string
-        |> required "language" decodeNamedApiResource
+        |> required "language" decodeApiResource
 
 
 {-| -}
@@ -503,17 +501,17 @@ decodeGeneration =
         |> required "id" int
         |> required "name" string
         |> required "abilities"
-            (list decodeNamedApiResource)
+            (list decodeApiResource)
         |> required "names" (list decodeName)
-        |> required "main_region" decodeNamedApiResource
+        |> required "main_region" decodeApiResource
         |> required "moves"
-            (list decodeNamedApiResource)
+            (list decodeApiResource)
         |> required "pokemon_species"
-            (list decodeNamedApiResource)
+            (list decodeApiResource)
         |> required "types"
-            (list decodeNamedApiResource)
+            (list decodeApiResource)
         |> required "version_groups"
-            (list decodeNamedApiResource)
+            (list decodeApiResource)
 
 
 {-| -}
@@ -523,7 +521,7 @@ decodeGender =
         |> required "id" int
         |> required "name" string
         |> required "pokemon_species_details" (list decodePokemonSpeciesGender)
-        |> required "required_for_evolution" (list decodeNamedApiResource)
+        |> required "required_for_evolution" (list decodeApiResource)
 
 
 {-| -}
@@ -531,7 +529,7 @@ decodeGenerationGameIndex : Decoder GenerationGameIndex
 decodeGenerationGameIndex =
     decode GenerationGameIndex
         |> required "game_index" int
-        |> required "generation" decodeNamedApiResource
+        |> required "generation" decodeApiResource
 
 
 {-| -}
@@ -539,7 +537,7 @@ decodeGenus : Decoder Genus
 decodeGenus =
     decode Genus
         |> required "genus" string
-        |> required "language" decodeNamedApiResource
+        |> required "language" decodeApiResource
 
 
 {-| -}
@@ -551,7 +549,7 @@ decodeGrowthRate =
         |> required "formula" string
         |> required "descriptions" (list decodeDescription)
         |> required "levels" (list decodeGrowthRateExperienceLevel)
-        |> required "pokemon_species" (list decodeNamedApiResource)
+        |> required "pokemon_species" (list decodeApiResource)
 
 
 {-| -}
@@ -570,9 +568,9 @@ decodeItem =
         |> required "name" string
         |> required "cost" int
         |> required "fling_power" (maybe int)
-        |> required "fling_effect" (maybe decodeNamedApiResource)
-        |> required "attributes" (list decodeNamedApiResource)
-        |> required "category" decodeNamedApiResource
+        |> required "fling_effect" (maybe decodeApiResource)
+        |> required "attributes" (list decodeApiResource)
+        |> required "category" decodeApiResource
         |> required "effect_entries" (list decodeVerboseEffect)
         |> required "flavor_text_entries" (list decodeVersionGroupFlavorText)
         |> required "game_indices" (list decodeGenerationGameIndex)
@@ -589,7 +587,7 @@ decodeItemAttribute =
     decode ItemAttribute
         |> required "id" int
         |> required "name" string
-        |> required "items" (list decodeNamedApiResource)
+        |> required "items" (list decodeApiResource)
         |> required "names" (list decodeName)
         |> required "descriptions" (list decodeDescription)
 
@@ -600,9 +598,9 @@ decodeItemCategory =
     decode ItemCategory
         |> required "id" int
         |> required "name" string
-        |> required "items" (list decodeNamedApiResource)
+        |> required "items" (list decodeApiResource)
         |> required "names" (list decodeName)
-        |> required "pocket" decodeNamedApiResource
+        |> required "pocket" decodeApiResource
 
 
 {-| -}
@@ -612,7 +610,7 @@ decodeItemFlingEffect =
         |> required "id" int
         |> required "name" string
         |> required "effect_entries" (list decodeEffect)
-        |> required "items" (list decodeNamedApiResource)
+        |> required "items" (list decodeApiResource)
 
 
 {-| -}
@@ -628,7 +626,7 @@ decodeItemHolderPokemonVersionDetail : Decoder ItemHolderPokemonVersionDetail
 decodeItemHolderPokemonVersionDetail =
     decode ItemHolderPokemonVersionDetail
         |> required "rarity" string
-        |> required "version" decodeNamedApiResource
+        |> required "version" decodeApiResource
 
 
 {-| -}
@@ -637,7 +635,7 @@ decodeItemPocket =
     decode ItemPocket
         |> required "id" int
         |> required "name" string
-        |> required "categories" (list decodeNamedApiResource)
+        |> required "categories" (list decodeApiResource)
         |> required "names" (list decodeName)
 
 
@@ -666,10 +664,10 @@ decodeLocation =
     decode Location
         |> required "id" int
         |> required "name" string
-        |> required "region" decodeNamedApiResource
+        |> required "region" decodeApiResource
         |> required "names" (list decodeName)
         |> required "game_indices" (list decodeGenerationGameIndex)
-        |> required "areas" (list decodeNamedApiResource)
+        |> required "areas" (list decodeApiResource)
 
 
 {-| -}
@@ -680,7 +678,7 @@ decodeLocationArea =
         |> required "name" string
         |> required "game_index" int
         |> required "encounter_method_rates" (list decodeEncounterMethodRate)
-        |> required "location" decodeNamedApiResource
+        |> required "location" decodeApiResource
         |> required "names" (list decodeName)
         |> required "pokemon_encounters" (list decodePokemonEncounter)
 
@@ -689,7 +687,7 @@ decodeLocationArea =
 decodeLocationAreaEncounter : Decoder LocationAreaEncounter
 decodeLocationAreaEncounter =
     decode LocationAreaEncounter
-        |> required "location_area" decodeNamedApiResource
+        |> required "location_area" decodeApiResource
         |> required "version_details" (list decodeVersionEncounterDetail)
 
 
@@ -698,9 +696,9 @@ decodeMachine : Decoder Machine
 decodeMachine =
     decode Machine
         |> required "id" int
-        |> required "item" decodeNamedApiResource
-        |> required "move" decodeNamedApiResource
-        |> required "version_group" decodeNamedApiResource
+        |> required "item" decodeApiResource
+        |> required "move" decodeApiResource
+        |> required "version_group" decodeApiResource
 
 
 {-| -}
@@ -708,7 +706,7 @@ decodeMachineVersionDetail : Decoder MachineVersionDetail
 decodeMachineVersionDetail =
     decode MachineVersionDetail
         |> required "machine" decodeApiResource
-        |> required "version_group" decodeNamedApiResource
+        |> required "version_group" decodeApiResource
 
 
 {-| -}
@@ -723,21 +721,21 @@ decodeMove =
         |> required "priority" int
         |> required "power" int
         |> required "contest_combos" decodeContestComboSets
-        |> required "contest_type" decodeNamedApiResource
+        |> required "contest_type" decodeApiResource
         |> required "contest_effect" decodeApiResource
-        |> required "damage_class" decodeNamedApiResource
+        |> required "damage_class" decodeApiResource
         |> required "effect_entries" (list decodeVerboseEffect)
         |> required "effect_changes" (list decodeAbilityEffectChange)
         |> required "flavor_text_entries" (list decodeMoveFlavorText)
-        |> required "generation" decodeNamedApiResource
+        |> required "generation" decodeApiResource
         |> required "machines" (list decodeMachineVersionDetail)
         |> required "meta" decodeMoveMetaData
         |> required "names" (list decodeName)
         |> required "past_values" (list decodePastMoveStatValues)
         |> required "stat_changes" (list decodeMoveStatChange)
         |> required "super_contest_effect" decodeApiResource
-        |> required "target" decodeNamedApiResource
-        |> required "type" decodeNamedApiResource
+        |> required "target" decodeApiResource
+        |> required "type" decodeApiResource
 
 
 {-| -}
@@ -746,7 +744,7 @@ decodeMoveAilment =
     decode MoveAilment
         |> required "id" int
         |> required "name" string
-        |> required "moves" (list decodeNamedApiResource)
+        |> required "moves" (list decodeApiResource)
         |> required "names" (list decodeName)
 
 
@@ -765,7 +763,7 @@ decodeMoveBattleStylePreference =
     decode MoveBattleStylePreference
         |> required "low_hp_preference" int
         |> required "high_hp_preference" int
-        |> required "move_battle_style" decodeNamedApiResource
+        |> required "move_battle_style" decodeApiResource
 
 
 {-| -}
@@ -774,7 +772,7 @@ decodeMoveCategory =
     decode MoveCategory
         |> required "id" int
         |> required "name" string
-        |> required "moves" (list decodeNamedApiResource)
+        |> required "moves" (list decodeApiResource)
         |> required "descriptions" (list decodeDescription)
 
 
@@ -785,7 +783,7 @@ decodeMoveDamageClass =
         |> required "id" int
         |> required "name" string
         |> required "descriptions" (list decodeDescription)
-        |> required "moves" (list decodeNamedApiResource)
+        |> required "moves" (list decodeApiResource)
         |> required "names" (list decodeName)
 
 
@@ -794,8 +792,8 @@ decodeMoveFlavorText : Decoder MoveFlavorText
 decodeMoveFlavorText =
     decode MoveFlavorText
         |> required "flavor_text" string
-        |> required "language" decodeNamedApiResource
-        |> required "version_group" decodeNamedApiResource
+        |> required "language" decodeApiResource
+        |> required "version_group" decodeApiResource
 
 
 {-| -}
@@ -806,15 +804,15 @@ decodeMoveLearnMethod =
         |> required "name" string
         |> required "descriptions" (list decodeDescription)
         |> required "names" (list decodeName)
-        |> required "version_groups" (list decodeNamedApiResource)
+        |> required "version_groups" (list decodeApiResource)
 
 
 {-| -}
 decodeMoveMetaData : Decoder MoveMetaData
 decodeMoveMetaData =
     decode MoveMetaData
-        |> required "ailment" decodeNamedApiResource
-        |> required "category" decodeNamedApiResource
+        |> required "ailment" decodeApiResource
+        |> required "category" decodeApiResource
         |> required "min_hits" (maybe int)
         |> required "max_hits" (maybe int)
         |> required "min_turns" (maybe int)
@@ -832,7 +830,7 @@ decodeMoveStatAffect : Decoder MoveStatAffect
 decodeMoveStatAffect =
     decode MoveStatAffect
         |> required "change" int
-        |> required "move" decodeNamedApiResource
+        |> required "move" decodeApiResource
 
 
 {-| -}
@@ -848,7 +846,7 @@ decodeMoveStatChange : Decoder MoveStatChange
 decodeMoveStatChange =
     decode MoveStatChange
         |> required "change" int
-        |> required "stat" decodeNamedApiResource
+        |> required "stat" decodeApiResource
 
 
 {-| -}
@@ -858,7 +856,7 @@ decodeMoveTarget =
         |> required "id" int
         |> required "name" string
         |> required "descriptions" (list decodeDescription)
-        |> required "moves" (list decodeNamedApiResource)
+        |> required "moves" (list decodeApiResource)
         |> required "names" (list decodeName)
 
 
@@ -867,25 +865,7 @@ decodeName : Decoder Name
 decodeName =
     decode Name
         |> required "name" string
-        |> required "language" decodeNamedApiResource
-
-
-{-| -}
-decodeNamedApiResource : Decoder NamedApiResource
-decodeNamedApiResource =
-    decode NamedApiResource
-        |> required "name" string
-        |> required "url" string
-
-
-{-| -}
-decodeNamedApiResourceList : Decoder NamedApiResourceList
-decodeNamedApiResourceList =
-    decode NamedApiResourceList
-        |> required "count" int
-        |> required "next" (maybe string)
-        |> required "previous" (maybe string)
-        |> required "results" (list decodeNamedApiResource)
+        |> required "language" decodeApiResource
 
 
 {-| -}
@@ -894,10 +874,10 @@ decodeNature =
     decode Nature
         |> required "id" int
         |> required "name" string
-        |> required "decreased_stat" (maybe decodeNamedApiResource)
-        |> required "increased_stat" (maybe decodeNamedApiResource)
-        |> required "hates_flavor" (maybe decodeNamedApiResource)
-        |> required "likes_flavor" (maybe decodeNamedApiResource)
+        |> required "decreased_stat" (maybe decodeApiResource)
+        |> required "increased_stat" (maybe decodeApiResource)
+        |> required "hates_flavor" (maybe decodeApiResource)
+        |> required "likes_flavor" (maybe decodeApiResource)
         |> required "pokeathlon_stat_changes" (list decodeNatureStatChange)
         |> required "move_battle_style_preferences" (list decodeMoveBattleStylePreference)
         |> required "names" (list decodeName)
@@ -908,7 +888,7 @@ decodeNaturePokeathlonStatAffect : Decoder NaturePokeathlonStatAffect
 decodeNaturePokeathlonStatAffect =
     decode NaturePokeathlonStatAffect
         |> required "max_change" int
-        |> required "nature" decodeNamedApiResource
+        |> required "nature" decodeApiResource
 
 
 {-| -}
@@ -923,8 +903,8 @@ decodeNaturePokeathlonStatAffectSets =
 decodeNatureStatAffectSets : Decoder NatureStatAffectSets
 decodeNatureStatAffectSets =
     decode NatureStatAffectSets
-        |> required "increase" (list decodeNamedApiResource)
-        |> required "decrease" (list decodeNamedApiResource)
+        |> required "increase" (list decodeApiResource)
+        |> required "decrease" (list decodeApiResource)
 
 
 {-| -}
@@ -932,7 +912,7 @@ decodeNatureStatChange : Decoder NatureStatChange
 decodeNatureStatChange =
     decode NatureStatChange
         |> required "max_change" int
-        |> required "pokeathlon_stat" decodeNamedApiResource
+        |> required "pokeathlon_stat" decodeApiResource
 
 
 {-| -}
@@ -951,7 +931,7 @@ decodePalParkEncounterArea =
     decode PalParkEncounterArea
         |> required "base_score" int
         |> required "rate" int
-        |> required "area" decodeNamedApiResource
+        |> required "area" decodeApiResource
 
 
 {-| -}
@@ -960,7 +940,7 @@ decodePalParkEncounterSpecies =
     decode PalParkEncounterSpecies
         |> required "base_score" int
         |> required "rate" int
-        |> required "pokemon_species" decodeNamedApiResource
+        |> required "pokemon_species" decodeApiResource
 
 
 {-| -}
@@ -972,8 +952,8 @@ decodePastMoveStatValues =
         |> required "power" int
         |> required "pp" int
         |> required "effect_entries" (list decodeVerboseEffect)
-        |> required "type" decodeNamedApiResource
-        |> required "version_group" decodeNamedApiResource
+        |> required "type" decodeApiResource
+        |> required "version_group" decodeApiResource
 
 
 {-| -}
@@ -996,9 +976,9 @@ decodePokedex =
         |> required "descriptions" (list decodeDescription)
         |> required "names" (list decodeName)
         |> required "pokemon_entries" (list decodePokemonEntry)
-        |> required "region" (maybe decodeNamedApiResource)
+        |> required "region" (maybe decodeApiResource)
         |> required "version_groups"
-            (list decodeNamedApiResource)
+            (list decodeApiResource)
 
 
 {-| -}
@@ -1014,12 +994,12 @@ decodePokemon =
         |> required "weight" int
         |> required "location_area_encounters" string
         |> required "abilities" (list decodePokemonAbility)
-        |> required "forms" (list decodeNamedApiResource)
+        |> required "forms" (list decodeApiResource)
         |> required "moves" (list decodePokemonMove)
         |> required "sprites" decodePokemonSprites
         |> required "stats" (list decodePokemonStat)
         |> required "held_items" (list decodePokemonHeldItem)
-        |> required "species" decodeNamedApiResource
+        |> required "species" decodeApiResource
         |> required "game_indices" (list decodeVersionGameIndex)
         |> required "types" (list decodePokemonType)
 
@@ -1030,7 +1010,7 @@ decodePokemonAbility =
     decode PokemonAbility
         |> required "slot" int
         |> required "is_hidden" bool
-        |> required "ability" decodeNamedApiResource
+        |> required "ability" decodeApiResource
 
 
 {-| -}
@@ -1040,14 +1020,14 @@ decodePokemonColor =
         |> required "id" int
         |> required "name" string
         |> required "names" (list decodeName)
-        |> required "pokemon_species" (list decodeNamedApiResource)
+        |> required "pokemon_species" (list decodeApiResource)
 
 
 {-| -}
 decodePokemonEncounter : Decoder PokemonEncounter
 decodePokemonEncounter =
     decode PokemonEncounter
-        |> required "pokemon" decodeNamedApiResource
+        |> required "pokemon" decodeApiResource
         |> required "version_details" (list decodeVersionEncounterDetail)
 
 
@@ -1056,7 +1036,7 @@ decodePokemonEntry : Decoder PokemonEntry
 decodePokemonEntry =
     decode PokemonEntry
         |> required "entry_number" int
-        |> required "pokemon_species" decodeNamedApiResource
+        |> required "pokemon_species" decodeApiResource
 
 
 {-| -}
@@ -1071,9 +1051,9 @@ decodePokemonForm =
         |> required "is_battle_only" bool
         |> required "is_mega" bool
         |> required "form_name" string
-        |> required "pokemon" decodeNamedApiResource
+        |> required "pokemon" decodeApiResource
         |> required "sprites" decodePokemonFormSprites
-        |> required "version_group" decodeNamedApiResource
+        |> required "version_group" decodeApiResource
         |> required "names" (list decodeName)
         |> required "form_names" (list decodeName)
 
@@ -1095,23 +1075,22 @@ decodePokemonHabitat =
         |> required "id" int
         |> required "name" string
         |> required "names" (list decodeName)
-        |> required "pokemon_species" (list decodeNamedApiResource)
+        |> required "pokemon_species" (list decodeApiResource)
 
 
 {-| -}
 decodePokemonHeldItem : Decoder PokemonHeldItem
 decodePokemonHeldItem =
     decode PokemonHeldItem
-        |> required "item" decodeNamedApiResource
-        |> required "version_details"
-            (list decodePokemonHeldItemVersion)
+        |> required "item" decodeApiResource
+        |> required "version_details" (list decodePokemonHeldItemVersion)
 
 
 {-| -}
 decodePokemonHeldItemVersion : Decoder PokemonHeldItemVersion
 decodePokemonHeldItemVersion =
     decode PokemonHeldItemVersion
-        |> required "version" decodeNamedApiResource
+        |> required "version" decodeApiResource
         |> required "rarity" int
 
 
@@ -1119,7 +1098,7 @@ decodePokemonHeldItemVersion =
 decodePokemonMove : Decoder PokemonMove
 decodePokemonMove =
     decode PokemonMove
-        |> required "move" decodeNamedApiResource
+        |> required "move" decodeApiResource
         |> required "version_group_details"
             (list decodePokemonMoveVersion)
 
@@ -1128,8 +1107,8 @@ decodePokemonMove =
 decodePokemonMoveVersion : Decoder PokemonMoveVersion
 decodePokemonMoveVersion =
     decode PokemonMoveVersion
-        |> required "move_learn_method" decodeNamedApiResource
-        |> required "version_group" decodeNamedApiResource
+        |> required "move_learn_method" decodeApiResource
+        |> required "version_group" decodeApiResource
         |> required "level_learned_at" int
 
 
@@ -1141,7 +1120,7 @@ decodePokemonShape =
         |> required "name" string
         |> required "awesome_names" (list decodeAwesomeName)
         |> required "names" (list decodeName)
-        |> required "pokemon_species" (list decodeNamedApiResource)
+        |> required "pokemon_species" (list decodeApiResource)
 
 
 {-| -}
@@ -1158,15 +1137,15 @@ decodePokemonSpecies =
         |> required "hatch_counter" int
         |> required "has_gender_differences" bool
         |> required "forms_switchable" bool
-        |> required "growth_rate" decodeNamedApiResource
+        |> required "growth_rate" decodeApiResource
         |> required "pokedex_numbers" (list decodePokemonSpeciesDexEntry)
-        |> required "egg_groups" (list decodeNamedApiResource)
-        |> required "color" decodeNamedApiResource
-        |> required "shape" decodeNamedApiResource
-        |> required "evolves_from_species" (maybe decodeNamedApiResource)
+        |> required "egg_groups" (list decodeApiResource)
+        |> required "color" decodeApiResource
+        |> required "shape" decodeApiResource
+        |> required "evolves_from_species" (maybe decodeApiResource)
         |> required "evolution_chain" decodeApiResource
-        |> required "habitat" decodeNamedApiResource
-        |> required "generation" decodeNamedApiResource
+        |> required "habitat" decodeApiResource
+        |> required "generation" decodeApiResource
         |> required "names" (list decodeName)
         |> required "pal_park_encounters" (list decodePalParkEncounterArea)
         |> required "flavor_text_entries" (list decodeFlavorText)
@@ -1180,7 +1159,7 @@ decodePokemonSpeciesDexEntry : Decoder PokemonSpeciesDexEntry
 decodePokemonSpeciesDexEntry =
     decode PokemonSpeciesDexEntry
         |> required "entry_number" int
-        |> required "pokedex" decodeNamedApiResource
+        |> required "pokedex" decodeApiResource
 
 
 {-| -}
@@ -1188,7 +1167,7 @@ decodePokemonSpeciesGender : Decoder PokemonSpeciesGender
 decodePokemonSpeciesGender =
     decode PokemonSpeciesGender
         |> required "rate" int
-        |> required "pokemon_species" decodeNamedApiResource
+        |> required "pokemon_species" decodeApiResource
 
 
 {-| -}
@@ -1196,7 +1175,7 @@ decodePokemonSpeciesVariety : Decoder PokemonSpeciesVariety
 decodePokemonSpeciesVariety =
     decode PokemonSpeciesVariety
         |> required "is_default" bool
-        |> required "pokemon" decodeNamedApiResource
+        |> required "pokemon" decodeApiResource
 
 
 {-| -}
@@ -1219,7 +1198,7 @@ decodePokemonStat =
     decode PokemonStat
         |> required "effort" int
         |> required "base_stat" int
-        |> required "stat" decodeNamedApiResource
+        |> required "stat" decodeApiResource
 
 
 {-| -}
@@ -1227,7 +1206,7 @@ decodePokemonType : Decoder PokemonType
 decodePokemonType =
     decode PokemonType
         |> required "slot" int
-        |> required "type" decodeNamedApiResource
+        |> required "type" decodeApiResource
 
 
 {-| -}
@@ -1236,11 +1215,11 @@ decodeRegion =
     decode Region
         |> required "id" int
         |> required "name" string
-        |> required "locations" (list decodeNamedApiResource)
-        |> required "main_generation" decodeNamedApiResource
+        |> required "locations" (list decodeApiResource)
+        |> required "main_generation" decodeApiResource
         |> required "names" (list decodeName)
-        |> required "pokedexes" (list decodeNamedApiResource)
-        |> required "version_groups" (list decodeNamedApiResource)
+        |> required "pokedexes" (list decodeApiResource)
+        |> required "version_groups" (list decodeApiResource)
 
 
 {-| -}
@@ -1254,7 +1233,7 @@ decodeStat =
         |> required "affecting_moves" decodeMoveStatAffectSets
         |> required "affecting_natures" decodeNatureStatAffectSets
         |> required "characteristics" (list decodeApiResource)
-        |> required "move_damage_class" (maybe decodeNamedApiResource)
+        |> required "move_damage_class" (maybe decodeApiResource)
         |> required "names" (list decodeName)
 
 
@@ -1265,7 +1244,7 @@ decodeSuperContestEffect =
         |> required "id" int
         |> required "appeal" int
         |> required "flavor_text_entries" (list decodeFlavorText)
-        |> required "moves" (list decodeNamedApiResource)
+        |> required "moves" (list decodeApiResource)
 
 
 {-| -}
@@ -1276,11 +1255,11 @@ decodeType =
         |> required "name" string
         |> required "damage_relations" decodeTypeRelations
         |> required "game_indices" (list decodeGenerationGameIndex)
-        |> required "generation" decodeNamedApiResource
-        |> required "move_damage_class" decodeNamedApiResource
+        |> required "generation" decodeApiResource
+        |> required "move_damage_class" decodeApiResource
         |> required "names" (list decodeName)
         |> required "pokemon" (list decodeTypePokemon)
-        |> required "moves" (list decodeNamedApiResource)
+        |> required "moves" (list decodeApiResource)
 
 
 {-| -}
@@ -1288,19 +1267,19 @@ decodeTypePokemon : Decoder TypePokemon
 decodeTypePokemon =
     decode TypePokemon
         |> required "slot" int
-        |> required "pokemon" decodeNamedApiResource
+        |> required "pokemon" decodeApiResource
 
 
 {-| -}
 decodeTypeRelations : Decoder TypeRelations
 decodeTypeRelations =
     decode TypeRelations
-        |> required "no_damage_to" (list decodeNamedApiResource)
-        |> required "half_damage_to" (list decodeNamedApiResource)
-        |> required "double_damage_to" (list decodeNamedApiResource)
-        |> required "no_damage_from" (list decodeNamedApiResource)
-        |> required "half_damage_from" (list decodeNamedApiResource)
-        |> required "double_damage_from" (list decodeNamedApiResource)
+        |> required "no_damage_to" (list decodeApiResource)
+        |> required "half_damage_to" (list decodeApiResource)
+        |> required "double_damage_to" (list decodeApiResource)
+        |> required "no_damage_from" (list decodeApiResource)
+        |> required "half_damage_from" (list decodeApiResource)
+        |> required "double_damage_from" (list decodeApiResource)
 
 
 {-| -}
@@ -1309,7 +1288,7 @@ decodeVerboseEffect =
     decode VerboseEffect
         |> required "effect" string
         |> required "short_effect" string
-        |> required "language" decodeNamedApiResource
+        |> required "language" decodeApiResource
 
 
 {-| -}
@@ -1319,14 +1298,14 @@ decodeVersion =
         |> required "id" int
         |> required "name" string
         |> required "names" (list decodeName)
-        |> required "version_group" decodeNamedApiResource
+        |> required "version_group" decodeApiResource
 
 
 {-| -}
 decodeVersionEncounterDetail : Decoder VersionEncounterDetail
 decodeVersionEncounterDetail =
     decode VersionEncounterDetail
-        |> required "version" decodeNamedApiResource
+        |> required "version" decodeApiResource
         |> required "max_chance" int
         |> required "encounter_details" (list decodeEncounter)
 
@@ -1336,7 +1315,7 @@ decodeVersionGameIndex : Decoder VersionGameIndex
 decodeVersionGameIndex =
     decode VersionGameIndex
         |> required "game_index" int
-        |> required "version" decodeNamedApiResource
+        |> required "version" decodeApiResource
 
 
 {-| -}
@@ -1346,15 +1325,11 @@ decodeVersionGroup =
         |> required "id" int
         |> required "name" string
         |> required "order" int
-        |> required "generation" decodeNamedApiResource
-        |> required "move_learn_methods"
-            (list decodeNamedApiResource)
-        |> required "pokedexes"
-            (list decodeNamedApiResource)
-        |> required "regions"
-            (list decodeNamedApiResource)
-        |> required "versions"
-            (list decodeNamedApiResource)
+        |> required "generation" decodeApiResource
+        |> required "move_learn_methods" (list decodeApiResource)
+        |> required "pokedexes" (list decodeApiResource)
+        |> required "regions" (list decodeApiResource)
+        |> required "versions" (list decodeApiResource)
 
 
 {-| -}
@@ -1362,5 +1337,5 @@ decodeVersionGroupFlavorText : Decoder VersionGroupFlavorText
 decodeVersionGroupFlavorText =
     decode VersionGroupFlavorText
         |> required "text" string
-        |> required "language" decodeNamedApiResource
-        |> required "version_group" decodeNamedApiResource
+        |> required "language" decodeApiResource
+        |> required "version_group" decodeApiResource
