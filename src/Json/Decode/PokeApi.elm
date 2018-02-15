@@ -1,211 +1,162 @@
-module PokeApi
+module Json.Decode.PokeApi
     exposing
-        ( Resource(..)
-        , Ability
-        , AbilityEffectChange
-        , AbilityFlavorText
-        , AbilityPokemon
-        , ApiResource
-        , ApiResourceList
-        , AwesomeName
-        , Berry
-        , BerryFirmness
-        , BerryFlavor
-        , BerryFlavorMap
-        , ChainLink
-        , Evolutions(..)
-        , Characteristic
-        , ContestComboSets
-        , ContestComboDetail
-        , ContestEffect
-        , ContestName
-        , ContestType
-        , Description
-        , Effect
-        , EggGroup
-        , Encounter
-        , EncounterCondition
-        , EncounterConditionValue
-        , EncounterMethod
-        , EncounterMethodRate
-        , EncounterVersionDetails
-        , EvolutionChain
-        , EvolutionDetail
-        , EvolutionTrigger
-        , FlavorBerryMap
-        , FlavorText
-        , Generation
-        , Gender
-        , GenerationGameIndex
-        , Genus
-        , GrowthRate
-        , GrowthRateExperienceLevel
-        , Item
-        , ItemAttribute
-        , ItemCategory
-        , ItemFlingEffect
-        , ItemHolderPokemon
-        , ItemHolderPokemonVersionDetail
-        , ItemPocket
-        , ItemSprites
-        , Language
-        , Location
-        , LocationArea
-        , LocationAreaEncounter
-        , Machine
-        , MachineVersionDetail
-        , Move
-        , MoveAilment
-        , MoveBattleStyle
-        , MoveBattleStylePreference
-        , MoveCategory
-        , MoveDamageClass
-        , MoveFlavorText
-        , MoveLearnMethod
-        , MoveMetaData
-        , MoveStatAffect
-        , MoveStatAffectSets
-        , MoveStatChange
-        , MoveTarget
-        , Name
-        , NamedApiResource
-        , NamedApiResourceList
-        , Nature
-        , NaturePokeathlonStatAffect
-        , NaturePokeathlonStatAffectSets
-        , NatureStatAffectSets
-        , NatureStatChange
-        , PalParkArea
-        , PalParkEncounterArea
-        , PalParkEncounterSpecies
-        , PastMoveStatValues
-        , PokeathlonStat
-        , Pokedex
-        , Pokemon
-        , PokemonAbility
-        , PokemonColor
-        , PokemonEncounter
-        , PokemonEntry
-        , PokemonForm
-        , PokemonFormSprites
-        , PokemonHabitat
-        , PokemonHeldItem
-        , PokemonHeldItemVersion
-        , PokemonMove
-        , PokemonMoveVersion
-        , PokemonShape
-        , PokemonSpecies
-        , PokemonSpeciesDexEntry
-        , PokemonSpeciesGender
-        , PokemonSpeciesVariety
-        , PokemonSprites
-        , PokemonStat
-        , PokemonType
-        , Region
-        , Stat
-        , SuperContestEffect
-        , Type
-        , TypePokemon
-        , TypeRelations
-        , VerboseEffect
-        , Version
-        , VersionEncounterDetail
-        , VersionGameIndex
-        , VersionGroup
-        , VersionGroupFlavorText
+        ( decodeAbility
+        , decodeAbilityEffectChange
+        , decodeAbilityFlavorText
+        , decodeAbilityPokemon
+        , decodeApiResource
+        , decodeApiResourceList
+        , decodeAwesomeName
+        , decodeBerry
+        , decodeBerryFirmness
+        , decodeBerryFlavor
+        , decodeBerryFlavorMap
+        , decodeChainLink
+        , decodeCharacteristic
+        , decodeContestComboSets
+        , decodeContestComboDetail
+        , decodeContestEffect
+        , decodeContestName
+        , decodeContestType
+        , decodeDescription
+        , decodeEffect
+        , decodeEggGroup
+        , decodeEncounter
+        , decodeEncounterCondition
+        , decodeEncounterConditionValue
+        , decodeEncounterMethod
+        , decodeEncounterMethodRate
+        , decodeEncounterVersionDetails
+        , decodeEvolutionChain
+        , decodeEvolutionDetail
+        , decodeEvolutionTrigger
+        , decodeFlavorBerryMap
+        , decodeFlavorText
+        , decodeGeneration
+        , decodeGender
+        , decodeGenerationGameIndex
+        , decodeGenus
+        , decodeGrowthRate
+        , decodeGrowthRateExperienceLevel
+        , decodeItem
+        , decodeItemAttribute
+        , decodeItemCategory
+        , decodeItemFlingEffect
+        , decodeItemHolderPokemon
+        , decodeItemHolderPokemonVersionDetail
+        , decodeItemPocket
+        , decodeItemSprites
+        , decodeLanguage
+        , decodeLocation
+        , decodeLocationArea
+        , decodeLocationAreaEncounter
+        , decodeMachine
+        , decodeMachineVersionDetail
+        , decodeMove
+        , decodeMoveAilment
+        , decodeMoveBattleStyle
+        , decodeMoveBattleStylePreference
+        , decodeMoveCategory
+        , decodeMoveDamageClass
+        , decodeMoveFlavorText
+        , decodeMoveLearnMethod
+        , decodeMoveMetaData
+        , decodeMoveStatAffect
+        , decodeMoveStatAffectSets
+        , decodeMoveStatChange
+        , decodeMoveTarget
+        , decodeName
+        , decodeNamedApiResource
+        , decodeNamedApiResourceList
+        , decodeNature
+        , decodeNaturePokeathlonStatAffect
+        , decodeNaturePokeathlonStatAffectSets
+        , decodeNatureStatAffectSets
+        , decodeNatureStatChange
+        , decodePalParkArea
+        , decodePalParkEncounterArea
+        , decodePalParkEncounterSpecies
+        , decodePastMoveStatValues
+        , decodePokeathlonStat
+        , decodePokedex
+        , decodePokemon
+        , decodePokemonAbility
+        , decodePokemonColor
+        , decodePokemonEncounter
+        , decodePokemonEntry
+        , decodePokemonForm
+        , decodePokemonFormSprites
+        , decodePokemonHabitat
+        , decodePokemonHeldItem
+        , decodePokemonHeldItemVersion
+        , decodePokemonMove
+        , decodePokemonMoveVersion
+        , decodePokemonShape
+        , decodePokemonSpecies
+        , decodePokemonSpeciesDexEntry
+        , decodePokemonSpeciesGender
+        , decodePokemonSpeciesVariety
+        , decodePokemonSprites
+        , decodePokemonStat
+        , decodePokemonType
+        , decodeRegion
+        , decodeStat
+        , decodeSuperContestEffect
+        , decodeType
+        , decodeTypePokemon
+        , decodeTypeRelations
+        , decodeVerboseEffect
+        , decodeVersion
+        , decodeVersionEncounterDetail
+        , decodeVersionGameIndex
+        , decodeVersionGroup
+        , decodeVersionGroupFlavorText
         )
 
-{-| This library is a wrapper for PokeApi (<https://pokeapi.co/>) that provides
-you with concrete types to all the applicable models
+{-| PokeApi decoders
 
 
-# General
+# Decoders
 
-@docs Resource
-
-
-# Lists
-
-Retrieves a list of the specific resource for that function
-
-Example
-
-    -- gets a list of pokemon
-    getPokemon (OnPage 1)
-
-    -- gets a list of berries
-    getBerries (OnPage 1)
-
-@docs getAbilities, getBerries, getBerryFirmnesses, getBerryFlavors,
-getCharacteristics, getContestEffects, getContestTypes, getEggGroups,
-getEncounterConditions, getEncounterConditionValues, getEncounterMethods,
-getEvolutionChains, getEvolutionTriggers, getGenders, getGenerations,
-getGrowthRates, getItems, getItemAttributes, getItemCategories,
-getItemFlingEffects, getItemPockets, getLanguages, getLocations,
-getLocationAreas, getMachines, getMoves, getMoveAilments, getMoveBattleStyles,
-getMoveCategories, getMoveDamageClasses, getMoveLearnMethods, getMoveTargets,
-getNatures, getPalParkAreas, getPokeathlonStats, getPokedexes, getPokemon,
-getPokemonColors, getPokemonForms, getPokemonHabitats, getPokemonShapes,
-getPokemonSpecies, getRegions, getStats, getSuperContestEffects, getTypes,
-getVersions, getVersionGroups
-
-
-# Single Items
-
-Retrieves a single resource of the specific resource for that function
-
-    -- gets the pokemon with name "pikachu"
-    getPokemonBy "pikachu"
-
-    -- gets the berry with id 5
-    getBerryBy "5"
-
-@docs getAbilityBy, getBerryBy, getBerryFirmnessBy,
-getBerryFlavorBy, getCharacteristicBy, getContestEffectBy, getContestTypeBy,
-getEggGroupBy, getEncounterConditionBy, getEncounterConditionValueBy,
-getEncounterMethodBy, getEvolutionChainBy, getEvolutionTriggerBy, getGenderBy,
-getGenerationBy, getGrowthRateBy, getItemBy, getItemAttributeBy,
-getItemCategoryBy, getItemFlingEffectBy, getItemPocketBy, getLanguageBy,
-getLocationBy, getLocationAreaBy, getMachineBy, getMoveBy, getMoveAilmentBy,
-getMoveBattleStyleBy, getMoveCategoryBy, getMoveDamageClassBy,
-getMoveLearnMethodBy, getMoveTargetBy, getNatureBy, getPalParkAreaBy,
-getPokeathlonStatBy, getPokedexBy, getPokemonBy, getPokemonColorBy,
-getPokemonFormBy, getPokemonHabitatBy, getPokemonShapeBy, getPokemonSpeciesBy,
-getRegionBy, getStatBy, getSuperContestEffectBy, getTypeBy, getVersionBy,
-getVersionGroupBy
-
-
-# Models
-
-@docs Ability, AbilityEffectChange, AbilityFlavorText, AbilityPokemon, ApiResource,
-ApiResourceList, AwesomeName, Berry, BerryFirmness, BerryFlavor, BerryFlavorMap,
-ChainLink, Evolutions, Characteristic, ContestComboSets, ContestComboDetail,
-ContestEffect, ContestName, ContestType, Description, Effect, EggGroup,
-Encounter, EncounterCondition, EncounterConditionValue, EncounterMethod,
-EncounterMethodRate, EncounterVersionDetails, EvolutionChain, EvolutionDetail,
-EvolutionTrigger, FlavorBerryMap, FlavorText, Generation, Gender,
-GenerationGameIndex, Genus, GrowthRate, GrowthRateExperienceLevel, Item,
-ItemAttribute, ItemCategory, ItemFlingEffect, ItemHolderPokemon,
-ItemHolderPokemonVersionDetail, ItemPocket, ItemSprites, Language, Location,
-LocationArea, LocationAreaEncounter, Machine, MachineVersionDetail, Move,
-MoveAilment, MoveBattleStyle, MoveBattleStylePreference, MoveCategory,
-MoveDamageClass, MoveFlavorText, MoveLearnMethod, MoveMetaData, MoveStatAffect,
-MoveStatAffectSets, MoveStatChange, MoveTarget, Name, NamedApiResource,
-NamedApiResourceList, Nature, NaturePokeathlonStatAffect,
-NaturePokeathlonStatAffectSets, NatureStatAffectSets, NatureStatChange,
-PalParkArea, PalParkEncounterArea, PalParkEncounterSpecies, PastMoveStatValues,
-PokeathlonStat, Pokedex, Pokemon, PokemonAbility, PokemonColor,
-PokemonEncounter, PokemonEntry, PokemonForm, PokemonFormSprites, PokemonHabitat,
-PokemonHeldItem, PokemonHeldItemVersion, PokemonMove, PokemonMoveVersion,
-PokemonShape, PokemonSpecies, PokemonSpeciesDexEntry, PokemonSpeciesGender,
-PokemonSpeciesVariety, PokemonSprites, PokemonStat, PokemonType, Region, Stat,
-SuperContestEffect, Type, TypePokemon, TypeRelations, VerboseEffect, Version,
-VersionEncounterDetail, VersionGameIndex, VersionGroup,
-VersionGroupFlavorText
+@docs decodeAbility, decodeAbilityEffectChange, decodeAbilityFlavorText,
+decodeAbilityPokemon, decodeApiResource, decodeApiResourceList,
+decodeAwesomeName, decodeBerry, decodeBerryFirmness, decodeBerryFlavor,
+decodeBerryFlavorMap, decodeChainLink, decodeCharacteristic,
+decodeContestComboSets, decodeContestComboDetail, decodeContestEffect,
+decodeContestName, decodeContestType, decodeDescription, decodeEffect,
+decodeEggGroup, decodeEncounter, decodeEncounterCondition,
+decodeEncounterConditionValue, decodeEncounterMethod, decodeEncounterMethodRate,
+decodeEncounterVersionDetails, decodeEvolutionChain, decodeEvolutionDetail,
+decodeEvolutionTrigger, decodeFlavorBerryMap, decodeFlavorText,
+decodeGeneration, decodeGender, decodeGenerationGameIndex, decodeGenus,
+decodeGrowthRate, decodeGrowthRateExperienceLevel, decodeItem,
+decodeItemAttribute, decodeItemCategory, decodeItemFlingEffect,
+decodeItemHolderPokemon, decodeItemHolderPokemonVersionDetail, decodeItemPocket,
+decodeItemSprites, decodeLanguage, decodeLocation, decodeLocationArea,
+decodeLocationAreaEncounter, decodeMachine, decodeMachineVersionDetail,
+decodeMove, decodeMoveAilment, decodeMoveBattleStyle,
+decodeMoveBattleStylePreference, decodeMoveCategory, decodeMoveDamageClass,
+decodeMoveFlavorText, decodeMoveLearnMethod, decodeMoveMetaData,
+decodeMoveStatAffect, decodeMoveStatAffectSets, decodeMoveStatChange,
+decodeMoveTarget, decodeName, decodeNamedApiResource,
+decodeNamedApiResourceList, decodeNature, decodeNaturePokeathlonStatAffect,
+decodeNaturePokeathlonStatAffectSets, decodeNatureStatAffectSets,
+decodeNatureStatChange, decodePalParkArea, decodePalParkEncounterArea,
+decodePalParkEncounterSpecies, decodePastMoveStatValues, decodePokeathlonStat,
+decodePokedex, decodePokemon, decodePokemonAbility, decodePokemonColor,
+decodePokemonEncounter, decodePokemonEntry, decodePokemonForm,
+decodePokemonFormSprites, decodePokemonHabitat, decodePokemonHeldItem,
+decodePokemonHeldItemVersion, decodePokemonMove, decodePokemonMoveVersion,
+decodePokemonShape, decodePokemonSpecies, decodePokemonSpeciesDexEntry,
+decodePokemonSpeciesGender, decodePokemonSpeciesVariety, decodePokemonSprites,
+decodePokemonStat, decodePokemonType, decodeRegion, decodeStat,
+decodeSuperContestEffect, decodeType, decodeTypePokemon, decodeTypeRelations,
+decodeVerboseEffect, decodeVersion, decodeVersionEncounterDetail,
+decodeVersionGameIndex, decodeVersionGroup, decodeVersionGroupFlavorText
+decodeVersionGroupFlavorText
 
 -}
 
-import Http
 import Json.Decode as Decode
     exposing
         ( Decoder
@@ -218,82 +169,7 @@ import Json.Decode as Decode
         , map
         )
 import Json.Decode.Pipeline exposing (decode, required)
-import Task exposing (Task)
-
-
-{-| Resource represents each endpoint available to you on the API
-
-Note that each resource ends with an underscore because the design choice
-was to keep the name of each related model free of the underscore
-
--}
-type Resource
-    = Ability_
-    | Berry_
-    | BerryFirmness_
-    | BerryFlavor_
-    | Characteristic_
-    | ContestEffect_
-    | ContestType_
-    | EggGroup_
-    | EncounterCondition_
-    | EncounterConditionValue_
-    | EncounterMethod_
-    | EvolutionChain_
-    | EvolutionTrigger_
-    | Gender_
-    | Generation_
-    | GrowthRate_
-    | Item_
-    | ItemAttribute_
-    | ItemCategory_
-    | ItemFlingEffect_
-    | ItemPocket_
-    | Language_
-    | Location_
-    | LocationArea_
-    | Machine_
-    | Move_
-    | MoveAilment_
-    | MoveBattleStyle_
-    | MoveCategory_
-    | MoveDamageClass_
-    | MoveLearnMethod_
-    | MoveTarget_
-    | Nature_
-    | PalParkArea_
-    | PokeathlonStat_
-    | Pokedex_
-    | Pokemon_
-    | PokemonColor_
-    | PokemonForm_
-    | PokemonHabitat_
-    | PokemonShape_
-    | PokemonSpecies_
-    | Region_
-    | Stat_
-    | SuperContestEffect_
-    | Type_
-    | Version_
-    | VersionGroup_
-
-
-
--- TYPES & DECODERS
-
-
-{-| -}
-type alias Ability =
-    { id : Int
-    , name : String
-    , isMainSeries : Bool
-    , generation : NamedApiResource
-    , names : List Name
-    , effectEntries : List VerboseEffect
-    , effectChanges : List AbilityEffectChange
-    , flavorTextEntries : List AbilityFlavorText
-    , pokemon : List AbilityPokemon
-    }
+import PokeApi exposing (..)
 
 
 {-| -}
@@ -312,26 +188,11 @@ decodeAbility =
 
 
 {-| -}
-type alias AbilityEffectChange =
-    { effectEntries : List Effect
-    , versionGroup : NamedApiResource
-    }
-
-
-{-| -}
 decodeAbilityEffectChange : Decoder AbilityEffectChange
 decodeAbilityEffectChange =
     decode AbilityEffectChange
         |> required "effect_entries" (list decodeEffect)
         |> required "version_group" decodeNamedApiResource
-
-
-{-| -}
-type alias AbilityFlavorText =
-    { flavorText : String
-    , language : NamedApiResource
-    , versionGroup : NamedApiResource
-    }
 
 
 {-| -}
@@ -344,14 +205,6 @@ decodeAbilityFlavorText =
 
 
 {-| -}
-type alias AbilityPokemon =
-    { isHidden : Bool
-    , slot : Int
-    , pokemon : NamedApiResource
-    }
-
-
-{-| -}
 decodeAbilityPokemon : Decoder AbilityPokemon
 decodeAbilityPokemon =
     decode AbilityPokemon
@@ -361,25 +214,10 @@ decodeAbilityPokemon =
 
 
 {-| -}
-type alias ApiResource =
-    { url : String
-    }
-
-
-{-| -}
 decodeApiResource : Decoder ApiResource
 decodeApiResource =
     decode ApiResource
         |> required "url" string
-
-
-{-| -}
-type alias ApiResourceList =
-    { count : Int
-    , next : Maybe String
-    , previous : Maybe String
-    , results : List ApiResource
-    }
 
 
 {-| -}
@@ -393,35 +231,11 @@ decodeApiResourceList =
 
 
 {-| -}
-type alias AwesomeName =
-    { awesomeName : String
-    , language : NamedApiResource
-    }
-
-
-{-| -}
 decodeAwesomeName : Decoder AwesomeName
 decodeAwesomeName =
     decode AwesomeName
         |> required "awesome_name" string
         |> required "language" decodeNamedApiResource
-
-
-{-| -}
-type alias Berry =
-    { id : Int
-    , name : String
-    , growthTime : Int
-    , maxHarvest : Int
-    , naturalGiftPower : Int
-    , size : Int
-    , smoothness : Int
-    , soilDryness : Int
-    , firmness : NamedApiResource
-    , flavors : List BerryFlavorMap
-    , item : NamedApiResource
-    , naturalGiftType : NamedApiResource
-    }
 
 
 {-| -}
@@ -443,15 +257,6 @@ decodeBerry =
 
 
 {-| -}
-type alias BerryFirmness =
-    { id : Int
-    , name : String
-    , berries : List NamedApiResource
-    , names : List Name
-    }
-
-
-{-| -}
 decodeBerryFirmness : Decoder BerryFirmness
 decodeBerryFirmness =
     decode BerryFirmness
@@ -459,16 +264,6 @@ decodeBerryFirmness =
         |> required "name" string
         |> required "berries" (list decodeNamedApiResource)
         |> required "names" (list decodeName)
-
-
-{-| -}
-type alias BerryFlavor =
-    { id : Int
-    , name : String
-    , berries : List FlavorBerryMap
-    , contestType : NamedApiResource
-    , names : List Name
-    }
 
 
 {-| -}
@@ -483,32 +278,11 @@ decodeBerryFlavor =
 
 
 {-| -}
-type alias BerryFlavorMap =
-    { potency : Int
-    , flavor : NamedApiResource
-    }
-
-
-{-| -}
 decodeBerryFlavorMap : Decoder BerryFlavorMap
 decodeBerryFlavorMap =
     decode BerryFlavorMap
         |> required "potency" int
         |> required "flavor" decodeNamedApiResource
-
-
-{-| -}
-type alias ChainLink =
-    { isBaby : Bool
-    , species : NamedApiResource
-    , evolutionDetails : List EvolutionDetail
-    , evolvesTo : Evolutions
-    }
-
-
-{-| -}
-type Evolutions
-    = Evolutions (List ChainLink)
 
 
 {-| -}
@@ -524,15 +298,6 @@ decodeChainLink =
 
 
 {-| -}
-type alias Characteristic =
-    { id : Int
-    , geneModulo : Int
-    , possibleValues : List Int
-    , descriptions : List Description
-    }
-
-
-{-| -}
 decodeCharacteristic : Decoder Characteristic
 decodeCharacteristic =
     decode Characteristic
@@ -540,13 +305,6 @@ decodeCharacteristic =
         |> required "gene_modulo" int
         |> required "possible_values" (list int)
         |> required "descriptions" (list decodeDescription)
-
-
-{-| -}
-type alias ContestComboSets =
-    { normal : ContestComboDetail
-    , super : ContestComboDetail
-    }
 
 
 {-| -}
@@ -558,28 +316,11 @@ decodeContestComboSets =
 
 
 {-| -}
-type alias ContestComboDetail =
-    { useBefore : Maybe (List NamedApiResource)
-    , useAfter : Maybe (List NamedApiResource)
-    }
-
-
-{-| -}
 decodeContestComboDetail : Decoder ContestComboDetail
 decodeContestComboDetail =
     decode ContestComboDetail
         |> required "use_before" ((maybe << list) decodeNamedApiResource)
         |> required "use_after" ((maybe << list) decodeNamedApiResource)
-
-
-{-| -}
-type alias ContestEffect =
-    { id : Int
-    , appeal : Int
-    , jam : Int
-    , effectEntries : List Effect
-    , flavorTextEntries : List FlavorText
-    }
 
 
 {-| -}
@@ -594,29 +335,12 @@ decodeContestEffect =
 
 
 {-| -}
-type alias ContestName =
-    { name : String
-    , color : String
-    , language : NamedApiResource
-    }
-
-
-{-| -}
 decodeContestName : Decoder ContestName
 decodeContestName =
     decode ContestName
         |> required "name" string
         |> required "color" string
         |> required "language" decodeNamedApiResource
-
-
-{-| -}
-type alias ContestType =
-    { id : Int
-    , name : String
-    , berryFlavor : NamedApiResource
-    , names : List ContestName
-    }
 
 
 {-| -}
@@ -630,25 +354,11 @@ decodeContestType =
 
 
 {-| -}
-type alias Description =
-    { description : String
-    , language : NamedApiResource
-    }
-
-
-{-| -}
 decodeDescription : Decoder Description
 decodeDescription =
     decode Description
         |> required "description" string
         |> required "language" decodeNamedApiResource
-
-
-{-| -}
-type alias Effect =
-    { effect : String
-    , language : NamedApiResource
-    }
 
 
 {-| -}
@@ -660,15 +370,6 @@ decodeEffect =
 
 
 {-| -}
-type alias EggGroup =
-    { id : Int
-    , name : String
-    , names : List Name
-    , pokemonSpecies : List NamedApiResource
-    }
-
-
-{-| -}
 decodeEggGroup : Decoder EggGroup
 decodeEggGroup =
     decode EggGroup
@@ -676,16 +377,6 @@ decodeEggGroup =
         |> required "name" string
         |> required "names" (list decodeName)
         |> required "pokemon_species" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias Encounter =
-    { minLevel : Int
-    , maxLevel : Int
-    , conditionValues : List NamedApiResource
-    , chance : Int
-    , method : NamedApiResource
-    }
 
 
 {-| -}
@@ -700,15 +391,6 @@ decodeEncounter =
 
 
 {-| -}
-type alias EncounterCondition =
-    { id : Int
-    , name : String
-    , names : List Name
-    , values : List NamedApiResource
-    }
-
-
-{-| -}
 decodeEncounterCondition : Decoder EncounterCondition
 decodeEncounterCondition =
     decode EncounterCondition
@@ -716,15 +398,6 @@ decodeEncounterCondition =
         |> required "name" string
         |> required "names" (list decodeName)
         |> required "values" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias EncounterConditionValue =
-    { id : Int
-    , name : String
-    , condition : NamedApiResource
-    , names : List Name
-    }
 
 
 {-| -}
@@ -738,15 +411,6 @@ decodeEncounterConditionValue =
 
 
 {-| -}
-type alias EncounterMethod =
-    { id : Int
-    , name : String
-    , order : Int
-    , names : List Name
-    }
-
-
-{-| -}
 decodeEncounterMethod : Decoder EncounterMethod
 decodeEncounterMethod =
     decode EncounterMethod
@@ -754,13 +418,6 @@ decodeEncounterMethod =
         |> required "name" string
         |> required "order" int
         |> required "names" (list decodeName)
-
-
-{-| -}
-type alias EncounterMethodRate =
-    { encounterMethod : NamedApiResource
-    , versionDetails : List EncounterVersionDetails
-    }
 
 
 {-| -}
@@ -772,26 +429,11 @@ decodeEncounterMethodRate =
 
 
 {-| -}
-type alias EncounterVersionDetails =
-    { rate : Int
-    , version : NamedApiResource
-    }
-
-
-{-| -}
 decodeEncounterVersionDetails : Decoder EncounterVersionDetails
 decodeEncounterVersionDetails =
     decode EncounterVersionDetails
         |> required "rate" int
         |> required "version" decodeNamedApiResource
-
-
-{-| -}
-type alias EvolutionChain =
-    { id : Int
-    , babyTriggerItem : Maybe NamedApiResource
-    , chain : ChainLink
-    }
 
 
 {-| -}
@@ -801,29 +443,6 @@ decodeEvolutionChain =
         |> required "id" int
         |> required "baby_trigger_item" (maybe decodeNamedApiResource)
         |> required "chain" decodeChainLink
-
-
-{-| -}
-type alias EvolutionDetail =
-    { item : Maybe NamedApiResource
-    , trigger : NamedApiResource
-    , gender : Maybe Int
-    , heldItem : Maybe NamedApiResource
-    , knownMove : Maybe NamedApiResource
-    , knownMoveType : Maybe NamedApiResource
-    , location : Maybe NamedApiResource
-    , minLevel : Int
-    , minHappiness : Maybe Int
-    , minBeauty : Maybe Int
-    , minAffection : Maybe Int
-    , needsOverworldRain : Bool
-    , partySpecies : Maybe NamedApiResource
-    , partyType : Maybe NamedApiResource
-    , relativePhysicalStats : Maybe Int
-    , timeOfDay : String
-    , tradeSpecies : Maybe NamedApiResource
-    , turnUpsideDown : Bool
-    }
 
 
 {-| -}
@@ -851,15 +470,6 @@ decodeEvolutionDetail =
 
 
 {-| -}
-type alias EvolutionTrigger =
-    { id : Int
-    , name : String
-    , names : List Name
-    , pokemonSpecies : List NamedApiResource
-    }
-
-
-{-| -}
 decodeEvolutionTrigger : Decoder EvolutionTrigger
 decodeEvolutionTrigger =
     decode EvolutionTrigger
@@ -871,13 +481,6 @@ decodeEvolutionTrigger =
 
 
 {-| -}
-type alias FlavorBerryMap =
-    { potency : Int
-    , berry : NamedApiResource
-    }
-
-
-{-| -}
 decodeFlavorBerryMap : Decoder FlavorBerryMap
 decodeFlavorBerryMap =
     decode FlavorBerryMap
@@ -886,32 +489,11 @@ decodeFlavorBerryMap =
 
 
 {-| -}
-type alias FlavorText =
-    { flavorText : String
-    , language : NamedApiResource
-    }
-
-
-{-| -}
 decodeFlavorText : Decoder FlavorText
 decodeFlavorText =
     decode FlavorText
         |> required "flavor_text" string
         |> required "language" decodeNamedApiResource
-
-
-{-| -}
-type alias Generation =
-    { id : Int
-    , name : String
-    , abilities : List NamedApiResource
-    , names : List Name
-    , mainRegion : NamedApiResource
-    , moves : List NamedApiResource
-    , pokemonSpecies : List NamedApiResource
-    , types : List NamedApiResource
-    , versionGroups : List NamedApiResource
-    }
 
 
 {-| -}
@@ -935,15 +517,6 @@ decodeGeneration =
 
 
 {-| -}
-type alias Gender =
-    { id : Int
-    , name : String
-    , pokemonSpeciesDetails : List PokemonSpeciesGender
-    , requiredForEvolution : List NamedApiResource
-    }
-
-
-{-| -}
 decodeGender : Decoder Gender
 decodeGender =
     decode Gender
@@ -951,13 +524,6 @@ decodeGender =
         |> required "name" string
         |> required "pokemon_species_details" (list decodePokemonSpeciesGender)
         |> required "required_for_evolution" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias GenerationGameIndex =
-    { gameIndex : Int
-    , generation : NamedApiResource
-    }
 
 
 {-| -}
@@ -969,29 +535,11 @@ decodeGenerationGameIndex =
 
 
 {-| -}
-type alias Genus =
-    { genus : String
-    , language : NamedApiResource
-    }
-
-
-{-| -}
 decodeGenus : Decoder Genus
 decodeGenus =
     decode Genus
         |> required "genus" string
         |> required "language" decodeNamedApiResource
-
-
-{-| -}
-type alias GrowthRate =
-    { id : Int
-    , name : String
-    , formula : String
-    , descriptions : List Description
-    , levels : List GrowthRateExperienceLevel
-    , pokemonSpecies : List NamedApiResource
-    }
 
 
 {-| -}
@@ -1007,38 +555,11 @@ decodeGrowthRate =
 
 
 {-| -}
-type alias GrowthRateExperienceLevel =
-    { level : Int
-    , experience : Int
-    }
-
-
-{-| -}
 decodeGrowthRateExperienceLevel : Decoder GrowthRateExperienceLevel
 decodeGrowthRateExperienceLevel =
     decode GrowthRateExperienceLevel
         |> required "level" int
         |> required "experience" int
-
-
-{-| -}
-type alias Item =
-    { id : Int
-    , name : String
-    , cost : Int
-    , flingPower : Maybe Int
-    , flingEffect : Maybe NamedApiResource
-    , attributes : List NamedApiResource
-    , category : NamedApiResource
-    , effectEntries : List VerboseEffect
-    , flavorTextEntries : List VersionGroupFlavorText
-    , gameIndicies : List GenerationGameIndex
-    , names : List Name
-    , sprites : ItemSprites
-    , heldByPokemon : List ItemHolderPokemon
-    , babyTriggerFor : Maybe ApiResource
-    , machines : List MachineVersionDetail
-    }
 
 
 {-| -}
@@ -1063,16 +584,6 @@ decodeItem =
 
 
 {-| -}
-type alias ItemAttribute =
-    { id : Int
-    , name : String
-    , items : List NamedApiResource
-    , names : List Name
-    , descriptions : List Description
-    }
-
-
-{-| -}
 decodeItemAttribute : Decoder ItemAttribute
 decodeItemAttribute =
     decode ItemAttribute
@@ -1081,16 +592,6 @@ decodeItemAttribute =
         |> required "items" (list decodeNamedApiResource)
         |> required "names" (list decodeName)
         |> required "descriptions" (list decodeDescription)
-
-
-{-| -}
-type alias ItemCategory =
-    { id : Int
-    , name : String
-    , items : List NamedApiResource
-    , names : List Name
-    , pocket : NamedApiResource
-    }
 
 
 {-| -}
@@ -1105,15 +606,6 @@ decodeItemCategory =
 
 
 {-| -}
-type alias ItemFlingEffect =
-    { id : Int
-    , name : String
-    , effectEntries : List Effect
-    , items : List NamedApiResource
-    }
-
-
-{-| -}
 decodeItemFlingEffect : Decoder ItemFlingEffect
 decodeItemFlingEffect =
     decode ItemFlingEffect
@@ -1121,13 +613,6 @@ decodeItemFlingEffect =
         |> required "name" string
         |> required "effect_entries" (list decodeEffect)
         |> required "items" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias ItemHolderPokemon =
-    { pokemon : String
-    , versionDetails : List ItemHolderPokemonVersionDetail
-    }
 
 
 {-| -}
@@ -1139,27 +624,11 @@ decodeItemHolderPokemon =
 
 
 {-| -}
-type alias ItemHolderPokemonVersionDetail =
-    { rarity : String
-    , version : NamedApiResource
-    }
-
-
-{-| -}
 decodeItemHolderPokemonVersionDetail : Decoder ItemHolderPokemonVersionDetail
 decodeItemHolderPokemonVersionDetail =
     decode ItemHolderPokemonVersionDetail
         |> required "rarity" string
         |> required "version" decodeNamedApiResource
-
-
-{-| -}
-type alias ItemPocket =
-    { id : Int
-    , name : String
-    , categories : List NamedApiResource
-    , names : List Name
-    }
 
 
 {-| -}
@@ -1173,27 +642,10 @@ decodeItemPocket =
 
 
 {-| -}
-type alias ItemSprites =
-    { default : String
-    }
-
-
-{-| -}
 decodeItemSprites : Decoder ItemSprites
 decodeItemSprites =
     decode ItemSprites
         |> required "default" string
-
-
-{-| -}
-type alias Language =
-    { id : Int
-    , name : String
-    , official : Bool
-    , iso639 : String
-    , iso3166 : String
-    , names : List Name
-    }
 
 
 {-| -}
@@ -1209,17 +661,6 @@ decodeLanguage =
 
 
 {-| -}
-type alias Location =
-    { id : Int
-    , name : String
-    , region : NamedApiResource
-    , names : List Name
-    , gameIndices : List GenerationGameIndex
-    , areas : List NamedApiResource
-    }
-
-
-{-| -}
 decodeLocation : Decoder Location
 decodeLocation =
     decode Location
@@ -1229,18 +670,6 @@ decodeLocation =
         |> required "names" (list decodeName)
         |> required "game_indices" (list decodeGenerationGameIndex)
         |> required "areas" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias LocationArea =
-    { id : Int
-    , name : String
-    , gameIndex : Int
-    , encounterMethodRates : List EncounterMethodRate
-    , location : NamedApiResource
-    , names : List Name
-    , pokemonEncounters : List PokemonEncounter
-    }
 
 
 {-| -}
@@ -1257,27 +686,11 @@ decodeLocationArea =
 
 
 {-| -}
-type alias LocationAreaEncounter =
-    { locationArea : NamedApiResource
-    , versionDetails : List VersionEncounterDetail
-    }
-
-
-{-| -}
 decodeLocationAreaEncounter : Decoder LocationAreaEncounter
 decodeLocationAreaEncounter =
     decode LocationAreaEncounter
         |> required "location_area" decodeNamedApiResource
         |> required "version_details" (list decodeVersionEncounterDetail)
-
-
-{-| -}
-type alias Machine =
-    { id : Int
-    , item : NamedApiResource
-    , move : NamedApiResource
-    , versionGroup : NamedApiResource
-    }
 
 
 {-| -}
@@ -1291,46 +704,11 @@ decodeMachine =
 
 
 {-| -}
-type alias MachineVersionDetail =
-    { machine : ApiResource
-    , versionGroup : NamedApiResource
-    }
-
-
-{-| -}
 decodeMachineVersionDetail : Decoder MachineVersionDetail
 decodeMachineVersionDetail =
     decode MachineVersionDetail
         |> required "machine" decodeApiResource
         |> required "version_group" decodeNamedApiResource
-
-
-{-| -}
-type alias Move =
-    { id : Int
-    , name : String
-    , accuracy : Int
-    , effectChance : Maybe Int
-    , pp : Int
-    , priority : Int
-    , power : Int
-    , contestCombos : ContestComboSets
-    , contestType : NamedApiResource
-    , contestEffect : ApiResource
-    , damageClass : NamedApiResource
-    , effectEntries : List VerboseEffect
-    , effectChanges : List AbilityEffectChange
-    , flavorTextEntries : List MoveFlavorText
-    , generation : NamedApiResource
-    , machines : List MachineVersionDetail
-    , meta : MoveMetaData
-    , names : List Name
-    , pastValues : List PastMoveStatValues
-    , statChanges : List MoveStatChange
-    , superContestEffect : ApiResource
-    , target : NamedApiResource
-    , type_ : NamedApiResource
-    }
 
 
 {-| -}
@@ -1363,15 +741,6 @@ decodeMove =
 
 
 {-| -}
-type alias MoveAilment =
-    { id : Int
-    , name : String
-    , moves : List NamedApiResource
-    , names : List Name
-    }
-
-
-{-| -}
 decodeMoveAilment : Decoder MoveAilment
 decodeMoveAilment =
     decode MoveAilment
@@ -1379,14 +748,6 @@ decodeMoveAilment =
         |> required "name" string
         |> required "moves" (list decodeNamedApiResource)
         |> required "names" (list decodeName)
-
-
-{-| -}
-type alias MoveBattleStyle =
-    { id : Int
-    , name : String
-    , names : List Name
-    }
 
 
 {-| -}
@@ -1399,29 +760,12 @@ decodeMoveBattleStyle =
 
 
 {-| -}
-type alias MoveBattleStylePreference =
-    { lowHpPreference : Int
-    , highHpPreference : Int
-    , moveBattleStyle : NamedApiResource
-    }
-
-
-{-| -}
 decodeMoveBattleStylePreference : Decoder MoveBattleStylePreference
 decodeMoveBattleStylePreference =
     decode MoveBattleStylePreference
         |> required "low_hp_preference" int
         |> required "high_hp_preference" int
         |> required "move_battle_style" decodeNamedApiResource
-
-
-{-| -}
-type alias MoveCategory =
-    { id : Int
-    , name : String
-    , moves : List NamedApiResource
-    , descriptions : List Description
-    }
 
 
 {-| -}
@@ -1432,16 +776,6 @@ decodeMoveCategory =
         |> required "name" string
         |> required "moves" (list decodeNamedApiResource)
         |> required "descriptions" (list decodeDescription)
-
-
-{-| -}
-type alias MoveDamageClass =
-    { id : Int
-    , name : String
-    , descriptions : List Description
-    , moves : List NamedApiResource
-    , names : List Name
-    }
 
 
 {-| -}
@@ -1456,30 +790,12 @@ decodeMoveDamageClass =
 
 
 {-| -}
-type alias MoveFlavorText =
-    { flavorText : String
-    , language : NamedApiResource
-    , versionGroup : NamedApiResource
-    }
-
-
-{-| -}
 decodeMoveFlavorText : Decoder MoveFlavorText
 decodeMoveFlavorText =
     decode MoveFlavorText
         |> required "flavor_text" string
         |> required "language" decodeNamedApiResource
         |> required "version_group" decodeNamedApiResource
-
-
-{-| -}
-type alias MoveLearnMethod =
-    { id : Int
-    , name : String
-    , descriptions : List Description
-    , names : List Name
-    , versionGroups : List NamedApiResource
-    }
 
 
 {-| -}
@@ -1491,23 +807,6 @@ decodeMoveLearnMethod =
         |> required "descriptions" (list decodeDescription)
         |> required "names" (list decodeName)
         |> required "version_groups" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias MoveMetaData =
-    { ailment : NamedApiResource
-    , category : NamedApiResource
-    , minHits : Maybe Int
-    , maxHits : Maybe Int
-    , minTurns : Maybe Int
-    , maxTurns : Maybe Int
-    , drain : Int
-    , healing : Int
-    , critRate : Int
-    , ailmentChance : Int
-    , flinchChance : Int
-    , statChance : Int
-    }
 
 
 {-| -}
@@ -1529,25 +828,11 @@ decodeMoveMetaData =
 
 
 {-| -}
-type alias MoveStatAffect =
-    { change : Int
-    , move : NamedApiResource
-    }
-
-
-{-| -}
 decodeMoveStatAffect : Decoder MoveStatAffect
 decodeMoveStatAffect =
     decode MoveStatAffect
         |> required "change" int
         |> required "move" decodeNamedApiResource
-
-
-{-| -}
-type alias MoveStatAffectSets =
-    { increase : List MoveStatAffect
-    , decrease : List MoveStatAffect
-    }
 
 
 {-| -}
@@ -1559,28 +844,11 @@ decodeMoveStatAffectSets =
 
 
 {-| -}
-type alias MoveStatChange =
-    { change : Int
-    , stat : NamedApiResource
-    }
-
-
-{-| -}
 decodeMoveStatChange : Decoder MoveStatChange
 decodeMoveStatChange =
     decode MoveStatChange
         |> required "change" int
         |> required "stat" decodeNamedApiResource
-
-
-{-| -}
-type alias MoveTarget =
-    { id : Int
-    , name : String
-    , descriptions : List Description
-    , moves : List NamedApiResource
-    , names : List Name
-    }
 
 
 {-| -}
@@ -1595,25 +863,11 @@ decodeMoveTarget =
 
 
 {-| -}
-type alias Name =
-    { name : String
-    , language : NamedApiResource
-    }
-
-
-{-| -}
 decodeName : Decoder Name
 decodeName =
     decode Name
         |> required "name" string
         |> required "language" decodeNamedApiResource
-
-
-{-| -}
-type alias NamedApiResource =
-    { name : String
-    , url : String
-    }
 
 
 {-| -}
@@ -1625,15 +879,6 @@ decodeNamedApiResource =
 
 
 {-| -}
-type alias NamedApiResourceList =
-    { count : Int
-    , next : Maybe String
-    , previous : Maybe String
-    , results : List NamedApiResource
-    }
-
-
-{-| -}
 decodeNamedApiResourceList : Decoder NamedApiResourceList
 decodeNamedApiResourceList =
     decode NamedApiResourceList
@@ -1641,20 +886,6 @@ decodeNamedApiResourceList =
         |> required "next" (maybe string)
         |> required "previous" (maybe string)
         |> required "results" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias Nature =
-    { id : Int
-    , name : String
-    , decreasedStat : Maybe NamedApiResource
-    , increasedStat : Maybe NamedApiResource
-    , hatesFlavor : Maybe NamedApiResource
-    , likesFlavor : Maybe NamedApiResource
-    , pokeathlonStatChanges : List NatureStatChange
-    , moveBattleStylePreferences : List MoveBattleStylePreference
-    , names : List Name
-    }
 
 
 {-| -}
@@ -1673,25 +904,11 @@ decodeNature =
 
 
 {-| -}
-type alias NaturePokeathlonStatAffect =
-    { maxChange : Int
-    , nature : NamedApiResource
-    }
-
-
-{-| -}
 decodeNaturePokeathlonStatAffect : Decoder NaturePokeathlonStatAffect
 decodeNaturePokeathlonStatAffect =
     decode NaturePokeathlonStatAffect
         |> required "max_change" int
         |> required "nature" decodeNamedApiResource
-
-
-{-| -}
-type alias NaturePokeathlonStatAffectSets =
-    { increase : List NaturePokeathlonStatAffect
-    , decrease : List NaturePokeathlonStatAffect
-    }
 
 
 {-| -}
@@ -1703,13 +920,6 @@ decodeNaturePokeathlonStatAffectSets =
 
 
 {-| -}
-type alias NatureStatAffectSets =
-    { increase : List NamedApiResource
-    , decrease : List NamedApiResource
-    }
-
-
-{-| -}
 decodeNatureStatAffectSets : Decoder NatureStatAffectSets
 decodeNatureStatAffectSets =
     decode NatureStatAffectSets
@@ -1718,27 +928,11 @@ decodeNatureStatAffectSets =
 
 
 {-| -}
-type alias NatureStatChange =
-    { maxChange : Int
-    , pokeathlonStat : NamedApiResource
-    }
-
-
-{-| -}
 decodeNatureStatChange : Decoder NatureStatChange
 decodeNatureStatChange =
     decode NatureStatChange
         |> required "max_change" int
         |> required "pokeathlon_stat" decodeNamedApiResource
-
-
-{-| -}
-type alias PalParkArea =
-    { id : Int
-    , name : String
-    , names : List Name
-    , pokemonEncounters : List PalParkEncounterSpecies
-    }
 
 
 {-| -}
@@ -1752,14 +946,6 @@ decodePalParkArea =
 
 
 {-| -}
-type alias PalParkEncounterArea =
-    { baseScore : Int
-    , rate : Int
-    , area : NamedApiResource
-    }
-
-
-{-| -}
 decodePalParkEncounterArea : Decoder PalParkEncounterArea
 decodePalParkEncounterArea =
     decode PalParkEncounterArea
@@ -1769,32 +955,12 @@ decodePalParkEncounterArea =
 
 
 {-| -}
-type alias PalParkEncounterSpecies =
-    { baseScore : Int
-    , rate : Int
-    , pokemonSpecies : NamedApiResource
-    }
-
-
-{-| -}
 decodePalParkEncounterSpecies : Decoder PalParkEncounterSpecies
 decodePalParkEncounterSpecies =
     decode PalParkEncounterSpecies
         |> required "base_score" int
         |> required "rate" int
         |> required "pokemon_species" decodeNamedApiResource
-
-
-{-| -}
-type alias PastMoveStatValues =
-    { accuracy : Int
-    , effectChance : Int
-    , power : Int
-    , pp : Int
-    , effectEntries : List VerboseEffect
-    , type_ : NamedApiResource
-    , versionGroup : NamedApiResource
-    }
 
 
 {-| -}
@@ -1811,15 +977,6 @@ decodePastMoveStatValues =
 
 
 {-| -}
-type alias PokeathlonStat =
-    { id : Int
-    , name : String
-    , names : List Name
-    , affectingNatures : NaturePokeathlonStatAffectSets
-    }
-
-
-{-| -}
 decodePokeathlonStat : Decoder PokeathlonStat
 decodePokeathlonStat =
     decode PokeathlonStat
@@ -1827,19 +984,6 @@ decodePokeathlonStat =
         |> required "name" string
         |> required "names" (list decodeName)
         |> required "affecting_natures" decodeNaturePokeathlonStatAffectSets
-
-
-{-| -}
-type alias Pokedex =
-    { id : Int
-    , name : String
-    , isMainSeries : Bool
-    , descriptions : List Description
-    , names : List Name
-    , pokemonEntries : List PokemonEntry
-    , region : Maybe NamedApiResource
-    , versionGroups : List NamedApiResource
-    }
 
 
 {-| -}
@@ -1855,28 +999,6 @@ decodePokedex =
         |> required "region" (maybe decodeNamedApiResource)
         |> required "version_groups"
             (list decodeNamedApiResource)
-
-
-{-| -}
-type alias Pokemon =
-    { id : Int
-    , name : String
-    , baseExperience : Int
-    , height : Int
-    , isDefault : Bool
-    , order : Int
-    , weight : Int
-    , locationAreaEncounters : String
-    , abilities : List PokemonAbility
-    , forms : List NamedApiResource
-    , moves : List PokemonMove
-    , sprites : PokemonSprites
-    , stats : List PokemonStat
-    , heldItems : List PokemonHeldItem
-    , species : NamedApiResource
-    , gameIndices : List VersionGameIndex
-    , types : List PokemonType
-    }
 
 
 {-| -}
@@ -1903,29 +1025,12 @@ decodePokemon =
 
 
 {-| -}
-type alias PokemonAbility =
-    { slot : Int
-    , isHidden : Bool
-    , ability : NamedApiResource
-    }
-
-
-{-| -}
 decodePokemonAbility : Decoder PokemonAbility
 decodePokemonAbility =
     decode PokemonAbility
         |> required "slot" int
         |> required "is_hidden" bool
         |> required "ability" decodeNamedApiResource
-
-
-{-| -}
-type alias PokemonColor =
-    { id : Int
-    , name : String
-    , names : List Name
-    , pokemonSpecies : List NamedApiResource
-    }
 
 
 {-| -}
@@ -1939,13 +1044,6 @@ decodePokemonColor =
 
 
 {-| -}
-type alias PokemonEncounter =
-    { pokemon : NamedApiResource
-    , versionDetails : List VersionEncounterDetail
-    }
-
-
-{-| -}
 decodePokemonEncounter : Decoder PokemonEncounter
 decodePokemonEncounter =
     decode PokemonEncounter
@@ -1954,36 +1052,11 @@ decodePokemonEncounter =
 
 
 {-| -}
-type alias PokemonEntry =
-    { entryNumber : Int
-    , pokemonSpecies : NamedApiResource
-    }
-
-
-{-| -}
 decodePokemonEntry : Decoder PokemonEntry
 decodePokemonEntry =
     decode PokemonEntry
         |> required "entry_number" int
         |> required "pokemon_species" decodeNamedApiResource
-
-
-{-| -}
-type alias PokemonForm =
-    { id : Int
-    , name : String
-    , order : Int
-    , formOrder : Int
-    , isDefault : Bool
-    , isBattleOnly : Bool
-    , isMega : Bool
-    , formName : String
-    , pokemon : NamedApiResource
-    , sprites : PokemonFormSprites
-    , versionGroup : NamedApiResource
-    , names : List Name
-    , formNames : List Name
-    }
 
 
 {-| -}
@@ -2006,15 +1079,6 @@ decodePokemonForm =
 
 
 {-| -}
-type alias PokemonFormSprites =
-    { frontDefault : String
-    , frontShiny : String
-    , backDefault : String
-    , backShiny : String
-    }
-
-
-{-| -}
 decodePokemonFormSprites : Decoder PokemonFormSprites
 decodePokemonFormSprites =
     decode PokemonFormSprites
@@ -2022,15 +1086,6 @@ decodePokemonFormSprites =
         |> required "front_shiny" string
         |> required "back_default" string
         |> required "back_shiny" string
-
-
-{-| -}
-type alias PokemonHabitat =
-    { id : Int
-    , name : String
-    , names : List Name
-    , pokemonSpecies : List NamedApiResource
-    }
 
 
 {-| -}
@@ -2044,13 +1099,6 @@ decodePokemonHabitat =
 
 
 {-| -}
-type alias PokemonHeldItem =
-    { item : NamedApiResource
-    , versionDetails : List PokemonHeldItemVersion
-    }
-
-
-{-| -}
 decodePokemonHeldItem : Decoder PokemonHeldItem
 decodePokemonHeldItem =
     decode PokemonHeldItem
@@ -2060,25 +1108,11 @@ decodePokemonHeldItem =
 
 
 {-| -}
-type alias PokemonHeldItemVersion =
-    { version : NamedApiResource
-    , rarity : Int
-    }
-
-
-{-| -}
 decodePokemonHeldItemVersion : Decoder PokemonHeldItemVersion
 decodePokemonHeldItemVersion =
     decode PokemonHeldItemVersion
         |> required "version" decodeNamedApiResource
         |> required "rarity" int
-
-
-{-| -}
-type alias PokemonMove =
-    { move : NamedApiResource
-    , versionGroupDetails : List PokemonMoveVersion
-    }
 
 
 {-| -}
@@ -2091,30 +1125,12 @@ decodePokemonMove =
 
 
 {-| -}
-type alias PokemonMoveVersion =
-    { moveLearnMethod : NamedApiResource
-    , versionGroup : NamedApiResource
-    , levelLearnedAt : Int
-    }
-
-
-{-| -}
 decodePokemonMoveVersion : Decoder PokemonMoveVersion
 decodePokemonMoveVersion =
     decode PokemonMoveVersion
         |> required "move_learn_method" decodeNamedApiResource
         |> required "version_group" decodeNamedApiResource
         |> required "level_learned_at" int
-
-
-{-| -}
-type alias PokemonShape =
-    { id : Int
-    , name : String
-    , awesomeNames : List AwesomeName
-    , names : List Name
-    , pokemonSpecies : List NamedApiResource
-    }
 
 
 {-| -}
@@ -2126,36 +1142,6 @@ decodePokemonShape =
         |> required "awesome_names" (list decodeAwesomeName)
         |> required "names" (list decodeName)
         |> required "pokemon_species" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias PokemonSpecies =
-    { id : Int
-    , name : String
-    , order : Int
-    , genderRate : Int
-    , captureRate : Int
-    , baseHappiness : Int
-    , isBaby : Bool
-    , hatchCounter : Int
-    , hasGenderDifferences : Bool
-    , formsSwitchable : Bool
-    , growthRate : NamedApiResource
-    , pokedexNumbers : List PokemonSpeciesDexEntry
-    , eggGroups : List NamedApiResource
-    , color : NamedApiResource
-    , shape : NamedApiResource
-    , evolvesFromSpecies : Maybe NamedApiResource
-    , evolutionChain : ApiResource
-    , habitat : NamedApiResource
-    , generation : NamedApiResource
-    , names : List Name
-    , palParkEncounters : List PalParkEncounterArea
-    , flavorTextEntries : List FlavorText
-    , formDescription : List Description
-    , genera : List Genus
-    , varieties : List PokemonSpeciesVariety
-    }
 
 
 {-| -}
@@ -2190,25 +1176,11 @@ decodePokemonSpecies =
 
 
 {-| -}
-type alias PokemonSpeciesDexEntry =
-    { entryNumber : Int
-    , pokedex : NamedApiResource
-    }
-
-
-{-| -}
 decodePokemonSpeciesDexEntry : Decoder PokemonSpeciesDexEntry
 decodePokemonSpeciesDexEntry =
     decode PokemonSpeciesDexEntry
         |> required "entry_number" int
         |> required "pokedex" decodeNamedApiResource
-
-
-{-| -}
-type alias PokemonSpeciesGender =
-    { rate : Int
-    , pokemonSpecies : NamedApiResource
-    }
 
 
 {-| -}
@@ -2220,31 +1192,11 @@ decodePokemonSpeciesGender =
 
 
 {-| -}
-type alias PokemonSpeciesVariety =
-    { isDefault : Bool
-    , pokemon : NamedApiResource
-    }
-
-
-{-| -}
 decodePokemonSpeciesVariety : Decoder PokemonSpeciesVariety
 decodePokemonSpeciesVariety =
     decode PokemonSpeciesVariety
         |> required "is_default" bool
         |> required "pokemon" decodeNamedApiResource
-
-
-{-| -}
-type alias PokemonSprites =
-    { frontDefault : Maybe String
-    , frontShiny : Maybe String
-    , frontFemale : Maybe String
-    , frontShinyFemale : Maybe String
-    , backDefault : Maybe String
-    , backShiny : Maybe String
-    , backFemale : Maybe String
-    , backShinyFemale : Maybe String
-    }
 
 
 {-| -}
@@ -2262,14 +1214,6 @@ decodePokemonSprites =
 
 
 {-| -}
-type alias PokemonStat =
-    { effort : Int
-    , baseStat : Int
-    , stat : NamedApiResource
-    }
-
-
-{-| -}
 decodePokemonStat : Decoder PokemonStat
 decodePokemonStat =
     decode PokemonStat
@@ -2279,30 +1223,11 @@ decodePokemonStat =
 
 
 {-| -}
-type alias PokemonType =
-    { slot : Int
-    , type_ : NamedApiResource
-    }
-
-
-{-| -}
 decodePokemonType : Decoder PokemonType
 decodePokemonType =
     decode PokemonType
         |> required "slot" int
         |> required "type" decodeNamedApiResource
-
-
-{-| -}
-type alias Region =
-    { id : Int
-    , name : String
-    , locations : List NamedApiResource
-    , mainGeneration : NamedApiResource
-    , names : List Name
-    , pokedexes : List NamedApiResource
-    , versionGroups : List NamedApiResource
-    }
 
 
 {-| -}
@@ -2316,20 +1241,6 @@ decodeRegion =
         |> required "names" (list decodeName)
         |> required "pokedexes" (list decodeNamedApiResource)
         |> required "version_groups" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias Stat =
-    { id : Int
-    , name : String
-    , gameIndex : Int
-    , isBattleOnly : Bool
-    , affectingMoves : MoveStatAffectSets
-    , affectingNatures : NatureStatAffectSets
-    , characteristics : List ApiResource
-    , moveDamageClass : Maybe NamedApiResource
-    , names : List Name
-    }
 
 
 {-| -}
@@ -2348,15 +1259,6 @@ decodeStat =
 
 
 {-| -}
-type alias SuperContestEffect =
-    { id : Int
-    , appeal : Int
-    , flavorTextEntries : List FlavorText
-    , moves : List NamedApiResource
-    }
-
-
-{-| -}
 decodeSuperContestEffect : Decoder SuperContestEffect
 decodeSuperContestEffect =
     decode SuperContestEffect
@@ -2364,20 +1266,6 @@ decodeSuperContestEffect =
         |> required "appeal" int
         |> required "flavor_text_entries" (list decodeFlavorText)
         |> required "moves" (list decodeNamedApiResource)
-
-
-{-| -}
-type alias Type =
-    { id : Int
-    , name : String
-    , damageRelations : TypeRelations
-    , gameIndices : List GenerationGameIndex
-    , generation : NamedApiResource
-    , moveDamageClass : NamedApiResource
-    , names : List Name
-    , pokemon : List TypePokemon
-    , moves : List NamedApiResource
-    }
 
 
 {-| -}
@@ -2396,29 +1284,11 @@ decodeType =
 
 
 {-| -}
-type alias TypePokemon =
-    { slot : Int
-    , pokemon : NamedApiResource
-    }
-
-
-{-| -}
 decodeTypePokemon : Decoder TypePokemon
 decodeTypePokemon =
     decode TypePokemon
         |> required "slot" int
         |> required "pokemon" decodeNamedApiResource
-
-
-{-| -}
-type alias TypeRelations =
-    { noDamageTo : List NamedApiResource
-    , halfDamageTo : List NamedApiResource
-    , doubleDamageTo : List NamedApiResource
-    , noDamageFrom : List NamedApiResource
-    , halfDamageFrom : List NamedApiResource
-    , doubleDamageFrom : List NamedApiResource
-    }
 
 
 {-| -}
@@ -2434,29 +1304,12 @@ decodeTypeRelations =
 
 
 {-| -}
-type alias VerboseEffect =
-    { effect : String
-    , shortEffect : String
-    , language : NamedApiResource
-    }
-
-
-{-| -}
 decodeVerboseEffect : Decoder VerboseEffect
 decodeVerboseEffect =
     decode VerboseEffect
         |> required "effect" string
         |> required "short_effect" string
         |> required "language" decodeNamedApiResource
-
-
-{-| -}
-type alias Version =
-    { id : Int
-    , name : String
-    , names : List Name
-    , versionGroup : NamedApiResource
-    }
 
 
 {-| -}
@@ -2470,14 +1323,6 @@ decodeVersion =
 
 
 {-| -}
-type alias VersionEncounterDetail =
-    { version : NamedApiResource
-    , maxChance : Int
-    , encounterDetails : List Encounter
-    }
-
-
-{-| -}
 decodeVersionEncounterDetail : Decoder VersionEncounterDetail
 decodeVersionEncounterDetail =
     decode VersionEncounterDetail
@@ -2487,31 +1332,11 @@ decodeVersionEncounterDetail =
 
 
 {-| -}
-type alias VersionGameIndex =
-    { gameIndex : Int
-    , version : NamedApiResource
-    }
-
-
-{-| -}
 decodeVersionGameIndex : Decoder VersionGameIndex
 decodeVersionGameIndex =
     decode VersionGameIndex
         |> required "game_index" int
         |> required "version" decodeNamedApiResource
-
-
-{-| -}
-type alias VersionGroup =
-    { id : Int
-    , name : String
-    , order : Int
-    , generation : NamedApiResource
-    , moveLearnMethods : List NamedApiResource
-    , pokedexes : List NamedApiResource
-    , regions : List NamedApiResource
-    , versions : List NamedApiResource
-    }
 
 
 {-| -}
@@ -2530,14 +1355,6 @@ decodeVersionGroup =
             (list decodeNamedApiResource)
         |> required "versions"
             (list decodeNamedApiResource)
-
-
-{-| -}
-type alias VersionGroupFlavorText =
-    { text : String
-    , language : NamedApiResource
-    , versionGroup : NamedApiResource
-    }
 
 
 {-| -}
