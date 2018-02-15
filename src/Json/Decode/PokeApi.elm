@@ -215,7 +215,7 @@ decodeApiResource : Decoder ApiResource
 decodeApiResource =
     decode ApiResource
         |> optional "name" string ""
-        |> required "url" string
+        |> required "url" (map ApiUrl string)
 
 
 {-| -}

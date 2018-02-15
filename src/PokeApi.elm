@@ -7,6 +7,7 @@ module PokeApi
         , AbilityPokemon
         , ApiResource
         , ApiResourceList
+        , ApiUrl(..)
         , AwesomeName
         , Berry
         , BerryFirmness
@@ -119,61 +120,10 @@ you with concrete types to all the applicable models
 
 # General
 
-@docs Resource
+@docs ApiUrl, Resource
 
 
-# Lists
-
-Retrieves a list of the specific resource for that function
-
-Example
-
-    -- gets a list of pokemon
-    getPokemon (OnPage 1)
-
-    -- gets a list of berries
-    getBerries (OnPage 1)
-
-@docs getAbilities, getBerries, getBerryFirmnesses, getBerryFlavors,
-getCharacteristics, getContestEffects, getContestTypes, getEggGroups,
-getEncounterConditions, getEncounterConditionValues, getEncounterMethods,
-getEvolutionChains, getEvolutionTriggers, getGenders, getGenerations,
-getGrowthRates, getItems, getItemAttributes, getItemCategories,
-getItemFlingEffects, getItemPockets, getLanguages, getLocations,
-getLocationAreas, getMachines, getMoves, getMoveAilments, getMoveBattleStyles,
-getMoveCategories, getMoveDamageClasses, getMoveLearnMethods, getMoveTargets,
-getNatures, getPalParkAreas, getPokeathlonStats, getPokedexes, getPokemon,
-getPokemonColors, getPokemonForms, getPokemonHabitats, getPokemonShapes,
-getPokemonSpecies, getRegions, getStats, getSuperContestEffects, getTypes,
-getVersions, getVersionGroups
-
-
-# Single Items
-
-Retrieves a single resource of the specific resource for that function
-
-    -- gets the pokemon with name "pikachu"
-    getPokemonBy "pikachu"
-
-    -- gets the berry with id 5
-    getBerryBy "5"
-
-@docs getAbilityBy, getBerryBy, getBerryFirmnessBy,
-getBerryFlavorBy, getCharacteristicBy, getContestEffectBy, getContestTypeBy,
-getEggGroupBy, getEncounterConditionBy, getEncounterConditionValueBy,
-getEncounterMethodBy, getEvolutionChainBy, getEvolutionTriggerBy, getGenderBy,
-getGenerationBy, getGrowthRateBy, getItemBy, getItemAttributeBy,
-getItemCategoryBy, getItemFlingEffectBy, getItemPocketBy, getLanguageBy,
-getLocationBy, getLocationAreaBy, getMachineBy, getMoveBy, getMoveAilmentBy,
-getMoveBattleStyleBy, getMoveCategoryBy, getMoveDamageClassBy,
-getMoveLearnMethodBy, getMoveTargetBy, getNatureBy, getPalParkAreaBy,
-getPokeathlonStatBy, getPokedexBy, getPokemonBy, getPokemonColorBy,
-getPokemonFormBy, getPokemonHabitatBy, getPokemonShapeBy, getPokemonSpeciesBy,
-getRegionBy, getStatBy, getSuperContestEffectBy, getTypeBy, getVersionBy,
-getVersionGroupBy
-
-
-# Models
+# Poke API Models
 
 @docs Ability, AbilityEffectChange, AbilityFlavorText, AbilityPokemon, ApiResource,
 ApiResourceList, AwesomeName, Berry, BerryFirmness, BerryFlavor, BerryFlavorMap,
@@ -261,6 +211,11 @@ type Resource
 
 
 {-| -}
+type ApiUrl
+    = ApiUrl String
+
+
+{-| -}
 type alias Ability =
     { id : Int
     , name : String
@@ -300,7 +255,7 @@ type alias AbilityPokemon =
 {-| -}
 type alias ApiResource =
     { name : String
-    , url : String
+    , url : ApiUrl
     }
 
 

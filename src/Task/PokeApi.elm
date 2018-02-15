@@ -50,10 +50,16 @@ import PokeApi exposing (..)
 
 
 {-| -}
+type ApiUrl
+    = ApiUrl String
+
+
+{-| Represents the type of parameter used to search with
+-}
 type ParameterType
     = Name String
     | Id Int
-    | Url String
+    | Url ApiUrl
 
 
 {-| -}
