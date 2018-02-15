@@ -5,6 +5,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
 import PokeApi exposing (..)
+import PokeApi.Tasks exposing (..)
 import Task exposing (..)
 
 
@@ -18,54 +19,54 @@ main =
 
 
 type alias Model =
-    { abilities : Maybe (Result Http.Error NamedApiResourceList)
-    , berries : Maybe (Result Http.Error NamedApiResourceList)
-    , berryFirmnesses : Maybe (Result Http.Error NamedApiResourceList)
-    , berryFlavors : Maybe (Result Http.Error NamedApiResourceList)
+    { abilities : Maybe (Result Http.Error ApiResourceList)
+    , berries : Maybe (Result Http.Error ApiResourceList)
+    , berryFirmnesses : Maybe (Result Http.Error ApiResourceList)
+    , berryFlavors : Maybe (Result Http.Error ApiResourceList)
     , characteristics : Maybe (Result Http.Error ApiResourceList)
     , contestEffects : Maybe (Result Http.Error ApiResourceList)
-    , contestTypes : Maybe (Result Http.Error NamedApiResourceList)
-    , eggGroups : Maybe (Result Http.Error NamedApiResourceList)
-    , encounterConditions : Maybe (Result Http.Error NamedApiResourceList)
-    , encounterConditionValues : Maybe (Result Http.Error NamedApiResourceList)
-    , encounterMethods : Maybe (Result Http.Error NamedApiResourceList)
+    , contestTypes : Maybe (Result Http.Error ApiResourceList)
+    , eggGroups : Maybe (Result Http.Error ApiResourceList)
+    , encounterConditions : Maybe (Result Http.Error ApiResourceList)
+    , encounterConditionValues : Maybe (Result Http.Error ApiResourceList)
+    , encounterMethods : Maybe (Result Http.Error ApiResourceList)
     , evolutionChains : Maybe (Result Http.Error ApiResourceList)
-    , evolutionTriggers : Maybe (Result Http.Error NamedApiResourceList)
-    , genders : Maybe (Result Http.Error NamedApiResourceList)
-    , generations : Maybe (Result Http.Error NamedApiResourceList)
-    , growthRates : Maybe (Result Http.Error NamedApiResourceList)
-    , items : Maybe (Result Http.Error NamedApiResourceList)
-    , itemAttributes : Maybe (Result Http.Error NamedApiResourceList)
-    , itemCategories : Maybe (Result Http.Error NamedApiResourceList)
-    , itemFlingEffects : Maybe (Result Http.Error NamedApiResourceList)
-    , itemPockets : Maybe (Result Http.Error NamedApiResourceList)
-    , languages : Maybe (Result Http.Error NamedApiResourceList)
-    , locations : Maybe (Result Http.Error NamedApiResourceList)
-    , locationAreas : Maybe (Result Http.Error NamedApiResourceList)
+    , evolutionTriggers : Maybe (Result Http.Error ApiResourceList)
+    , genders : Maybe (Result Http.Error ApiResourceList)
+    , generations : Maybe (Result Http.Error ApiResourceList)
+    , growthRates : Maybe (Result Http.Error ApiResourceList)
+    , items : Maybe (Result Http.Error ApiResourceList)
+    , itemAttributes : Maybe (Result Http.Error ApiResourceList)
+    , itemCategories : Maybe (Result Http.Error ApiResourceList)
+    , itemFlingEffects : Maybe (Result Http.Error ApiResourceList)
+    , itemPockets : Maybe (Result Http.Error ApiResourceList)
+    , languages : Maybe (Result Http.Error ApiResourceList)
+    , locations : Maybe (Result Http.Error ApiResourceList)
+    , locationAreas : Maybe (Result Http.Error ApiResourceList)
     , machines : Maybe (Result Http.Error ApiResourceList)
-    , moves : Maybe (Result Http.Error NamedApiResourceList)
-    , moveAilments : Maybe (Result Http.Error NamedApiResourceList)
-    , moveBattleStyles : Maybe (Result Http.Error NamedApiResourceList)
-    , moveCategories : Maybe (Result Http.Error NamedApiResourceList)
-    , moveDamageClasses : Maybe (Result Http.Error NamedApiResourceList)
-    , moveLearnMethods : Maybe (Result Http.Error NamedApiResourceList)
-    , moveTargets : Maybe (Result Http.Error NamedApiResourceList)
-    , natures : Maybe (Result Http.Error NamedApiResourceList)
-    , palParkAreas : Maybe (Result Http.Error NamedApiResourceList)
-    , pokeathlonStats : Maybe (Result Http.Error NamedApiResourceList)
-    , pokedexes : Maybe (Result Http.Error NamedApiResourceList)
-    , pokemon : Maybe (Result Http.Error NamedApiResourceList)
-    , pokemonColors : Maybe (Result Http.Error NamedApiResourceList)
-    , pokemonForms : Maybe (Result Http.Error NamedApiResourceList)
-    , pokemonHabitats : Maybe (Result Http.Error NamedApiResourceList)
-    , pokemonShapes : Maybe (Result Http.Error NamedApiResourceList)
-    , pokemonSpecies : Maybe (Result Http.Error NamedApiResourceList)
-    , regions : Maybe (Result Http.Error NamedApiResourceList)
-    , stats : Maybe (Result Http.Error NamedApiResourceList)
+    , moves : Maybe (Result Http.Error ApiResourceList)
+    , moveAilments : Maybe (Result Http.Error ApiResourceList)
+    , moveBattleStyles : Maybe (Result Http.Error ApiResourceList)
+    , moveCategories : Maybe (Result Http.Error ApiResourceList)
+    , moveDamageClasses : Maybe (Result Http.Error ApiResourceList)
+    , moveLearnMethods : Maybe (Result Http.Error ApiResourceList)
+    , moveTargets : Maybe (Result Http.Error ApiResourceList)
+    , natures : Maybe (Result Http.Error ApiResourceList)
+    , palParkAreas : Maybe (Result Http.Error ApiResourceList)
+    , pokeathlonStats : Maybe (Result Http.Error ApiResourceList)
+    , pokedexes : Maybe (Result Http.Error ApiResourceList)
+    , pokemon : Maybe (Result Http.Error ApiResourceList)
+    , pokemonColors : Maybe (Result Http.Error ApiResourceList)
+    , pokemonForms : Maybe (Result Http.Error ApiResourceList)
+    , pokemonHabitats : Maybe (Result Http.Error ApiResourceList)
+    , pokemonShapes : Maybe (Result Http.Error ApiResourceList)
+    , pokemonSpecies : Maybe (Result Http.Error ApiResourceList)
+    , regions : Maybe (Result Http.Error ApiResourceList)
+    , stats : Maybe (Result Http.Error ApiResourceList)
     , superContestEffects : Maybe (Result Http.Error ApiResourceList)
-    , types : Maybe (Result Http.Error NamedApiResourceList)
-    , versions : Maybe (Result Http.Error NamedApiResourceList)
-    , versionGroups : Maybe (Result Http.Error NamedApiResourceList)
+    , types : Maybe (Result Http.Error ApiResourceList)
+    , versions : Maybe (Result Http.Error ApiResourceList)
+    , versionGroups : Maybe (Result Http.Error ApiResourceList)
     , ability : Maybe (Result Http.Error Ability)
     , berry : Maybe (Result Http.Error Berry)
     , berryFirmness : Maybe (Result Http.Error BerryFirmness)
@@ -232,54 +233,54 @@ hit list =
 
 type Msg
     = TestAllClicked
-    | ReceivedAbilities (Result Http.Error NamedApiResourceList)
-    | ReceivedBerries (Result Http.Error NamedApiResourceList)
-    | ReceivedBerryFirmnesses (Result Http.Error NamedApiResourceList)
-    | ReceivedBerryFlavors (Result Http.Error NamedApiResourceList)
+    | ReceivedAbilities (Result Http.Error ApiResourceList)
+    | ReceivedBerries (Result Http.Error ApiResourceList)
+    | ReceivedBerryFirmnesses (Result Http.Error ApiResourceList)
+    | ReceivedBerryFlavors (Result Http.Error ApiResourceList)
     | ReceivedCharacteristics (Result Http.Error ApiResourceList)
     | ReceivedContestEffects (Result Http.Error ApiResourceList)
-    | ReceivedContestTypes (Result Http.Error NamedApiResourceList)
-    | ReceivedEggGroups (Result Http.Error NamedApiResourceList)
-    | ReceivedEncounterConditions (Result Http.Error NamedApiResourceList)
-    | ReceivedEncounterConditionValues (Result Http.Error NamedApiResourceList)
-    | ReceivedEncounterMethods (Result Http.Error NamedApiResourceList)
+    | ReceivedContestTypes (Result Http.Error ApiResourceList)
+    | ReceivedEggGroups (Result Http.Error ApiResourceList)
+    | ReceivedEncounterConditions (Result Http.Error ApiResourceList)
+    | ReceivedEncounterConditionValues (Result Http.Error ApiResourceList)
+    | ReceivedEncounterMethods (Result Http.Error ApiResourceList)
     | ReceivedEvolutionChains (Result Http.Error ApiResourceList)
-    | ReceivedEvolutionTriggers (Result Http.Error NamedApiResourceList)
-    | ReceivedGenders (Result Http.Error NamedApiResourceList)
-    | ReceivedGenerations (Result Http.Error NamedApiResourceList)
-    | ReceivedGrowthRates (Result Http.Error NamedApiResourceList)
-    | ReceivedItems (Result Http.Error NamedApiResourceList)
-    | ReceivedItemAttributes (Result Http.Error NamedApiResourceList)
-    | ReceivedItemCategories (Result Http.Error NamedApiResourceList)
-    | ReceivedItemFlingEffects (Result Http.Error NamedApiResourceList)
-    | ReceivedItemPockets (Result Http.Error NamedApiResourceList)
-    | ReceivedLanguages (Result Http.Error NamedApiResourceList)
-    | ReceivedLocations (Result Http.Error NamedApiResourceList)
-    | ReceivedLocationAreas (Result Http.Error NamedApiResourceList)
+    | ReceivedEvolutionTriggers (Result Http.Error ApiResourceList)
+    | ReceivedGenders (Result Http.Error ApiResourceList)
+    | ReceivedGenerations (Result Http.Error ApiResourceList)
+    | ReceivedGrowthRates (Result Http.Error ApiResourceList)
+    | ReceivedItems (Result Http.Error ApiResourceList)
+    | ReceivedItemAttributes (Result Http.Error ApiResourceList)
+    | ReceivedItemCategories (Result Http.Error ApiResourceList)
+    | ReceivedItemFlingEffects (Result Http.Error ApiResourceList)
+    | ReceivedItemPockets (Result Http.Error ApiResourceList)
+    | ReceivedLanguages (Result Http.Error ApiResourceList)
+    | ReceivedLocations (Result Http.Error ApiResourceList)
+    | ReceivedLocationAreas (Result Http.Error ApiResourceList)
     | ReceivedMachines (Result Http.Error ApiResourceList)
-    | ReceivedMoves (Result Http.Error NamedApiResourceList)
-    | ReceivedMoveAilments (Result Http.Error NamedApiResourceList)
-    | ReceivedMoveBattleStyles (Result Http.Error NamedApiResourceList)
-    | ReceivedMoveCategories (Result Http.Error NamedApiResourceList)
-    | ReceivedMoveDamageClasses (Result Http.Error NamedApiResourceList)
-    | ReceivedMoveLearnMethods (Result Http.Error NamedApiResourceList)
-    | ReceivedMoveTargets (Result Http.Error NamedApiResourceList)
-    | ReceivedNatures (Result Http.Error NamedApiResourceList)
-    | ReceivedPalParkAreas (Result Http.Error NamedApiResourceList)
-    | ReceivedPokeathlonStats (Result Http.Error NamedApiResourceList)
-    | ReceivedPokedexes (Result Http.Error NamedApiResourceList)
-    | ReceivedPokemon (Result Http.Error NamedApiResourceList)
-    | ReceivedPokemonColors (Result Http.Error NamedApiResourceList)
-    | ReceivedPokemonForms (Result Http.Error NamedApiResourceList)
-    | ReceivedPokemonHabitats (Result Http.Error NamedApiResourceList)
-    | ReceivedPokemonShapes (Result Http.Error NamedApiResourceList)
-    | ReceivedPokemonSpecies (Result Http.Error NamedApiResourceList)
-    | ReceivedRegions (Result Http.Error NamedApiResourceList)
-    | ReceivedStats (Result Http.Error NamedApiResourceList)
+    | ReceivedMoves (Result Http.Error ApiResourceList)
+    | ReceivedMoveAilments (Result Http.Error ApiResourceList)
+    | ReceivedMoveBattleStyles (Result Http.Error ApiResourceList)
+    | ReceivedMoveCategories (Result Http.Error ApiResourceList)
+    | ReceivedMoveDamageClasses (Result Http.Error ApiResourceList)
+    | ReceivedMoveLearnMethods (Result Http.Error ApiResourceList)
+    | ReceivedMoveTargets (Result Http.Error ApiResourceList)
+    | ReceivedNatures (Result Http.Error ApiResourceList)
+    | ReceivedPalParkAreas (Result Http.Error ApiResourceList)
+    | ReceivedPokeathlonStats (Result Http.Error ApiResourceList)
+    | ReceivedPokedexes (Result Http.Error ApiResourceList)
+    | ReceivedPokemon (Result Http.Error ApiResourceList)
+    | ReceivedPokemonColors (Result Http.Error ApiResourceList)
+    | ReceivedPokemonForms (Result Http.Error ApiResourceList)
+    | ReceivedPokemonHabitats (Result Http.Error ApiResourceList)
+    | ReceivedPokemonShapes (Result Http.Error ApiResourceList)
+    | ReceivedPokemonSpecies (Result Http.Error ApiResourceList)
+    | ReceivedRegions (Result Http.Error ApiResourceList)
+    | ReceivedStats (Result Http.Error ApiResourceList)
     | ReceivedSuperContestEffects (Result Http.Error ApiResourceList)
-    | ReceivedTypes (Result Http.Error NamedApiResourceList)
-    | ReceivedVersions (Result Http.Error NamedApiResourceList)
-    | ReceivedVersionGroups (Result Http.Error NamedApiResourceList)
+    | ReceivedTypes (Result Http.Error ApiResourceList)
+    | ReceivedVersions (Result Http.Error ApiResourceList)
+    | ReceivedVersionGroups (Result Http.Error ApiResourceList)
     | ReceivedAbility (Result Http.Error Ability)
     | ReceivedBerry (Result Http.Error Berry)
     | ReceivedBerryFirmness (Result Http.Error BerryFirmness)
@@ -336,197 +337,197 @@ update msg model =
         TestAllClicked ->
             ( model
             , Cmd.batch
-                [ getAbilities (OnPageOfSize 1 1000)
+                [ getResourceList Ability_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedAbilities
-                , getBerries (OnPageOfSize 1 1000)
+                , getResourceList Berry_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedBerries
-                , getBerryFirmnesses (OnPageOfSize 1 1000)
+                , getResourceList BerryFirmness_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedBerryFirmnesses
-                , getBerryFlavors (OnPageOfSize 1 1000)
+                , getResourceList BerryFlavor_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedBerryFlavors
-                , getCharacteristics (OnPageOfSize 1 1000)
+                , getResourceList Characteristic_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedCharacteristics
-                , getContestEffects (OnPageOfSize 1 1000)
+                , getResourceList ContestEffect_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedContestEffects
-                , getContestTypes (OnPageOfSize 1 1000)
+                , getResourceList ContestType_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedContestTypes
-                , getEggGroups (OnPageOfSize 1 1000)
+                , getResourceList EggGroup_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedEggGroups
-                , getEncounterConditions (OnPageOfSize 1 1000)
+                , getResourceList EncounterCondition_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedEncounterConditions
-                , getEncounterConditionValues (OnPageOfSize 1 1000)
+                , getResourceList EncounterConditionValue_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedEncounterConditionValues
-                , getEncounterMethods (OnPageOfSize 1 1000)
+                , getResourceList EncounterMethod_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedEncounterMethods
-                , getEvolutionChains (OnPageOfSize 1 1000)
+                , getResourceList EvolutionChain_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedEvolutionChains
-                , getEvolutionTriggers (OnPageOfSize 1 1000)
+                , getResourceList EvolutionTrigger_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedEvolutionTriggers
-                , getGenders (OnPageOfSize 1 1000)
+                , getResourceList Gender_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedGenders
-                , getGenerations (OnPageOfSize 1 1000)
+                , getResourceList Generation_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedGenerations
-                , getGrowthRates (OnPageOfSize 1 1000)
+                , getResourceList GrowthRate_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedGrowthRates
-                , getItems (OnPageOfSize 1 1000)
+                , getResourceList Item_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedItems
-                , getItemAttributes (OnPageOfSize 1 1000)
+                , getResourceList ItemAttribute_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedItemAttributes
-                , getItemCategories (OnPageOfSize 1 1000)
+                , getResourceList ItemCategory_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedItemCategories
-                , getItemFlingEffects (OnPageOfSize 1 1000)
+                , getResourceList ItemFlingEffect_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedItemFlingEffects
-                , getItemPockets (OnPageOfSize 1 1000)
+                , getResourceList ItemPocket_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedItemPockets
-                , getLanguages (OnPageOfSize 1 1000)
+                , getResourceList Language_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedLanguages
-                , getLocations (OnPageOfSize 1 1000)
+                , getResourceList Location_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedLocations
-                , getLocationAreas (OnPageOfSize 1 1000)
+                , getResourceList LocationArea_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedLocationAreas
-                , getMachines (OnPageOfSize 1 1000)
+                , getResourceList Machine_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedMachines
-                , getMoves (OnPageOfSize 1 1000)
+                , getResourceList Move_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoves
-                , getMoveAilments (OnPageOfSize 1 1000)
+                , getResourceList MoveAilment_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveAilments
-                , getMoveBattleStyles (OnPageOfSize 1 1000)
+                , getResourceList MoveBattleStyle_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveBattleStyles
-                , getMoveCategories (OnPageOfSize 1 1000)
+                , getResourceList MoveCategory_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveCategories
-                , getMoveDamageClasses (OnPageOfSize 1 1000)
+                , getResourceList MoveDamageClass_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveDamageClasses
-                , getMoveLearnMethods (OnPageOfSize 1 1000)
+                , getResourceList MoveLearnMethod_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveLearnMethods
-                , getMoveTargets (OnPageOfSize 1 1000)
+                , getResourceList MoveTarget_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveTargets
-                , getNatures (OnPageOfSize 1 1000)
+                , getResourceList Nature_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedNatures
-                , getPalParkAreas (OnPageOfSize 1 1000)
+                , getResourceList PalParkArea_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPalParkAreas
-                , getPokeathlonStats (OnPageOfSize 1 1000)
+                , getResourceList PokeathlonStat_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokeathlonStats
-                , getPokedexes (OnPageOfSize 1 1000)
+                , getResourceList Pokedex_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokedexes
-                , getPokemon (OnPageOfSize 1 1000)
+                , getResourceList Pokemon_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemon
-                , getPokemonColors (OnPageOfSize 1 1000)
+                , getResourceList PokemonColor_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonColors
-                , getPokemonForms (OnPageOfSize 1 1000)
+                , getResourceList PokemonForm_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonForms
-                , getPokemonHabitats (OnPageOfSize 1 1000)
+                , getResourceList PokemonHabitat_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonHabitats
-                , getPokemonShapes (OnPageOfSize 1 1000)
+                , getResourceList PokemonShape_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonShapes
-                , getPokemonSpecies (OnPageOfSize 1 1000)
+                , getResourceList PokemonSpecies_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonSpecies
-                , getRegions (OnPageOfSize 1 1000)
+                , getResourceList Region_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedRegions
-                , getStats (OnPageOfSize 1 1000)
+                , getResourceList Stat_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedStats
-                , getSuperContestEffects (OnPageOfSize 1 1000)
+                , getResourceList SuperContestEffect_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedSuperContestEffects
-                , getTypes (OnPageOfSize 1 1000)
+                , getResourceList Type_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedTypes
-                , getVersions (OnPageOfSize 1 1000)
+                , getResourceList Version_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedVersions
-                , getVersionGroups (OnPageOfSize 1 1000)
+                , getResourceList VersionGroup_ (OnPageOfSize 1 1000)
                     |> Task.attempt ReceivedVersionGroups
-                , getAbilityBy "1"
+                , getAbilityBy (Id 1)
                     |> Task.attempt ReceivedAbility
-                , getBerryBy "1"
+                , getBerryBy (Id 1)
                     |> Task.attempt ReceivedBerry
-                , getBerryFirmnessBy "1"
+                , getBerryFirmnessBy (Id 1)
                     |> Task.attempt ReceivedBerryFirmness
-                , getBerryFlavorBy "1"
+                , getBerryFlavorBy (Id 1)
                     |> Task.attempt ReceivedBerryFlavor
-                , getCharacteristicBy "1"
+                , getCharacteristicBy (Id 1)
                     |> Task.attempt ReceivedCharacteristic
-                , getContestEffectBy "1"
+                , getContestEffectBy (Id 1)
                     |> Task.attempt ReceivedContestEffect
-                , getContestTypeBy "1"
+                , getContestTypeBy (Id 1)
                     |> Task.attempt ReceivedContestType
-                , getEggGroupBy "1"
+                , getEggGroupBy (Id 1)
                     |> Task.attempt ReceivedEggGroup
-                , getEncounterConditionBy "1"
+                , getEncounterConditionBy (Id 1)
                     |> Task.attempt ReceivedEncounterCondition
-                , getEncounterConditionValueBy "1"
+                , getEncounterConditionValueBy (Id 1)
                     |> Task.attempt ReceivedEncounterConditionValue
-                , getEncounterMethodBy "1"
+                , getEncounterMethodBy (Id 1)
                     |> Task.attempt ReceivedEncounterMethod
-                , getEvolutionChainBy "1"
+                , getEvolutionChainBy (Id 1)
                     |> Task.attempt ReceivedEvolutionChain
-                , getEvolutionTriggerBy "1"
+                , getEvolutionTriggerBy (Id 1)
                     |> Task.attempt ReceivedEvolutionTrigger
-                , getGenderBy "1"
+                , getGenderBy (Id 1)
                     |> Task.attempt ReceivedGender
-                , getGenerationBy "1"
+                , getGenerationBy (Id 1)
                     |> Task.attempt ReceivedGeneration
-                , getGrowthRateBy "1"
+                , getGrowthRateBy (Id 1)
                     |> Task.attempt ReceivedGrowthRate
-                , getItemBy "1"
+                , getItemBy (Id 1)
                     |> Task.attempt ReceivedItem
-                , getItemAttributeBy "1"
+                , getItemAttributeBy (Id 1)
                     |> Task.attempt ReceivedItemAttribute
-                , getItemCategoryBy "1"
+                , getItemCategoryBy (Id 1)
                     |> Task.attempt ReceivedItemCategory
-                , getItemFlingEffectBy "1"
+                , getItemFlingEffectBy (Id 1)
                     |> Task.attempt ReceivedItemFlingEffect
-                , getItemPocketBy "1"
+                , getItemPocketBy (Id 1)
                     |> Task.attempt ReceivedItemPocket
-                , getLanguageBy "1"
+                , getLanguageBy (Id 1)
                     |> Task.attempt ReceivedLanguage
-                , getLocationBy "1"
+                , getLocationBy (Id 1)
                     |> Task.attempt ReceivedLocation
-                , getLocationAreaBy "1"
+                , getLocationAreaBy (Id 1)
                     |> Task.attempt ReceivedLocationArea
-                , getMachineBy "1"
+                , getMachineBy (Id 1)
                     |> Task.attempt ReceivedMachine
-                , getMoveBy "1"
+                , getMoveBy (Id 1)
                     |> Task.attempt ReceivedMove
-                , getMoveAilmentBy "1"
+                , getMoveAilmentBy (Id 1)
                     |> Task.attempt ReceivedMoveAilment
-                , getMoveBattleStyleBy "1"
+                , getMoveBattleStyleBy (Id 1)
                     |> Task.attempt ReceivedMoveBattleStyle
-                , getMoveCategoryBy "1"
+                , getMoveCategoryBy (Id 1)
                     |> Task.attempt ReceivedMoveCategory
-                , getMoveDamageClassBy "1"
+                , getMoveDamageClassBy (Id 1)
                     |> Task.attempt ReceivedMoveDamageClass
-                , getMoveLearnMethodBy "1"
+                , getMoveLearnMethodBy (Id 1)
                     |> Task.attempt ReceivedMoveLearnMethod
-                , getMoveTargetBy "1"
+                , getMoveTargetBy (Id 1)
                     |> Task.attempt ReceivedMoveTarget
-                , getNatureBy "1"
+                , getNatureBy (Id 1)
                     |> Task.attempt ReceivedNature
-                , getPalParkAreaBy "1"
+                , getPalParkAreaBy (Id 1)
                     |> Task.attempt ReceivedPalParkArea
-                , getPokeathlonStatBy "1"
+                , getPokeathlonStatBy (Id 1)
                     |> Task.attempt ReceivedPokeathlonStat
-                , getPokedexBy "1"
+                , getPokedexBy (Id 1)
                     |> Task.attempt ReceivedPokedex
-                , getPokemonBy "1"
+                , getPokemonBy (Id 1)
                     |> Task.attempt ReceivedPokemon_
-                , getPokemonColorBy "1"
+                , getPokemonColorBy (Id 1)
                     |> Task.attempt ReceivedPokemonColor
-                , getPokemonFormBy "1"
+                , getPokemonFormBy (Id 1)
                     |> Task.attempt ReceivedPokemonForm
-                , getPokemonHabitatBy "1"
+                , getPokemonHabitatBy (Id 1)
                     |> Task.attempt ReceivedPokemonHabitat
-                , getPokemonShapeBy "1"
+                , getPokemonShapeBy (Id 1)
                     |> Task.attempt ReceivedPokemonShape
-                , getPokemonSpeciesBy "1"
+                , getPokemonSpeciesBy (Id 1)
                     |> Task.attempt ReceivedPokemonSpecies_
-                , getRegionBy "1"
+                , getRegionBy (Id 1)
                     |> Task.attempt ReceivedRegion
-                , getStatBy "1"
+                , getStatBy (Id 1)
                     |> Task.attempt ReceivedStat
-                , getSuperContestEffectBy "1"
+                , getSuperContestEffectBy (Id 1)
                     |> Task.attempt ReceivedSuperContestEffect
-                , getTypeBy "1"
+                , getTypeBy (Id 1)
                     |> Task.attempt ReceivedType
-                , getVersionBy "1"
+                , getVersionBy (Id 1)
                     |> Task.attempt ReceivedVersion
-                , getVersionGroupBy "1"
+                , getVersionGroupBy (Id 1)
                     |> Task.attempt ReceivedVersionGroup
                 ]
             )

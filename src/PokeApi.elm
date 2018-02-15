@@ -8,6 +8,7 @@ module PokeApi
         , ApiResource
         , ApiResourceList
         , ApiUrl(..)
+        , ApiListUrl(..)
         , AwesomeName
         , Berry
         , BerryFirmness
@@ -120,7 +121,7 @@ you with concrete types to all the applicable models
 
 # General
 
-@docs ApiUrl, Resource
+@docs ApiUrl, ApiListUrl, Resource
 
 
 # Poke API Models
@@ -216,6 +217,11 @@ type ApiUrl
 
 
 {-| -}
+type ApiListUrl
+    = ApiListUrl String
+
+
+{-| -}
 type alias Ability =
     { id : Int
     , name : String
@@ -262,8 +268,8 @@ type alias ApiResource =
 {-| -}
 type alias ApiResourceList =
     { count : Int
-    , next : Maybe String
-    , previous : Maybe String
+    , next : Maybe ApiListUrl
+    , previous : Maybe ApiListUrl
     , results : List ApiResource
     }
 

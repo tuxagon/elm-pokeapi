@@ -1,4 +1,60 @@
-module PokeApi exposing (..)
+module PokeApi.Tasks
+    exposing
+        ( ParameterType(..)
+        , PageSize
+        , Page(..)
+        , getResourceList
+        , getResourceListByUrl
+        , getAbilityBy
+        , getBerryBy
+        , getBerryFirmnessBy
+        , getBerryFlavorBy
+        , getCharacteristicBy
+        , getContestEffectBy
+        , getContestTypeBy
+        , getEggGroupBy
+        , getEncounterConditionBy
+        , getEncounterConditionValueBy
+        , getEncounterMethodBy
+        , getEvolutionChainBy
+        , getEvolutionTriggerBy
+        , getGenderBy
+        , getGenerationBy
+        , getGrowthRateBy
+        , getItemBy
+        , getItemAttributeBy
+        , getItemCategoryBy
+        , getItemFlingEffectBy
+        , getItemPocketBy
+        , getLanguageBy
+        , getLocationBy
+        , getLocationAreaBy
+        , getMachineBy
+        , getMoveBy
+        , getMoveAilmentBy
+        , getMoveBattleStyleBy
+        , getMoveCategoryBy
+        , getMoveDamageClassBy
+        , getMoveLearnMethodBy
+        , getMoveTargetBy
+        , getNatureBy
+        , getPalParkAreaBy
+        , getPokeathlonStatBy
+        , getPokedexBy
+        , getPokemonBy
+        , getPokemonColorBy
+        , getPokemonFormBy
+        , getPokemonHabitatBy
+        , getPokemonShapeBy
+        , getPokemonSpeciesBy
+        , getRegionBy
+        , getStatBy
+        , getSuperContestEffectBy
+        , getTypeBy
+        , getVersionBy
+        , getVersionGroupBy
+        , getBy
+        )
 
 {-| This library is a wrapper for PokeApi (<https://pokeapi.co/>) that provides
 you with concrete types to all the applicable models
@@ -6,17 +62,9 @@ you with concrete types to all the applicable models
 
 # List-based HTTP tasks
 
-Retrieves a list of the specific resource for that function
+Gets a list of the specified resource
 
-Example
-
-    -- gets a list of pokemon
-    getPokemon (OnPage 1)
-
-    -- gets a list of berries
-    getBerries (OnPage 1)
-
-@docs getResourceList
+@docs getResourceList, getResourceListByUrl
 
 
 # Single resource-based HTTP tasks
@@ -24,10 +72,10 @@ Example
 Retrieves a single resource of the specific resource for that function
 
     -- gets the pokemon with name "pikachu"
-    getPokemonBy "pikachu"
+    getPokemonBy (Name "pikachu")
 
     -- gets the berry with id 5
-    getBerryBy "5"
+    getBerryBy (Id 5)
 
 @docs getAbilityBy, getBerryBy, getBerryFirmnessBy,
 getBerryFlavorBy, getCharacteristicBy, getContestEffectBy, getContestTypeBy,
@@ -41,17 +89,16 @@ getMoveLearnMethodBy, getMoveTargetBy, getNatureBy, getPalParkAreaBy,
 getPokeathlonStatBy, getPokedexBy, getPokemonBy, getPokemonColorBy,
 getPokemonFormBy, getPokemonHabitatBy, getPokemonShapeBy, getPokemonSpeciesBy,
 getRegionBy, getStatBy, getSuperContestEffectBy, getTypeBy, getVersionBy,
-getVersionGroupBy
+getVersionGroupBy, getBy
 
 -}
 
-import Json.Decode.PokeApi exposing (..)
+import Http
+import Json.Decode exposing (Decoder)
 import PokeApi exposing (..)
-
-
-{-| -}
-type ApiUrl
-    = ApiUrl String
+import PokeApi.Decoders exposing (..)
+import PokeApi.Internals exposing (..)
+import Task exposing (Task)
 
 
 {-| Represents the type of parameter used to search with
@@ -105,6 +152,24 @@ getResourceList res page =
         decodeApiResourceList
             |> Http.get url
             |> Http.toTask
+
+
+{-| Provides a way to chain tasks
+
+Example
+
+    -- gets the next page of pokemon
+    getResourceList Pokemon_ (OnPage 1)
+        |> Task.andThen (getResourceListByUrl << .next)
+
+-}
+getResourceListByUrl :
+    ApiListUrl
+    -> Task Http.Error ApiResourceList
+getResourceListByUrl (ApiListUrl url) =
+    decodeApiResourceList
+        |> Http.get url
+        |> Http.toTask
 
 
 {-| -}
@@ -403,181 +468,16 @@ getBy res decoder param =
             resourceAsString res
 
         url =
-            makeResourceUrl ( endpoint, param )
+            case param of
+                Url (ApiUrl url_) ->
+                    url_
+
+                Name name ->
+                    makeResourceUrl ( endpoint, name )
+
+                Id id ->
+                    makeResourceUrl ( endpoint, toString id )
     in
         decoder
             |> Http.get url
             |> Http.toTask
-
-
-{-| -}
-makeResourceUrl : ( String, ParameterType ) -> String
-makeResourceUrl ( endpoint, paramType ) =
-    let
-        url param =
-            String.concat
-                [ v2
-                , endpoint
-                , "/"
-                , param
-                , "/"
-                ]
-    in
-        case paramType of
-            Name name ->
-                url name
-
-            Id id ->
-                url (toString id)
-
-            Url url_ ->
-                url_
-
-
-{-| -}
-resourceAsString : Resource -> String
-resourceAsString res =
-    case res of
-        Ability_ ->
-            "ability"
-
-        Berry_ ->
-            "berry"
-
-        BerryFirmness_ ->
-            "berry-firmness"
-
-        BerryFlavor_ ->
-            "berry-flavor"
-
-        Characteristic_ ->
-            "characteristic"
-
-        ContestEffect_ ->
-            "contest-effect"
-
-        ContestType_ ->
-            "contest-type"
-
-        EggGroup_ ->
-            "egg-group"
-
-        EncounterCondition_ ->
-            "encounter-condition"
-
-        EncounterConditionValue_ ->
-            "encounter-condition-value"
-
-        EncounterMethod_ ->
-            "encounter-method"
-
-        EvolutionChain_ ->
-            "evolution-chain"
-
-        EvolutionTrigger_ ->
-            "evolution-trigger"
-
-        Gender_ ->
-            "gender"
-
-        Generation_ ->
-            "generation"
-
-        GrowthRate_ ->
-            "growth-rate"
-
-        Item_ ->
-            "item"
-
-        ItemAttribute_ ->
-            "item-attribute"
-
-        ItemCategory_ ->
-            "item-category"
-
-        ItemFlingEffect_ ->
-            "item-fling-effect"
-
-        ItemPocket_ ->
-            "item-pocket"
-
-        Language_ ->
-            "language"
-
-        Location_ ->
-            "location"
-
-        LocationArea_ ->
-            "location-area"
-
-        Machine_ ->
-            "machine"
-
-        Move_ ->
-            "move"
-
-        MoveAilment_ ->
-            "move-ailment"
-
-        MoveBattleStyle_ ->
-            "move-battle-style"
-
-        MoveCategory_ ->
-            "move-category"
-
-        MoveDamageClass_ ->
-            "move-damage-class"
-
-        MoveLearnMethod_ ->
-            "move-learn-method"
-
-        MoveTarget_ ->
-            "move-target"
-
-        Nature_ ->
-            "nature"
-
-        PalParkArea_ ->
-            "pal-park-area"
-
-        PokeathlonStat_ ->
-            "pokeathlon-stat"
-
-        Pokedex_ ->
-            "pokedex"
-
-        Pokemon_ ->
-            "pokemon"
-
-        PokemonColor_ ->
-            "pokemon-color"
-
-        PokemonForm_ ->
-            "pokemon-form"
-
-        PokemonHabitat_ ->
-            "pokemon-habitat"
-
-        PokemonShape_ ->
-            "pokemon-shape"
-
-        PokemonSpecies_ ->
-            "pokemon-species"
-
-        Region_ ->
-            "region"
-
-        Stat_ ->
-            "stat"
-
-        SuperContestEffect_ ->
-            "super-contest-effect"
-
-        Type_ ->
-            "type"
-
-        Version_ ->
-            "version"
-
-        VersionGroup_ ->
-            "version-group"

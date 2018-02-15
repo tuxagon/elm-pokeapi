@@ -1,4 +1,4 @@
-module Json.Decode.PokeApi
+module PokeApi.Decoders
     exposing
         ( decodeAbility
         , decodeAbilityEffectChange
@@ -6,6 +6,8 @@ module Json.Decode.PokeApi
         , decodeAbilityPokemon
         , decodeApiResource
         , decodeApiResourceList
+        , decodeApiUrl
+        , decodeApiListUrl
         , decodeAwesomeName
         , decodeBerry
         , decodeBerryFirmness
@@ -117,9 +119,9 @@ module Json.Decode.PokeApi
 # Decoders
 
 @docs decodeAbility, decodeAbilityEffectChange, decodeAbilityFlavorText,
-decodeAbilityPokemon, decodeApiResource, decodeApiResourceList,
-decodeAwesomeName, decodeBerry, decodeBerryFirmness, decodeBerryFlavor,
-decodeBerryFlavorMap, decodeChainLink, decodeCharacteristic,
+decodeAbilityPokemon, decodeApiResource, decodeApiResourceList, decodeApiUrl,
+decodeApiListUrl, decodeAwesomeName, decodeBerry, decodeBerryFirmness,
+decodeBerryFlavor, decodeBerryFlavorMap, decodeChainLink, decodeCharacteristic,
 decodeContestComboSets, decodeContestComboDetail, decodeContestEffect,
 decodeContestName, decodeContestType, decodeDescription, decodeEffect,
 decodeEggGroup, decodeEncounter, decodeEncounterCondition,
@@ -215,7 +217,7 @@ decodeApiResource : Decoder ApiResource
 decodeApiResource =
     decode ApiResource
         |> optional "name" string ""
-        |> required "url" (map ApiUrl string)
+        |> required "url" decodeApiUrl
 
 
 {-| -}
@@ -223,9 +225,21 @@ decodeApiResourceList : Decoder ApiResourceList
 decodeApiResourceList =
     decode ApiResourceList
         |> required "count" int
-        |> required "next" (maybe string)
-        |> required "previous" (maybe string)
+        |> required "next" (maybe decodeApiListUrl)
+        |> required "previous" (maybe decodeApiListUrl)
         |> required "results" (list decodeApiResource)
+
+
+{-| -}
+decodeApiUrl : Decoder ApiUrl
+decodeApiUrl =
+    map ApiUrl string
+
+
+{-| -}
+decodeApiListUrl : Decoder ApiListUrl
+decodeApiListUrl =
+    map ApiListUrl string
 
 
 {-| -}
