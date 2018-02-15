@@ -16,18 +16,7 @@ Example
     -- gets a list of berries
     getBerries (OnPage 1)
 
-@docs getAbilities, getBerries, getBerryFirmnesses, getBerryFlavors,
-getCharacteristics, getContestEffects, getContestTypes, getEggGroups,
-getEncounterConditions, getEncounterConditionValues, getEncounterMethods,
-getEvolutionChains, getEvolutionTriggers, getGenders, getGenerations,
-getGrowthRates, getItems, getItemAttributes, getItemCategories,
-getItemFlingEffects, getItemPockets, getLanguages, getLocations,
-getLocationAreas, getMachines, getMoves, getMoveAilments, getMoveBattleStyles,
-getMoveCategories, getMoveDamageClasses, getMoveLearnMethods, getMoveTargets,
-getNatures, getPalParkAreas, getPokeathlonStats, getPokedexes, getPokemon,
-getPokemonColors, getPokemonForms, getPokemonHabitats, getPokemonShapes,
-getPokemonSpecies, getRegions, getStats, getSuperContestEffects, getTypes,
-getVersions, getVersionGroups
+@docs getResourceList
 
 
 # Single resource-based HTTP tasks
@@ -61,12 +50,6 @@ import PokeApi exposing (..)
 
 
 {-| -}
-v2 : String
-v2 =
-    "https://pokeapi.co/api/v2/"
-
-
-{-| -}
 type ParameterType
     = Name String
     | Id Int
@@ -85,341 +68,37 @@ type Page
     | OnPageOfSize Int PageSize
 
 
-{-| -}
-getAbilities : Page -> Task Http.Error NamedApiResourceList
-getAbilities =
-    get Ability_ decodeNamedApiResourceList
+{-| Gets a list of the specified resource
 
+Example
 
-{-| -}
-getBerries : Page -> Task Http.Error NamedApiResourceList
-getBerries =
-    get Berry_ decodeNamedApiResourceList
-
-
-{-| -}
-getBerryFirmnesses : Page -> Task Http.Error NamedApiResourceList
-getBerryFirmnesses =
-    get BerryFirmness_ decodeNamedApiResourceList
-
-
-{-| -}
-getBerryFlavors : Page -> Task Http.Error NamedApiResourceList
-getBerryFlavors =
-    get BerryFlavor_ decodeNamedApiResourceList
-
-
-{-| -}
-getCharacteristics : Page -> Task Http.Error ApiResourceList
-getCharacteristics =
-    get Characteristic_ decodeApiResourceList
-
-
-{-| -}
-getContestEffects : Page -> Task Http.Error ApiResourceList
-getContestEffects =
-    get ContestEffect_ decodeApiResourceList
-
-
-{-| -}
-getContestTypes : Page -> Task Http.Error NamedApiResourceList
-getContestTypes =
-    get ContestType_ decodeNamedApiResourceList
-
-
-{-| -}
-getEggGroups : Page -> Task Http.Error NamedApiResourceList
-getEggGroups =
-    get EggGroup_ decodeNamedApiResourceList
-
-
-{-| -}
-getEncounterConditions : Page -> Task Http.Error NamedApiResourceList
-getEncounterConditions =
-    get EncounterCondition_ decodeNamedApiResourceList
-
-
-{-| -}
-getEncounterConditionValues : Page -> Task Http.Error NamedApiResourceList
-getEncounterConditionValues =
-    get EncounterConditionValue_ decodeNamedApiResourceList
-
-
-{-| -}
-getEncounterMethods : Page -> Task Http.Error NamedApiResourceList
-getEncounterMethods =
-    get EncounterMethod_ decodeNamedApiResourceList
-
-
-{-| -}
-getEvolutionChains : Page -> Task Http.Error ApiResourceList
-getEvolutionChains =
-    get EvolutionChain_ decodeApiResourceList
-
-
-{-| -}
-getEvolutionTriggers : Page -> Task Http.Error NamedApiResourceList
-getEvolutionTriggers =
-    get EvolutionTrigger_ decodeNamedApiResourceList
-
-
-{-| -}
-getGenders : Page -> Task Http.Error NamedApiResourceList
-getGenders =
-    get Gender_ decodeNamedApiResourceList
-
-
-{-| -}
-getGenerations : Page -> Task Http.Error NamedApiResourceList
-getGenerations =
-    get Generation_ decodeNamedApiResourceList
-
-
-{-| -}
-getGrowthRates : Page -> Task Http.Error NamedApiResourceList
-getGrowthRates =
-    get GrowthRate_ decodeNamedApiResourceList
-
-
-{-| -}
-getItems : Page -> Task Http.Error NamedApiResourceList
-getItems =
-    get Item_ decodeNamedApiResourceList
-
-
-{-| -}
-getItemAttributes : Page -> Task Http.Error NamedApiResourceList
-getItemAttributes =
-    get ItemAttribute_ decodeNamedApiResourceList
-
-
-{-| -}
-getItemCategories : Page -> Task Http.Error NamedApiResourceList
-getItemCategories =
-    get ItemCategory_ decodeNamedApiResourceList
-
-
-{-| -}
-getItemFlingEffects : Page -> Task Http.Error NamedApiResourceList
-getItemFlingEffects =
-    get ItemFlingEffect_ decodeNamedApiResourceList
-
-
-{-| -}
-getItemPockets : Page -> Task Http.Error NamedApiResourceList
-getItemPockets =
-    get ItemPocket_ decodeNamedApiResourceList
-
-
-{-| -}
-getLanguages : Page -> Task Http.Error NamedApiResourceList
-getLanguages =
-    get Language_ decodeNamedApiResourceList
-
-
-{-| -}
-getLocations : Page -> Task Http.Error NamedApiResourceList
-getLocations =
-    get Location_ decodeNamedApiResourceList
-
-
-{-| -}
-getLocationAreas : Page -> Task Http.Error NamedApiResourceList
-getLocationAreas =
-    get LocationArea_ decodeNamedApiResourceList
-
-
-{-| -}
-getMachines : Page -> Task Http.Error ApiResourceList
-getMachines =
-    get Machine_ decodeApiResourceList
-
-
-{-| -}
-getMoves : Page -> Task Http.Error NamedApiResourceList
-getMoves =
-    get Move_ decodeNamedApiResourceList
-
-
-{-| -}
-getMoveAilments : Page -> Task Http.Error NamedApiResourceList
-getMoveAilments =
-    get MoveAilment_ decodeNamedApiResourceList
-
-
-{-| -}
-getMoveBattleStyles : Page -> Task Http.Error NamedApiResourceList
-getMoveBattleStyles =
-    get MoveBattleStyle_ decodeNamedApiResourceList
-
-
-{-| -}
-getMoveCategories : Page -> Task Http.Error NamedApiResourceList
-getMoveCategories =
-    get MoveCategory_ decodeNamedApiResourceList
-
-
-{-| -}
-getMoveDamageClasses : Page -> Task Http.Error NamedApiResourceList
-getMoveDamageClasses =
-    get MoveDamageClass_ decodeNamedApiResourceList
-
-
-{-| -}
-getMoveLearnMethods : Page -> Task Http.Error NamedApiResourceList
-getMoveLearnMethods =
-    get MoveLearnMethod_ decodeNamedApiResourceList
-
-
-{-| -}
-getMoveTargets : Page -> Task Http.Error NamedApiResourceList
-getMoveTargets =
-    get MoveTarget_ decodeNamedApiResourceList
-
-
-{-| -}
-getNatures : Page -> Task Http.Error NamedApiResourceList
-getNatures =
-    get Nature_ decodeNamedApiResourceList
-
-
-{-| -}
-getPalParkAreas : Page -> Task Http.Error NamedApiResourceList
-getPalParkAreas =
-    get PalParkArea_ decodeNamedApiResourceList
-
-
-{-| -}
-getPokeathlonStats : Page -> Task Http.Error NamedApiResourceList
-getPokeathlonStats =
-    get PokeathlonStat_ decodeNamedApiResourceList
-
-
-{-| -}
-getPokedexes : Page -> Task Http.Error NamedApiResourceList
-getPokedexes =
-    get Pokedex_ decodeNamedApiResourceList
-
-
-{-| -}
-getPokemon : Page -> Task Http.Error NamedApiResourceList
-getPokemon =
-    get Pokemon_ decodeNamedApiResourceList
-
-
-{-| -}
-getPokemonColors : Page -> Task Http.Error NamedApiResourceList
-getPokemonColors =
-    get PokemonColor_ decodeNamedApiResourceList
-
-
-{-| -}
-getPokemonForms : Page -> Task Http.Error NamedApiResourceList
-getPokemonForms =
-    get PokemonForm_ decodeNamedApiResourceList
-
-
-{-| -}
-getPokemonHabitats : Page -> Task Http.Error NamedApiResourceList
-getPokemonHabitats =
-    get PokemonHabitat_ decodeNamedApiResourceList
-
-
-{-| -}
-getPokemonShapes : Page -> Task Http.Error NamedApiResourceList
-getPokemonShapes =
-    get PokemonShape_ decodeNamedApiResourceList
-
-
-{-| -}
-getPokemonSpecies : Page -> Task Http.Error NamedApiResourceList
-getPokemonSpecies =
-    get PokemonSpecies_ decodeNamedApiResourceList
-
-
-{-| -}
-getRegions : Page -> Task Http.Error NamedApiResourceList
-getRegions =
-    get Region_ decodeNamedApiResourceList
-
-
-{-| -}
-getStats : Page -> Task Http.Error NamedApiResourceList
-getStats =
-    get Stat_ decodeNamedApiResourceList
-
-
-{-| -}
-getSuperContestEffects : Page -> Task Http.Error ApiResourceList
-getSuperContestEffects =
-    get SuperContestEffect_ decodeApiResourceList
-
-
-{-| -}
-getTypes : Page -> Task Http.Error NamedApiResourceList
-getTypes =
-    get Type_ decodeNamedApiResourceList
-
-
-{-| -}
-getVersions : Page -> Task Http.Error NamedApiResourceList
-getVersions =
-    get Version_ decodeNamedApiResourceList
-
-
-{-| -}
-getVersionGroups : Page -> Task Http.Error NamedApiResourceList
-getVersionGroups =
-    get VersionGroup_ decodeNamedApiResourceList
-
-
-{-| Allows you to specify custom paging when retrieving a list of some resource
-
-    get Pokemon_ (OnPage 1)
+    -- get a list of pokemon
+    getResourceList Pokemon_ (OnPage 1)
 
 -}
-get : Resource -> Decoder a -> Page -> Task Http.Error a
-get res decoder page =
+getResourceList :
+    Resource
+    -> Page
+    -> Task Http.Error ApiResourceList
+getResourceList res page =
     let
         endpoint =
             resourceAsString res
 
         url =
-            makeListUrl endpoint page
-    in
-        decoder
-            |> Http.get url
-            |> Http.toTask
+            makeListUrl endpoint pageLimit
 
-
-{-| -}
-makeListUrl : String -> Page -> String
-makeListUrl endpoint page =
-    let
-        ( pageNum, limit ) =
+        pageLimit =
             case page of
                 OnPage num ->
                     ( num, 20 )
 
                 OnPageOfSize num limit ->
                     ( num, limit )
-
-        q =
-            String.join "&"
-                [ "limit="
-                , toString limit
-                , "offset="
-                , (pageNum - 1)
-                    |> (*) limit
-                    |> toString
-                ]
     in
-        String.concat
-            [ v2
-            , endpoint
-            , "/?"
-            , q
-            ]
+        decodeApiResourceList
+            |> Http.get url
+            |> Http.toTask
 
 
 {-| -}
