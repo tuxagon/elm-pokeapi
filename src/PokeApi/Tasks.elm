@@ -56,8 +56,7 @@ module PokeApi.Tasks
         , getBy
         )
 
-{-| This library is a wrapper for PokeApi (<https://pokeapi.co/>) that provides
-you with concrete types to all the applicable models
+{-| A collection of tasks that represent endpoints to the PokeAPI
 
 
 # List-based HTTP tasks
