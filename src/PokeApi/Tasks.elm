@@ -134,11 +134,8 @@ getResourceList :
     -> Task Http.Error ApiResourceList
 getResourceList res page =
     let
-        endpoint =
-            resourceAsString res
-
         url =
-            makeListUrl endpoint pageLimit
+            makeListUrl res pageLimit
 
         pageLimit =
             case page of
@@ -463,19 +460,16 @@ getVersionGroupBy =
 getBy : Resource -> Decoder a -> ParameterType -> Task Http.Error a
 getBy res decoder param =
     let
-        endpoint =
-            resourceAsString res
-
         url =
             case param of
                 Url (ApiUrl url_) ->
                     url_
 
                 Name name ->
-                    makeResourceUrl ( endpoint, name )
+                    makeResourceUrl ( res, name )
 
                 Id id ->
-                    makeResourceUrl ( endpoint, toString id )
+                    makeResourceUrl ( res, toString id )
     in
         decoder
             |> Http.get url

@@ -16,18 +16,23 @@ v2 =
 
 
 {-| -}
-makeListUrl : String -> ( Int, Int ) -> String
-makeListUrl endpoint ( page, limit ) =
+makeListUrl : Resource -> ( Int, Int ) -> String
+makeListUrl res ( page, limit ) =
     let
+        endpoint =
+            resourceAsString res
+
         query =
             String.join "&"
-                [ "limit="
-                , toString limit
-                , "offset="
-                , (page - 1)
-                    |> (*) limit
-                    |> toString
+                [ "limit=" ++ toString limit
+                , "offset=" ++ toString offset
                 ]
+
+        offset =
+            if page > 0 then
+                (page - 1) * limit
+            else
+                0
     in
         String.concat
             [ v2
@@ -38,15 +43,19 @@ makeListUrl endpoint ( page, limit ) =
 
 
 {-| -}
-makeResourceUrl : ( String, String ) -> String
-makeResourceUrl ( endpoint, param ) =
-    String.concat
-        [ v2
-        , endpoint
-        , "/"
-        , param
-        , "/"
-        ]
+makeResourceUrl : ( Resource, String ) -> String
+makeResourceUrl ( res, param ) =
+    let
+        endpoint =
+            resourceAsString res
+    in
+        String.concat
+            [ v2
+            , endpoint
+            , "/"
+            , param
+            , "/"
+            ]
 
 
 {-| -}
