@@ -1,4 +1,4 @@
-module Example exposing (..)
+module Internals exposing (..)
 
 import Dict exposing (Dict)
 import Expect exposing (Expectation)
