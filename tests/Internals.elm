@@ -11,7 +11,7 @@ import Test exposing (..)
 
 suite : Test
 suite =
-    describe "The Internals module"
+    describe "The PokeApi.Internals module"
         [ describe "PokeApi.Internals.v2"
             [ test "has correct v2 url" <|
                 \_ ->
@@ -87,6 +87,30 @@ suite =
                                 ]
                             )
                             (Internals.makeListUrl Pokemon_ ( page, limit ))
+            , concat
+                (List.map
+                    (\endpoint ->
+                        test ("has correct endpoint for list " ++ endpoint) <|
+                            \_ ->
+                                case getResource endpoint of
+                                    Just resource ->
+                                        Expect.equal
+                                            (String.concat
+                                                [ v2
+                                                , endpoint
+                                                , "/?limit=10&offset=0"
+                                                ]
+                                            )
+                                            (Internals.makeListUrl resource ( 1, 10 ))
+
+                                    Nothing ->
+                                        Expect.fail
+                                            ("Expected list endpoint to be "
+                                                ++ endpoint
+                                            )
+                    )
+                    (Dict.keys resources)
+                )
             ]
         , describe "PokeApi.Internals.makeResourceUrl"
             [ test "has valid url for id" <|
@@ -114,6 +138,29 @@ suite =
                     Expect.equal
                         (String.concat [ v2, "pokemon/", parameter, "/" ])
                         (Internals.makeResourceUrl ( Pokemon_, parameter ))
+            , concat
+                (List.map
+                    (\endpoint ->
+                        test ("has correct endpoint for resource " ++ endpoint) <|
+                            \_ ->
+                                case getResource endpoint of
+                                    Just resource ->
+                                        Expect.equal
+                                            (String.concat [ v2, endpoint, "/1/" ])
+                                            (Internals.makeResourceUrl
+                                                ( resource
+                                                , "1"
+                                                )
+                                            )
+
+                                    Nothing ->
+                                        Expect.fail
+                                            ("Expected resource endpoint to be "
+                                                ++ endpoint
+                                            )
+                    )
+                    (Dict.keys resources)
+                )
             ]
         , describe "PokeApi.Internals.resourceAsString"
             [ concat
