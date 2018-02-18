@@ -1,5 +1,7 @@
 # Pokéapi Wrapper for Elm
 
+[![Build Status](https://travis-ci.org/tuxagon/elm-pokeapi.svg?branch=master)](https://travis-ci.org/tuxagon/elm-pokeapi)
+
 ## Documentation
 
 API documentation regarding Pokéapi can be found
