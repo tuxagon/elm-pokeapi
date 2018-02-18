@@ -454,7 +454,7 @@ decodeEvolutionChain =
     decode EvolutionChain
         |> required "id" int
         |> required "baby_trigger_item" (maybe decodeApiResource)
-        |> required "chain" decodeChainLink
+        |> required "chain" (maybe decodeChainLink)
 
 
 {-| -}
@@ -631,7 +631,7 @@ decodeItemFlingEffect =
 decodeItemHolderPokemon : Decoder ItemHolderPokemon
 decodeItemHolderPokemon =
     decode ItemHolderPokemon
-        |> required "pokemon" string
+        |> required "pokemon" decodeApiResource
         |> required "version_details" (list decodeItemHolderPokemonVersionDetail)
 
 
@@ -639,7 +639,7 @@ decodeItemHolderPokemon =
 decodeItemHolderPokemonVersionDetail : Decoder ItemHolderPokemonVersionDetail
 decodeItemHolderPokemonVersionDetail =
     decode ItemHolderPokemonVersionDetail
-        |> required "rarity" string
+        |> required "rarity" int
         |> required "version" decodeApiResource
 
 
@@ -961,10 +961,10 @@ decodePalParkEncounterSpecies =
 decodePastMoveStatValues : Decoder PastMoveStatValues
 decodePastMoveStatValues =
     decode PastMoveStatValues
-        |> required "accuracy" int
-        |> required "effect_chance" int
-        |> required "power" int
-        |> required "pp" int
+        |> required "accuracy" (maybe int)
+        |> required "effect_chance" (maybe int)
+        |> required "power" (maybe int)
+        |> required "pp" (maybe int)
         |> required "effect_entries" (list decodeVerboseEffect)
         |> required "type" decodeApiResource
         |> required "version_group" decodeApiResource
@@ -1158,7 +1158,7 @@ decodePokemonSpecies =
         |> required "shape" decodeApiResource
         |> required "evolves_from_species" (maybe decodeApiResource)
         |> required "evolution_chain" decodeApiResource
-        |> required "habitat" decodeApiResource
+        |> required "habitat" (maybe decodeApiResource)
         |> required "generation" decodeApiResource
         |> required "names" (list decodeName)
         |> required "pal_park_encounters" (list decodePalParkEncounterArea)

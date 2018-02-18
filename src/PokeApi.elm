@@ -466,7 +466,7 @@ type alias EncounterVersionDetails =
 type alias EvolutionChain =
     { id : Int
     , babyTriggerItem : Maybe ApiResource
-    , chain : ChainLink
+    , chain : Maybe ChainLink
     }
 
 
@@ -622,14 +622,14 @@ type alias ItemFlingEffect =
 
 {-| -}
 type alias ItemHolderPokemon =
-    { pokemon : String
+    { pokemon : ApiResource
     , versionDetails : List ItemHolderPokemonVersionDetail
     }
 
 
 {-| -}
 type alias ItemHolderPokemonVersionDetail =
-    { rarity : String
+    { rarity : Int
     , version : ApiResource
     }
 
@@ -920,10 +920,10 @@ type alias PalParkEncounterSpecies =
 
 {-| -}
 type alias PastMoveStatValues =
-    { accuracy : Int
-    , effectChance : Int
-    , power : Int
-    , pp : Int
+    { accuracy : Maybe Int
+    , effectChance : Maybe Int
+    , power : Maybe Int
+    , pp : Maybe Int
     , effectEntries : List VerboseEffect
     , type_ : ApiResource
     , versionGroup : ApiResource
@@ -1099,7 +1099,7 @@ type alias PokemonSpecies =
     , shape : ApiResource
     , evolvesFromSpecies : Maybe ApiResource
     , evolutionChain : ApiResource
-    , habitat : ApiResource
+    , habitat : Maybe ApiResource
     , generation : ApiResource
     , names : List Name
     , palParkEncounters : List PalParkEncounterArea
