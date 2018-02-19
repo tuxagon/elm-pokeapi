@@ -152,7 +152,7 @@ update msg model =
                     Cmd.none
 
                 Just url ->
-                    getTypeBy (Url url)
+                    getTypeBy (urlOf url)
                         |> Task.attempt ReceivedType
             )
 
@@ -163,7 +163,7 @@ update msg model =
                     Cmd.none
 
                 Just url ->
-                    getPokemonBy (Url url)
+                    getPokemonBy (urlOf url)
                         |> Task.attempt ReceivedPokemon
             )
 

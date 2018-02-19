@@ -337,197 +337,197 @@ update msg model =
         TestAllClicked ->
             ( model
             , Cmd.batch
-                [ getResourceList Ability_ (OnPageOfSize 1 1000)
+                [ getResourceList Ability_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedAbilities
-                , getResourceList Berry_ (OnPageOfSize 1 1000)
+                , getResourceList Berry_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedBerries
-                , getResourceList BerryFirmness_ (OnPageOfSize 1 1000)
+                , getResourceList BerryFirmness_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedBerryFirmnesses
-                , getResourceList BerryFlavor_ (OnPageOfSize 1 1000)
+                , getResourceList BerryFlavor_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedBerryFlavors
-                , getResourceList Characteristic_ (OnPageOfSize 1 1000)
+                , getResourceList Characteristic_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedCharacteristics
-                , getResourceList ContestEffect_ (OnPageOfSize 1 1000)
+                , getResourceList ContestEffect_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedContestEffects
-                , getResourceList ContestType_ (OnPageOfSize 1 1000)
+                , getResourceList ContestType_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedContestTypes
-                , getResourceList EggGroup_ (OnPageOfSize 1 1000)
+                , getResourceList EggGroup_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedEggGroups
-                , getResourceList EncounterCondition_ (OnPageOfSize 1 1000)
+                , getResourceList EncounterCondition_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedEncounterConditions
-                , getResourceList EncounterConditionValue_ (OnPageOfSize 1 1000)
+                , getResourceList EncounterConditionValue_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedEncounterConditionValues
-                , getResourceList EncounterMethod_ (OnPageOfSize 1 1000)
+                , getResourceList EncounterMethod_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedEncounterMethods
-                , getResourceList EvolutionChain_ (OnPageOfSize 1 1000)
+                , getResourceList EvolutionChain_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedEvolutionChains
-                , getResourceList EvolutionTrigger_ (OnPageOfSize 1 1000)
+                , getResourceList EvolutionTrigger_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedEvolutionTriggers
-                , getResourceList Gender_ (OnPageOfSize 1 1000)
+                , getResourceList Gender_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedGenders
-                , getResourceList Generation_ (OnPageOfSize 1 1000)
+                , getResourceList Generation_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedGenerations
-                , getResourceList GrowthRate_ (OnPageOfSize 1 1000)
+                , getResourceList GrowthRate_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedGrowthRates
-                , getResourceList Item_ (OnPageOfSize 1 1000)
+                , getResourceList Item_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedItems
-                , getResourceList ItemAttribute_ (OnPageOfSize 1 1000)
+                , getResourceList ItemAttribute_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedItemAttributes
-                , getResourceList ItemCategory_ (OnPageOfSize 1 1000)
+                , getResourceList ItemCategory_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedItemCategories
-                , getResourceList ItemFlingEffect_ (OnPageOfSize 1 1000)
+                , getResourceList ItemFlingEffect_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedItemFlingEffects
-                , getResourceList ItemPocket_ (OnPageOfSize 1 1000)
+                , getResourceList ItemPocket_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedItemPockets
-                , getResourceList Language_ (OnPageOfSize 1 1000)
+                , getResourceList Language_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedLanguages
-                , getResourceList Location_ (OnPageOfSize 1 1000)
+                , getResourceList Location_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedLocations
-                , getResourceList LocationArea_ (OnPageOfSize 1 1000)
+                , getResourceList LocationArea_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedLocationAreas
-                , getResourceList Machine_ (OnPageOfSize 1 1000)
+                , getResourceList Machine_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedMachines
-                , getResourceList Move_ (OnPageOfSize 1 1000)
+                , getResourceList Move_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoves
-                , getResourceList MoveAilment_ (OnPageOfSize 1 1000)
+                , getResourceList MoveAilment_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveAilments
-                , getResourceList MoveBattleStyle_ (OnPageOfSize 1 1000)
+                , getResourceList MoveBattleStyle_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveBattleStyles
-                , getResourceList MoveCategory_ (OnPageOfSize 1 1000)
+                , getResourceList MoveCategory_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveCategories
-                , getResourceList MoveDamageClass_ (OnPageOfSize 1 1000)
+                , getResourceList MoveDamageClass_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveDamageClasses
-                , getResourceList MoveLearnMethod_ (OnPageOfSize 1 1000)
+                , getResourceList MoveLearnMethod_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveLearnMethods
-                , getResourceList MoveTarget_ (OnPageOfSize 1 1000)
+                , getResourceList MoveTarget_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedMoveTargets
-                , getResourceList Nature_ (OnPageOfSize 1 1000)
+                , getResourceList Nature_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedNatures
-                , getResourceList PalParkArea_ (OnPageOfSize 1 1000)
+                , getResourceList PalParkArea_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPalParkAreas
-                , getResourceList PokeathlonStat_ (OnPageOfSize 1 1000)
+                , getResourceList PokeathlonStat_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokeathlonStats
-                , getResourceList Pokedex_ (OnPageOfSize 1 1000)
+                , getResourceList Pokedex_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokedexes
-                , getResourceList Pokemon_ (OnPageOfSize 1 1000)
+                , getResourceList Pokemon_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemon
-                , getResourceList PokemonColor_ (OnPageOfSize 1 1000)
+                , getResourceList PokemonColor_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonColors
-                , getResourceList PokemonForm_ (OnPageOfSize 1 1000)
+                , getResourceList PokemonForm_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonForms
-                , getResourceList PokemonHabitat_ (OnPageOfSize 1 1000)
+                , getResourceList PokemonHabitat_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonHabitats
-                , getResourceList PokemonShape_ (OnPageOfSize 1 1000)
+                , getResourceList PokemonShape_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonShapes
-                , getResourceList PokemonSpecies_ (OnPageOfSize 1 1000)
+                , getResourceList PokemonSpecies_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedPokemonSpecies
-                , getResourceList Region_ (OnPageOfSize 1 1000)
+                , getResourceList Region_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedRegions
-                , getResourceList Stat_ (OnPageOfSize 1 1000)
+                , getResourceList Stat_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedStats
-                , getResourceList SuperContestEffect_ (OnPageOfSize 1 1000)
+                , getResourceList SuperContestEffect_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedSuperContestEffects
-                , getResourceList Type_ (OnPageOfSize 1 1000)
+                , getResourceList Type_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedTypes
-                , getResourceList Version_ (OnPageOfSize 1 1000)
+                , getResourceList Version_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedVersions
-                , getResourceList VersionGroup_ (OnPageOfSize 1 1000)
+                , getResourceList VersionGroup_ (onPageOfSize 1 1000)
                     |> Task.attempt ReceivedVersionGroups
-                , getAbilityBy (Id 1)
+                , getAbilityBy (idOf 1)
                     |> Task.attempt ReceivedAbility
-                , getBerryBy (Id 1)
+                , getBerryBy (idOf 1)
                     |> Task.attempt ReceivedBerry
-                , getBerryFirmnessBy (Id 1)
+                , getBerryFirmnessBy (idOf 1)
                     |> Task.attempt ReceivedBerryFirmness
-                , getBerryFlavorBy (Id 1)
+                , getBerryFlavorBy (idOf 1)
                     |> Task.attempt ReceivedBerryFlavor
-                , getCharacteristicBy (Id 1)
+                , getCharacteristicBy (idOf 1)
                     |> Task.attempt ReceivedCharacteristic
-                , getContestEffectBy (Id 1)
+                , getContestEffectBy (idOf 1)
                     |> Task.attempt ReceivedContestEffect
-                , getContestTypeBy (Id 1)
+                , getContestTypeBy (idOf 1)
                     |> Task.attempt ReceivedContestType
-                , getEggGroupBy (Id 1)
+                , getEggGroupBy (idOf 1)
                     |> Task.attempt ReceivedEggGroup
-                , getEncounterConditionBy (Id 1)
+                , getEncounterConditionBy (idOf 1)
                     |> Task.attempt ReceivedEncounterCondition
-                , getEncounterConditionValueBy (Id 1)
+                , getEncounterConditionValueBy (idOf 1)
                     |> Task.attempt ReceivedEncounterConditionValue
-                , getEncounterMethodBy (Id 1)
+                , getEncounterMethodBy (idOf 1)
                     |> Task.attempt ReceivedEncounterMethod
-                , getEvolutionChainBy (Id 1)
+                , getEvolutionChainBy (idOf 1)
                     |> Task.attempt ReceivedEvolutionChain
-                , getEvolutionTriggerBy (Id 1)
+                , getEvolutionTriggerBy (idOf 1)
                     |> Task.attempt ReceivedEvolutionTrigger
-                , getGenderBy (Id 1)
+                , getGenderBy (idOf 1)
                     |> Task.attempt ReceivedGender
-                , getGenerationBy (Id 1)
+                , getGenerationBy (idOf 1)
                     |> Task.attempt ReceivedGeneration
-                , getGrowthRateBy (Id 1)
+                , getGrowthRateBy (idOf 1)
                     |> Task.attempt ReceivedGrowthRate
-                , getItemBy (Id 1)
+                , getItemBy (idOf 1)
                     |> Task.attempt ReceivedItem
-                , getItemAttributeBy (Id 1)
+                , getItemAttributeBy (idOf 1)
                     |> Task.attempt ReceivedItemAttribute
-                , getItemCategoryBy (Id 1)
+                , getItemCategoryBy (idOf 1)
                     |> Task.attempt ReceivedItemCategory
-                , getItemFlingEffectBy (Id 1)
+                , getItemFlingEffectBy (idOf 1)
                     |> Task.attempt ReceivedItemFlingEffect
-                , getItemPocketBy (Id 1)
+                , getItemPocketBy (idOf 1)
                     |> Task.attempt ReceivedItemPocket
-                , getLanguageBy (Id 1)
+                , getLanguageBy (idOf 1)
                     |> Task.attempt ReceivedLanguage
-                , getLocationBy (Id 1)
+                , getLocationBy (idOf 1)
                     |> Task.attempt ReceivedLocation
-                , getLocationAreaBy (Id 1)
+                , getLocationAreaBy (idOf 1)
                     |> Task.attempt ReceivedLocationArea
-                , getMachineBy (Id 1)
+                , getMachineBy (idOf 1)
                     |> Task.attempt ReceivedMachine
-                , getMoveBy (Id 1)
+                , getMoveBy (idOf 1)
                     |> Task.attempt ReceivedMove
-                , getMoveAilmentBy (Id 1)
+                , getMoveAilmentBy (idOf 1)
                     |> Task.attempt ReceivedMoveAilment
-                , getMoveBattleStyleBy (Id 1)
+                , getMoveBattleStyleBy (idOf 1)
                     |> Task.attempt ReceivedMoveBattleStyle
-                , getMoveCategoryBy (Id 1)
+                , getMoveCategoryBy (idOf 1)
                     |> Task.attempt ReceivedMoveCategory
-                , getMoveDamageClassBy (Id 1)
+                , getMoveDamageClassBy (idOf 1)
                     |> Task.attempt ReceivedMoveDamageClass
-                , getMoveLearnMethodBy (Id 1)
+                , getMoveLearnMethodBy (idOf 1)
                     |> Task.attempt ReceivedMoveLearnMethod
-                , getMoveTargetBy (Id 1)
+                , getMoveTargetBy (idOf 1)
                     |> Task.attempt ReceivedMoveTarget
-                , getNatureBy (Id 1)
+                , getNatureBy (idOf 1)
                     |> Task.attempt ReceivedNature
-                , getPalParkAreaBy (Id 1)
+                , getPalParkAreaBy (idOf 1)
                     |> Task.attempt ReceivedPalParkArea
-                , getPokeathlonStatBy (Id 1)
+                , getPokeathlonStatBy (idOf 1)
                     |> Task.attempt ReceivedPokeathlonStat
-                , getPokedexBy (Id 1)
+                , getPokedexBy (idOf 1)
                     |> Task.attempt ReceivedPokedex
-                , getPokemonBy (Id 1)
+                , getPokemonBy (idOf 1)
                     |> Task.attempt ReceivedPokemon_
-                , getPokemonColorBy (Id 1)
+                , getPokemonColorBy (idOf 1)
                     |> Task.attempt ReceivedPokemonColor
-                , getPokemonFormBy (Id 1)
+                , getPokemonFormBy (idOf 1)
                     |> Task.attempt ReceivedPokemonForm
-                , getPokemonHabitatBy (Id 1)
+                , getPokemonHabitatBy (idOf 1)
                     |> Task.attempt ReceivedPokemonHabitat
-                , getPokemonShapeBy (Id 1)
+                , getPokemonShapeBy (idOf 1)
                     |> Task.attempt ReceivedPokemonShape
-                , getPokemonSpeciesBy (Id 1)
+                , getPokemonSpeciesBy (idOf 1)
                     |> Task.attempt ReceivedPokemonSpecies_
-                , getRegionBy (Id 1)
+                , getRegionBy (idOf 1)
                     |> Task.attempt ReceivedRegion
-                , getStatBy (Id 1)
+                , getStatBy (idOf 1)
                     |> Task.attempt ReceivedStat
-                , getSuperContestEffectBy (Id 1)
+                , getSuperContestEffectBy (idOf 1)
                     |> Task.attempt ReceivedSuperContestEffect
-                , getTypeBy (Id 1)
+                , getTypeBy (idOf 1)
                     |> Task.attempt ReceivedType
-                , getVersionBy (Id 1)
+                , getVersionBy (idOf 1)
                     |> Task.attempt ReceivedVersion
-                , getVersionGroupBy (Id 1)
+                , getVersionGroupBy (idOf 1)
                     |> Task.attempt ReceivedVersionGroup
                 ]
             )

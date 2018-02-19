@@ -1,8 +1,12 @@
 module PokeApi.Tasks
     exposing
-        ( ParameterType(..)
-        , PageSize
-        , Page(..)
+        ( ParameterType
+        , Page
+        , nameOf
+        , idOf
+        , urlOf
+        , onPage
+        , onPageOfSize
         , getResourceList
         , getResourceListByUrl
         , getAbilityBy
@@ -59,6 +63,11 @@ module PokeApi.Tasks
 {-| A collection of tasks that represent endpoints to the PokeAPI
 
 
+# Models
+
+@docs ParameterType, Page, nameOf, idOf, urlOf, onPage, onPageOfSize
+
+
 # List-based HTTP tasks
 
 Gets a list of the specified resource
@@ -71,10 +80,10 @@ Gets a list of the specified resource
 Retrieves a single resource of the specific resource for that function
 
     -- gets the pokemon with name "pikachu"
-    getPokemonBy (Name "pikachu")
+    getPokemonBy (nameOf "pikachu")
 
     -- gets the berry with id 5
-    getBerryBy (Id 5)
+    getBerryBy (idOf 5)
 
 @docs getAbilityBy, getBerryBy, getBerryFirmnessBy,
 getBerryFlavorBy, getCharacteristicBy, getContestEffectBy, getContestTypeBy,
@@ -109,15 +118,45 @@ type ParameterType
 
 
 {-| -}
-type alias PageSize =
-    Int
+nameOf : String -> ParameterType
+nameOf =
+    Name
+
+
+{-| -}
+idOf : Int -> ParameterType
+idOf =
+    Id
+
+
+{-| -}
+urlOf : ApiUrl -> ParameterType
+urlOf =
+    Url
 
 
 {-| Specify what page and how big that page should be
 -}
 type Page
     = OnPage Int
-    | OnPageOfSize Int PageSize
+    | OnPageOfSize Int Int
+
+
+{-| -}
+onPage : Int -> Page
+onPage =
+    OnPage
+
+
+{-| Specifies page with a page limit
+
+    -- page 2 with limit of 30 items per page
+    onPageOfSize 2 30
+
+-}
+onPageOfSize : Int -> Int -> Page
+onPageOfSize =
+    OnPageOfSize
 
 
 {-| Gets a list of the specified resource
