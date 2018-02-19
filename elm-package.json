@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
     "summary": "Wrapper for Pokeapi",
-    "repository": "https://github.com/tuxagon/elm-pokeapi",
+    "repository": "https://github.com/tuxagon/elm-pokeapi.git",
     "license": "BSD3",
     "source-directories": [
         "src"
