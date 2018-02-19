@@ -7,15 +7,15 @@ module PokeApi
         , AbilityPokemon
         , ApiResource
         , ApiResourceList
-        , ApiUrl(..)
-        , ApiListUrl(..)
+        , ApiUrl
+        , ApiListUrl
         , AwesomeName
         , Berry
         , BerryFirmness
         , BerryFlavor
         , BerryFlavorMap
         , ChainLink
-        , Evolutions(..)
+        , Evolutions
         , Characteristic
         , ContestComboSets
         , ContestComboDetail
@@ -113,6 +113,12 @@ module PokeApi
         , VersionGameIndex
         , VersionGroup
         , VersionGroupFlavorText
+        , asApiUrl
+        , asApiListUrl
+        , asEvolutions
+        , getChainLinkList
+        , getUrl
+        , getListUrl
         )
 
 {-| This library is a wrapper for PokeApi (<https://pokeapi.co/>) that provides
@@ -121,7 +127,8 @@ you with concrete types to all the applicable models
 
 # General
 
-@docs ApiUrl, ApiListUrl, Resource
+@docs ApiUrl, ApiListUrl, Resource, asApiUrl, asApiListUrl,
+getUrl, getListUrl, asEvolutions, getChainLinkList
 
 
 # Poke API Models
@@ -216,9 +223,29 @@ type ApiUrl
     = ApiUrl String
 
 
+asApiUrl : String -> ApiUrl
+asApiUrl =
+    ApiUrl
+
+
+getUrl : ApiUrl -> String
+getUrl (ApiUrl url) =
+    url
+
+
 {-| -}
 type ApiListUrl
     = ApiListUrl String
+
+
+asApiListUrl : String -> ApiListUrl
+asApiListUrl =
+    ApiListUrl
+
+
+getListUrl : ApiListUrl -> String
+getListUrl (ApiListUrl url) =
+    url
 
 
 {-| -}
@@ -336,6 +363,16 @@ type alias ChainLink =
 {-| -}
 type Evolutions
     = Evolutions (List ChainLink)
+
+
+asEvolutions : List ChainLink -> Evolutions
+asEvolutions =
+    Evolutions
+
+
+getChainLinkList : Evolutions -> List ChainLink
+getChainLinkList (Evolutions chainLinkList) =
+    chainLinkList
 
 
 {-| -}

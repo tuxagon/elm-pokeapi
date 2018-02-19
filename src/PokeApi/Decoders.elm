@@ -233,13 +233,13 @@ decodeApiResourceList =
 {-| -}
 decodeApiUrl : Decoder ApiUrl
 decodeApiUrl =
-    map ApiUrl string
+    map asApiUrl string
 
 
 {-| -}
 decodeApiListUrl : Decoder ApiListUrl
 decodeApiListUrl =
-    map ApiListUrl string
+    map asApiListUrl string
 
 
 {-| -}
@@ -306,7 +306,7 @@ decodeChainLink =
         |> required "evolution_details"
             (list decodeEvolutionDetail)
         |> required "evolves_to"
-            (map Evolutions (list (lazy (\_ -> decodeChainLink))))
+            (map asEvolutions (list (lazy (\_ -> decodeChainLink))))
 
 
 {-| -}
