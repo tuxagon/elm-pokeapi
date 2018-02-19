@@ -75,6 +75,7 @@ module PokeApi
         , NaturePokeathlonStatAffectSets
         , NatureStatAffectSets
         , NatureStatChange
+        , NotFound
         , PalParkArea
         , PalParkEncounterArea
         , PalParkEncounterSpecies
@@ -927,6 +928,12 @@ type alias NatureStatAffectSets =
 type alias NatureStatChange =
     { maxChange : Int
     , pokeathlonStat : ApiResource
+    }
+
+
+{-| -}
+type alias NotFound =
+    { detail : String
     }
 
 

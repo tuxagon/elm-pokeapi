@@ -456,6 +456,12 @@ suite =
                 Valid.natureStatChange
                 Decoders.decodeNatureStatChange
             ]
+        , describe "PokeApi.Decoders.decodeNotFound"
+            [ decodeValidPayload
+                "NotFound"
+                Valid.notFound
+                Decoders.decodeNotFound
+            ]
         , describe "PokeApi.Decoders.decodePalParkArea"
             [ decodeValidPayload
                 "PalParkArea"

@@ -73,6 +73,7 @@ module PokeApi.Decoders
         , decodeNaturePokeathlonStatAffectSets
         , decodeNatureStatAffectSets
         , decodeNatureStatChange
+        , decodeNotFound
         , decodePalParkArea
         , decodePalParkEncounterArea
         , decodePalParkEncounterSpecies
@@ -927,6 +928,13 @@ decodeNatureStatChange =
     decode NatureStatChange
         |> required "max_change" int
         |> required "pokeathlon_stat" decodeApiResource
+
+
+{-| -}
+decodeNotFound : Decoder NotFound
+decodeNotFound =
+    decode NotFound
+        |> required "detail" string
 
 
 {-| -}

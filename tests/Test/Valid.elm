@@ -1721,6 +1721,15 @@ natureStatChange =
     """
 
 
+notFound : String
+notFound =
+    """
+    {
+      "detail": "Not found."
+    }
+    """
+
+
 palParkArea : String
 palParkArea =
     """
