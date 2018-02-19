@@ -74,6 +74,9 @@ Gets a list of the specified resource
 
 @docs getResourceList, getResourceListByUrl
 
+    -- gets a list of pokemon
+    getResourceList Pokemon_ (onPage 1)
+
 
 # Single resource-based HTTP tasks
 
