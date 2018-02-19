@@ -823,108 +823,127 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div
-        []
-        [ ul []
-            [ viewLoadStatus "List Ability" model.abilities
-            , viewLoadStatus "List Berry" model.berries
-            , viewLoadStatus "List Berry Firmess" model.berryFirmnesses
-            , viewLoadStatus "List Berry Flavor" model.berryFlavors
-            , viewLoadStatus "List Characteristic" model.characteristics
-            , viewLoadStatus "List Contest Effect" model.contestEffects
-            , viewLoadStatus "List Contest Type" model.contestTypes
-            , viewLoadStatus "List Egg Group" model.eggGroups
-            , viewLoadStatus "List Encounter Condition" model.encounterConditions
-            , viewLoadStatus "List Encounter Condition Value" model.encounterConditionValues
-            , viewLoadStatus "List Encounter Method" model.encounterMethods
-            , viewLoadStatus "List Evolution Chain" model.evolutionChains
-            , viewLoadStatus "List Evolution Trigger" model.evolutionTriggers
-            , viewLoadStatus "List Gender" model.genders
-            , viewLoadStatus "List Generation" model.generations
-            , viewLoadStatus "List Growth Rate" model.growthRates
-            , viewLoadStatus "List Item" model.items
-            , viewLoadStatus "List Item Attribute" model.itemAttributes
-            , viewLoadStatus "List Item Category" model.itemCategories
-            , viewLoadStatus "List Item Fling Effect" model.itemFlingEffects
-            , viewLoadStatus "List Item Pocket" model.itemPockets
-            , viewLoadStatus "List Language" model.languages
-            , viewLoadStatus "List Location" model.locations
-            , viewLoadStatus "List Location Area" model.locationAreas
-            , viewLoadStatus "List Machine" model.machines
-            , viewLoadStatus "List Move" model.moves
-            , viewLoadStatus "List Move Ailment" model.moveAilments
-            , viewLoadStatus "List Move Battle Style" model.moveBattleStyles
-            , viewLoadStatus "List Move Category" model.moveCategories
-            , viewLoadStatus "List Move Damage Class" model.moveDamageClasses
-            , viewLoadStatus "List Move Learn Method" model.moveLearnMethods
-            , viewLoadStatus "List Move Target" model.moveTargets
-            , viewLoadStatus "List Nature" model.natures
-            , viewLoadStatus "List PalPark Area" model.palParkAreas
-            , viewLoadStatus "List Pokeathlon Stat" model.pokeathlonStats
-            , viewLoadStatus "List Pokedex" model.pokedexes
-            , viewLoadStatus "List Pokemon" model.pokemon
-            , viewLoadStatus "List Pokemon Color" model.pokemonColors
-            , viewLoadStatus "List Pokemon Form" model.pokemonForms
-            , viewLoadStatus "List Pokemon Habitat" model.pokemonHabitats
-            , viewLoadStatus "List Pokemon Shape" model.pokemonShapes
-            , viewLoadStatus "List Pokemon Species" model.pokemonSpecies
-            , viewLoadStatus "List Region" model.regions
-            , viewLoadStatus "List Stat" model.stats
-            , viewLoadStatus "List Super Contest Effect" model.superContestEffects
-            , viewLoadStatus "List Type" model.types
-            , viewLoadStatus "List Version" model.versions
-            , viewLoadStatus "List Version Group" model.versionGroups
-            , viewLoadStatus "Ability" model.ability
-            , viewLoadStatus "Berry" model.berry
-            , viewLoadStatus "BerryFirmness" model.berryFirmness
-            , viewLoadStatus "BerryFlavor" model.berryFlavor
-            , viewLoadStatus "Characteristic" model.characteristic
-            , viewLoadStatus "ContestEffect" model.contestEffect
-            , viewLoadStatus "ContestType" model.contestType
-            , viewLoadStatus "EggGroup" model.eggGroup
-            , viewLoadStatus "EncounterCondition" model.encounterCondition
-            , viewLoadStatus "EncounterConditionValue" model.encounterConditionValue
-            , viewLoadStatus "EncounterMethod" model.encounterMethod
-            , viewLoadStatus "EvolutionChain" model.evolutionChain
-            , viewLoadStatus "EvolutionTrigger" model.evolutionTrigger
-            , viewLoadStatus "Gender" model.gender
-            , viewLoadStatus "Generation" model.generation
-            , viewLoadStatus "GrowthRate" model.growthRate
-            , viewLoadStatus "Item" model.item
-            , viewLoadStatus "ItemAttribute" model.itemAttribute
-            , viewLoadStatus "ItemCategory" model.itemCategory
-            , viewLoadStatus "ItemFlingEffect" model.itemFlingEffect
-            , viewLoadStatus "ItemPocket" model.itemPocket
-            , viewLoadStatus "Language" model.language
-            , viewLoadStatus "Location" model.location
-            , viewLoadStatus "LocationArea" model.locationArea
-            , viewLoadStatus "Machine" model.machine
-            , viewLoadStatus "Move" model.move
-            , viewLoadStatus "MoveAilment" model.moveAilment
-            , viewLoadStatus "MoveBattleStyle" model.moveBattleStyle
-            , viewLoadStatus "MoveCategory" model.moveCategory
-            , viewLoadStatus "MoveDamageClass" model.moveDamageClass
-            , viewLoadStatus "MoveLearnMethod" model.moveLearnMethod
-            , viewLoadStatus "MoveTarget" model.moveTarget
-            , viewLoadStatus "Nature" model.nature
-            , viewLoadStatus "PalParkArea" model.palParkArea
-            , viewLoadStatus "PokeathlonStat" model.pokeathlonStat
-            , viewLoadStatus "Pokedex" model.pokedex
-            , viewLoadStatus "Pokemon" model.pokemon_
-            , viewLoadStatus "PokemonColor" model.pokemonColor
-            , viewLoadStatus "PokemonForm" model.pokemonForm
-            , viewLoadStatus "PokemonHabitat" model.pokemonHabitat
-            , viewLoadStatus "PokemonShape" model.pokemonShape
-            , viewLoadStatus "PokemonSpecies" model.pokemonSpecies_
-            , viewLoadStatus "Region" model.region
-            , viewLoadStatus "Stat" model.stat
-            , viewLoadStatus "SuperContestEffect" model.superContestEffect
-            , viewLoadStatus "Type" model.type_
-            , viewLoadStatus "Version" model.version
-            , viewLoadStatus "VersionGroup" model.versionGroup
+    let
+        label_ str maybeList =
+            String.concat
+                [ str
+                , " ("
+                , Maybe.withDefault "0" <|
+                    Maybe.map
+                        (\value ->
+                            case value of
+                                Ok val ->
+                                    (toString << List.length) val.results
+
+                                Err _ ->
+                                    "0"
+                        )
+                        maybeList
+                , ")"
+                ]
+    in
+        div
+            []
+            [ ul []
+                [ viewLoadStatus (label_ "List Ability" model.abilities) model.abilities
+                , viewLoadStatus (label_ "List Berry" model.berries) model.berries
+                , viewLoadStatus (label_ "List Berry Firmess" model.berryFirmnesses) model.berryFirmnesses
+                , viewLoadStatus (label_ "List Berry Flavor" model.berryFlavors) model.berryFlavors
+                , viewLoadStatus (label_ "List Characteristic" model.characteristics) model.characteristics
+                , viewLoadStatus (label_ "List Contest Effect" model.contestEffects) model.contestEffects
+                , viewLoadStatus (label_ "List Contest Type" model.contestTypes) model.contestTypes
+                , viewLoadStatus (label_ "List Egg Group" model.eggGroups) model.eggGroups
+                , viewLoadStatus (label_ "List Encounter Condition" model.encounterConditions) model.encounterConditions
+                , viewLoadStatus (label_ "List Encounter Condition Value" model.encounterConditionValues) model.encounterConditionValues
+                , viewLoadStatus (label_ "List Encounter Method" model.encounterMethods) model.encounterMethods
+                , viewLoadStatus (label_ "List Evolution Chain" model.evolutionChains) model.evolutionChains
+                , viewLoadStatus (label_ "List Evolution Trigger" model.evolutionTriggers) model.evolutionTriggers
+                , viewLoadStatus (label_ "List Gender" model.genders) model.genders
+                , viewLoadStatus (label_ "List Generation" model.generations) model.generations
+                , viewLoadStatus (label_ "List Growth Rate" model.growthRates) model.growthRates
+                , viewLoadStatus (label_ "List Item" model.items) model.items
+                , viewLoadStatus (label_ "List Item Attribute" model.itemAttributes) model.itemAttributes
+                , viewLoadStatus (label_ "List Item Category" model.itemCategories) model.itemCategories
+                , viewLoadStatus (label_ "List Item Fling Effect" model.itemFlingEffects) model.itemFlingEffects
+                , viewLoadStatus (label_ "List Item Pocket" model.itemPockets) model.itemPockets
+                , viewLoadStatus (label_ "List Language" model.languages) model.languages
+                , viewLoadStatus (label_ "List Location" model.locations) model.locations
+                , viewLoadStatus (label_ "List Location Area" model.locationAreas) model.locationAreas
+                , viewLoadStatus (label_ "List Machine" model.machines) model.machines
+                , viewLoadStatus (label_ "List Move" model.moves) model.moves
+                , viewLoadStatus (label_ "List Move Ailment" model.moveAilments) model.moveAilments
+                , viewLoadStatus (label_ "List Move Battle Style" model.moveBattleStyles) model.moveBattleStyles
+                , viewLoadStatus (label_ "List Move Category" model.moveCategories) model.moveCategories
+                , viewLoadStatus (label_ "List Move Damage Class" model.moveDamageClasses) model.moveDamageClasses
+                , viewLoadStatus (label_ "List Move Learn Method" model.moveLearnMethods) model.moveLearnMethods
+                , viewLoadStatus (label_ "List Move Target" model.moveTargets) model.moveTargets
+                , viewLoadStatus (label_ "List Nature" model.natures) model.natures
+                , viewLoadStatus (label_ "List PalPark Area" model.palParkAreas) model.palParkAreas
+                , viewLoadStatus (label_ "List Pokeathlon Stat" model.pokeathlonStats) model.pokeathlonStats
+                , viewLoadStatus (label_ "List Pokedex" model.pokedexes) model.pokedexes
+                , viewLoadStatus (label_ "List Pokemon" model.pokemon) model.pokemon
+                , viewLoadStatus (label_ "List Pokemon Color" model.pokemonColors) model.pokemonColors
+                , viewLoadStatus (label_ "List Pokemon Form" model.pokemonForms) model.pokemonForms
+                , viewLoadStatus (label_ "List Pokemon Habitat" model.pokemonHabitats) model.pokemonHabitats
+                , viewLoadStatus (label_ "List Pokemon Shape" model.pokemonShapes) model.pokemonShapes
+                , viewLoadStatus (label_ "List Pokemon Species" model.pokemonSpecies) model.pokemonSpecies
+                , viewLoadStatus (label_ "List Region" model.regions) model.regions
+                , viewLoadStatus (label_ "List Stat" model.stats) model.stats
+                , viewLoadStatus (label_ "List Super Contest Effect" model.superContestEffects) model.superContestEffects
+                , viewLoadStatus (label_ "List Type" model.types) model.types
+                , viewLoadStatus (label_ "List Version" model.versions) model.versions
+                , viewLoadStatus (label_ "List Version Group" model.versionGroups) model.versionGroups
+                , viewLoadStatus "Ability" model.ability
+                , viewLoadStatus "Berry" model.berry
+                , viewLoadStatus "BerryFirmness" model.berryFirmness
+                , viewLoadStatus "BerryFlavor" model.berryFlavor
+                , viewLoadStatus "Characteristic" model.characteristic
+                , viewLoadStatus "ContestEffect" model.contestEffect
+                , viewLoadStatus "ContestType" model.contestType
+                , viewLoadStatus "EggGroup" model.eggGroup
+                , viewLoadStatus "EncounterCondition" model.encounterCondition
+                , viewLoadStatus "EncounterConditionValue" model.encounterConditionValue
+                , viewLoadStatus "EncounterMethod" model.encounterMethod
+                , viewLoadStatus "EvolutionChain" model.evolutionChain
+                , viewLoadStatus "EvolutionTrigger" model.evolutionTrigger
+                , viewLoadStatus "Gender" model.gender
+                , viewLoadStatus "Generation" model.generation
+                , viewLoadStatus "GrowthRate" model.growthRate
+                , viewLoadStatus "Item" model.item
+                , viewLoadStatus "ItemAttribute" model.itemAttribute
+                , viewLoadStatus "ItemCategory" model.itemCategory
+                , viewLoadStatus "ItemFlingEffect" model.itemFlingEffect
+                , viewLoadStatus "ItemPocket" model.itemPocket
+                , viewLoadStatus "Language" model.language
+                , viewLoadStatus "Location" model.location
+                , viewLoadStatus "LocationArea" model.locationArea
+                , viewLoadStatus "Machine" model.machine
+                , viewLoadStatus "Move" model.move
+                , viewLoadStatus "MoveAilment" model.moveAilment
+                , viewLoadStatus "MoveBattleStyle" model.moveBattleStyle
+                , viewLoadStatus "MoveCategory" model.moveCategory
+                , viewLoadStatus "MoveDamageClass" model.moveDamageClass
+                , viewLoadStatus "MoveLearnMethod" model.moveLearnMethod
+                , viewLoadStatus "MoveTarget" model.moveTarget
+                , viewLoadStatus "Nature" model.nature
+                , viewLoadStatus "PalParkArea" model.palParkArea
+                , viewLoadStatus "PokeathlonStat" model.pokeathlonStat
+                , viewLoadStatus "Pokedex" model.pokedex
+                , viewLoadStatus "Pokemon" model.pokemon_
+                , viewLoadStatus "PokemonColor" model.pokemonColor
+                , viewLoadStatus "PokemonForm" model.pokemonForm
+                , viewLoadStatus "PokemonHabitat" model.pokemonHabitat
+                , viewLoadStatus "PokemonShape" model.pokemonShape
+                , viewLoadStatus "PokemonSpecies" model.pokemonSpecies_
+                , viewLoadStatus "Region" model.region
+                , viewLoadStatus "Stat" model.stat
+                , viewLoadStatus "SuperContestEffect" model.superContestEffect
+                , viewLoadStatus "Type" model.type_
+                , viewLoadStatus "Version" model.version
+                , viewLoadStatus "VersionGroup" model.versionGroup
+                ]
+            , button [ onClick TestAllClicked ] [ text "Test All" ]
             ]
-        , button [ onClick TestAllClicked ] [ text "Test All" ]
-        ]
 
 
 viewLoadStatus : String -> Maybe (Result Http.Error a) -> Html msg
