@@ -17,12 +17,11 @@ Pokeapi. Hope someone finds it fun/useful! :smiley:
 
 ## Usage
 
-There are 2 different kinds of endpoints: lists and single resources.
+There are 2 different kinds of endpoints: lists and single resources. For more example usages, check out the examples directory.
 
 ### Lists
 
-A basic list endpoint to grab pokemon. For more example usages, check out the
-examples directory.
+A basic list endpoint to grab pokemon.
 
 ```elm
 getResourceList Pokemon_ (onPage 1)
