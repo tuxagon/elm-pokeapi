@@ -323,8 +323,8 @@ decodeCharacteristic =
 decodeContestComboSets : Decoder ContestComboSets
 decodeContestComboSets =
     decode ContestComboSets
-        |> required "normal" decodeContestComboDetail
-        |> required "super" decodeContestComboDetail
+        |> required "normal" (maybe decodeContestComboDetail)
+        |> required "super" (maybe decodeContestComboDetail)
 
 
 {-| -}
@@ -731,7 +731,7 @@ decodeMove =
         |> required "name" string
         |> required "accuracy" int
         |> required "effect_chance" (maybe int)
-        |> required "pp" int
+        |> required "pp" (maybe int)
         |> required "priority" int
         |> required "power" int
         |> required "contest_combos" decodeContestComboSets
@@ -1270,7 +1270,7 @@ decodeType =
         |> required "damage_relations" decodeTypeRelations
         |> required "game_indices" (list decodeGenerationGameIndex)
         |> required "generation" decodeApiResource
-        |> required "move_damage_class" decodeApiResource
+        |> required "move_damage_class" (maybe decodeApiResource)
         |> required "names" (list decodeName)
         |> required "pokemon" (list decodeTypePokemon)
         |> required "moves" (list decodeApiResource)

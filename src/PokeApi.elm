@@ -349,8 +349,8 @@ type alias Characteristic =
 
 {-| -}
 type alias ContestComboSets =
-    { normal : ContestComboDetail
-    , super : ContestComboDetail
+    { normal : Maybe ContestComboDetail
+    , super : Maybe ContestComboDetail
     }
 
 
@@ -712,7 +712,7 @@ type alias Move =
     , name : String
     , accuracy : Int
     , effectChance : Maybe Int
-    , pp : Int
+    , pp : Maybe Int
     , priority : Int
     , power : Int
     , contestCombos : ContestComboSets
@@ -1201,7 +1201,7 @@ type alias Type =
     , damageRelations : TypeRelations
     , gameIndices : List GenerationGameIndex
     , generation : ApiResource
-    , moveDamageClass : ApiResource
+    , moveDamageClass : Maybe ApiResource
     , names : List Name
     , pokemon : List TypePokemon
     , moves : List ApiResource
