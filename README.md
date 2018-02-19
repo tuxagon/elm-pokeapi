@@ -9,9 +9,53 @@ API documentation regarding Pokéapi can be found
 
 GitHub: https://github.com/PokeAPI/pokeapi 
 
+## About
+
+This project came about because I just wanted a fun project to create an elm
+package. The goal of this package is to provide type-safety to the official 
+Pokeapi. Hope someone finds it fun/useful! :smiley:
+
 ## Usage
 
-TODO
+There are 2 different kinds of endpoints: lists and single resources.
+
+### Lists
+
+A basic list endpoint to grab pokemon. For more example usages, check out the
+examples directory.
+
+```elm
+getResourceList Pokemon_ (onPage 1)
+```
+
+Retrieving a list with a custom limit of items per page. 
+
+```elm
+getResourceList Berry_ (onPageOfSize 1 100)
+```
+
+### Single Resources
+
+A basic single resource endpoint to grab a pokemon by name
+
+```elm
+getPokemonBy (nameOf "pikachu")
+```
+
+A basic single resource endpoint to grab a pokemon by id
+
+```elm
+getPokemonBy (idOf 23)
+```
+
+### Chaining Tasks
+
+Due to leveraging `Task`, chaining HTTP requests is made simpler
+
+```elm
+getBerryBy (nameOf "pecha")
+    |> Task.andThen (\berry -> getBerryFirmnessBy (urlOf berry.firmness.url))
+```
 
 ### Library vs API
 
@@ -27,4 +71,4 @@ with the actual models returned by the API, so there could be a situation
 where you see the official documentation tell you a field is of one type 
 only to find it be inconsistent in this package. A goal of this package is to 
 be more up-to-date than the official documentation because this has something
-the documentation doesn't have: type safety. Elm :smiley:
+the documentation doesn't have: type safety. Elm :sunglasses:
