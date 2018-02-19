@@ -92,8 +92,7 @@ init =
     ( { pokemon = Nothing
       , typeName = Nothing
       }
-      --, Cmd.none
-    , getResourceList Type_ (OnPage 1)
+    , getResourceList Type_ (onPageOfSize 1 18)
         |> Task.attempt ReceivedTypes
     )
 
