@@ -57,6 +57,13 @@ getBerryBy (nameOf "pecha")
     |> Task.andThen (\berry -> getBerryFirmnessBy (urlOf berry.firmness.url))
 ```
 
+### Errors
+
+If there is some reason you need to handle for a not found status specifically,
+the Pokeapi provides a model and there is a decoder. You can look at the
+`NotFound.elm` file in the `examples/` directory to see how handling it works
+with this package.
+
 ### Library vs API
 
 This library takes some freedoms to make the library more pleasurable and is not a 1-to-1 match to the PokeApi. Any
