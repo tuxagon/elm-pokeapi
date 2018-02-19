@@ -1,13 +1,24 @@
 module PokemonShowcase exposing (..)
 
+{-| This showcase is not optimized in any way and will not necessarily work
+for all pokemon on all device-widths.
+
+The purpose of this showcase is to show layering the HTTP requests in a
+dependent way and then to give a somewhat pleasant view. Types and Pokemon are
+the focus behind this example.
+
+The showcase example was inspired by a very similar jsfiddle that I really liked
+the simplicity, yet nuance to.
+
+It can be found [here](https://jsfiddle.net/torcp0r3/8/)
+
+-}
+
 import Array exposing (Array)
 import Color exposing (..)
 import Element exposing (..)
 import Element.Attributes exposing (..)
-import Element.Input as Input
 import Html exposing (Html)
-import Html.Attributes
-import Html.Events
 import Http
 import Maybe
 import PokeApi exposing (..)
@@ -15,6 +26,7 @@ import PokeApi.Tasks exposing (..)
 import Random
 import String exposing (trim)
 import Style
+import Style.Background as Background
 import Style.Color as Color
 import Style.Font as Font
 import Task exposing (Task)
@@ -23,15 +35,40 @@ import Task exposing (Task)
 type Styles
     = None
     | H1
+    | H2
+    | Background
+    | Sprites
+    | Image
 
 
-stylesheet : Style.StyleSheet Styles variation
-stylesheet =
-    Style.styleSheet
-        [ Style.style None []
-        , Style.style H1
-            [ Font.size 24 ]
-        ]
+stylesheet : Model -> Style.StyleSheet Styles variation
+stylesheet model =
+    let
+        backgroundImage =
+            case model.pokemon of
+                Nothing ->
+                    []
+
+                Just pokemon ->
+                    [ Background.imageWith
+                        { src = Maybe.withDefault "" pokemon.sprites.frontDefault
+                        , position = ( 0, 0 )
+                        , repeat = Background.stretch
+                        , size = Background.cover
+                        }
+                    ]
+    in
+        Style.styleSheet
+            [ Style.style None []
+            , Style.style H1
+                [ Font.size 96 ]
+            , Style.style H2
+                [ Font.size 36 ]
+            , Style.style Background backgroundImage
+            , Style.style Sprites
+                [ Color.background (Color.rgba 51 51 51 0.5) ]
+            , Style.style Image []
+            ]
 
 
 main : Program Never Model Msg
@@ -45,16 +82,17 @@ main =
 
 
 type alias Model =
-    { idOrName : Maybe String
-    , pokemon : Maybe Pokemon
+    { pokemon : Maybe Pokemon
+    , typeName : Maybe String
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { idOrName = Nothing
-      , pokemon = Nothing
+    ( { pokemon = Nothing
+      , typeName = Nothing
       }
+      --, Cmd.none
     , getResourceList Type_ (OnPage 1)
         |> Task.attempt ReceivedTypes
     )
@@ -86,19 +124,27 @@ update msg model =
                     Array.fromList <|
                         List.map (.url << .pokemon) type_.pokemon
             in
-                ( model
+                ( { model | typeName = Just type_.name }
                 , Random.generate (GeneratedPokemonIndex urls) <|
                     indexGenerator type_.pokemon
                 )
 
-        ReceivedType (Err _) ->
-            ( model, Cmd.none )
+        ReceivedType (Err err) ->
+            let
+                _ =
+                    Debug.log "ReceivedType: " err
+            in
+                ( { model | typeName = Nothing }, Cmd.none )
 
         ReceivedPokemon (Ok pokemon) ->
             ( { model | pokemon = Just pokemon }, Cmd.none )
 
-        ReceivedPokemon (Err _) ->
-            ( model, Cmd.none )
+        ReceivedPokemon (Err err) ->
+            let
+                _ =
+                    Debug.log "ReceivedPokemon: " err
+            in
+                ( model, Cmd.none )
 
         GeneratedTypeIndex urls index ->
             ( model
@@ -135,8 +181,87 @@ indexGenerator list =
 
 view : Model -> Html Msg
 view model =
-    Element.viewport stylesheet <|
-        column None
-            []
-            [ el None [] (text "hello")
-            ]
+    let
+        pokemonName =
+            case model.pokemon of
+                Nothing ->
+                    "Selecting..."
+
+                Just pokemon ->
+                    capitalize pokemon.name
+
+        sprites =
+            let
+                whenUrl maybeUrl =
+                    case maybeUrl of
+                        Nothing ->
+                            []
+
+                        Just url ->
+                            [ decorativeImage Image
+                                []
+                                { src = url }
+                            ]
+            in
+                case model.pokemon of
+                    Nothing ->
+                        []
+
+                    Just pokemon ->
+                        [ row Sprites
+                            [ center ]
+                            (flatten
+                                [ whenUrl pokemon.sprites.frontDefault
+                                , whenUrl pokemon.sprites.frontShiny
+                                , whenUrl pokemon.sprites.frontFemale
+                                , whenUrl pokemon.sprites.frontShinyFemale
+                                , whenUrl pokemon.sprites.backDefault
+                                , whenUrl pokemon.sprites.backShiny
+                                , whenUrl pokemon.sprites.backFemale
+                                , whenUrl pokemon.sprites.backShinyFemale
+                                ]
+                            )
+                        ]
+    in
+        Element.viewport (stylesheet model) <|
+            column Background
+                [ width (percent 100)
+                , height (percent 100)
+                , verticalCenter
+                , center
+                ]
+                [ el H1
+                    [ center
+                    , width (percent 80)
+                    ]
+                    (text pokemonName)
+                , el H2
+                    [ center
+                    , width (percent 80)
+                    ]
+                    (text << capitalize <| Maybe.withDefault "" model.typeName)
+                    |> below sprites
+                ]
+
+
+capitalize : String -> String
+capitalize text =
+    let
+        upperFirst str =
+            String.toUpper (String.left 1 str) ++ String.dropLeft 1 str
+
+        capitalizeDash str =
+            str
+                |> String.split "-"
+                |> List.map upperFirst
+                |> String.join "-"
+    in
+        text
+            |> String.words
+            |> List.map capitalizeDash
+            |> String.join " "
+
+
+flatten : List (List a) -> List a
+flatten list =
+    List.foldl (List.foldl (::)) [] list
