@@ -204,9 +204,9 @@ Example
 getResourceListByUrl :
     ApiListUrl
     -> Task Http.Error ApiResourceList
-getResourceListByUrl (ApiListUrl url) =
+getResourceListByUrl url =
     decodeApiResourceList
-        |> Http.get url
+        |> Http.get (getListUrl url)
         |> Http.toTask
 
 
@@ -504,8 +504,8 @@ getBy res decoder param =
     let
         url =
             case param of
-                Url (ApiUrl url_) ->
-                    url_
+                Url apiUrl ->
+                    getUrl apiUrl
 
                 Name name ->
                     makeResourceUrl ( res, name )
