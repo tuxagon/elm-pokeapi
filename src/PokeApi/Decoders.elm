@@ -734,7 +734,7 @@ decodeMove =
         |> required "pp" (maybe int)
         |> required "priority" int
         |> required "power" int
-        |> required "contest_combos" decodeContestComboSets
+        |> required "contest_combos" (maybe decodeContestComboSets)
         |> required "contest_type" decodeApiResource
         |> required "contest_effect" decodeApiResource
         |> required "damage_class" decodeApiResource

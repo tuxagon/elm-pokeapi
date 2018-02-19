@@ -715,7 +715,7 @@ type alias Move =
     , pp : Maybe Int
     , priority : Int
     , power : Int
-    , contestCombos : ContestComboSets
+    , contestCombos : Maybe ContestComboSets
     , contestType : ApiResource
     , contestEffect : ApiResource
     , damageClass : ApiResource
