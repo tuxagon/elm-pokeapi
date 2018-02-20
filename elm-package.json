@@ -9,7 +9,6 @@
     "exposed-modules": [
       "PokeApi",
       "PokeApi.Decoders",
-      "PokeApi.Internals",
       "PokeApi.Tasks"
     ],
     "dependencies": {
