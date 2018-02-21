@@ -12,7 +12,7 @@ import PokeApi exposing (Resource(..))
 {-| -}
 v2 : String
 v2 =
-    "https://pokeapi.co/api/v2/"
+    "http://localhost/api/v2/"
 
 
 {-| -}
