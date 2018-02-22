@@ -53,7 +53,7 @@ update msg model =
         case msg of
             TestAllClicked ->
                 ( { model | resources = [] }
-                , getResourceList Move_ (onPageOfSize 1 200)
+                , getResourceList Move_ (onPage 1)
                     |> Task.attempt ReceivedList
                 )
 
