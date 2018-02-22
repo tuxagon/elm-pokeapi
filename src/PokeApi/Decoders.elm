@@ -116,44 +116,7 @@ module PokeApi.Decoders
 
 {-| PokeApi decoders
 
-
-# Decoders
-
-@docs decodeAbility, decodeAbilityEffectChange, decodeAbilityFlavorText,
-decodeAbilityPokemon, decodeApiResource, decodeApiResourceList, decodeApiUrl,
-decodeApiListUrl, decodeAwesomeName, decodeBerry, decodeBerryFirmness,
-decodeBerryFlavor, decodeBerryFlavorMap, decodeChainLink, decodeCharacteristic,
-decodeContestComboSets, decodeContestComboDetail, decodeContestEffect,
-decodeContestName, decodeContestType, decodeDescription, decodeEffect,
-decodeEggGroup, decodeEncounter, decodeEncounterCondition,
-decodeEncounterConditionValue, decodeEncounterMethod, decodeEncounterMethodRate,
-decodeEncounterVersionDetails, decodeEvolutionChain, decodeEvolutionDetail,
-decodeEvolutionTrigger, decodeFlavorBerryMap, decodeFlavorText,
-decodeGeneration, decodeGender, decodeGenerationGameIndex, decodeGenus,
-decodeGrowthRate, decodeGrowthRateExperienceLevel, decodeItem,
-decodeItemAttribute, decodeItemCategory, decodeItemFlingEffect,
-decodeItemHolderPokemon, decodeItemHolderPokemonVersionDetail, decodeItemPocket,
-decodeItemSprites, decodeLanguage, decodeLocation, decodeLocationArea,
-decodeLocationAreaEncounter, decodeMachine, decodeMachineVersionDetail,
-decodeMove, decodeMoveAilment, decodeMoveBattleStyle,
-decodeMoveBattleStylePreference, decodeMoveCategory, decodeMoveDamageClass,
-decodeMoveFlavorText, decodeMoveLearnMethod, decodeMoveMetaData,
-decodeMoveStatAffect, decodeMoveStatAffectSets, decodeMoveStatChange,
-decodeMoveTarget, decodeName, decodeNature, decodeNaturePokeathlonStatAffect,
-decodeNaturePokeathlonStatAffectSets, decodeNatureStatAffectSets,
-decodeNatureStatChange, decodePalParkArea, decodePalParkEncounterArea,
-decodePalParkEncounterSpecies, decodePastMoveStatValues, decodePokeathlonStat,
-decodePokedex, decodePokemon, decodePokemonAbility, decodePokemonColor,
-decodePokemonEncounter, decodePokemonEntry, decodePokemonForm,
-decodePokemonFormSprites, decodePokemonHabitat, decodePokemonHeldItem,
-decodePokemonHeldItemVersion, decodePokemonMove, decodePokemonMoveVersion,
-decodePokemonShape, decodePokemonSpecies, decodePokemonSpeciesDexEntry,
-decodePokemonSpeciesGender, decodePokemonSpeciesVariety, decodePokemonSprites,
-decodePokemonStat, decodePokemonType, decodeRegion, decodeStat,
-decodeSuperContestEffect, decodeType, decodeTypePokemon, decodeTypeRelations,
-decodeVerboseEffect, decodeVersion, decodeVersionEncounterDetail,
-decodeVersionGameIndex, decodeVersionGroup, decodeVersionGroupFlavorText
-decodeVersionGroupFlavorText
+@docs decodeAbility, decodeAbilityEffectChange, decodeAbilityFlavorText, decodeAbilityPokemon, decodeApiResource, decodeApiResourceList, decodeApiUrl, decodeApiListUrl, decodeAwesomeName, decodeBerry, decodeBerryFirmness, decodeBerryFlavor, decodeBerryFlavorMap, decodeChainLink, decodeCharacteristic, decodeContestComboSets, decodeContestComboDetail, decodeContestEffect, decodeContestName, decodeContestType, decodeDescription, decodeEffect, decodeEggGroup, decodeEncounter, decodeEncounterCondition, decodeEncounterConditionValue, decodeEncounterMethod, decodeEncounterMethodRate, decodeEncounterVersionDetails, decodeEvolutionChain, decodeEvolutionDetail, decodeEvolutionTrigger, decodeFlavorBerryMap, decodeFlavorText, decodeGeneration, decodeGender, decodeGenerationGameIndex, decodeGenus, decodeGrowthRate, decodeGrowthRateExperienceLevel, decodeItem, decodeItemAttribute, decodeItemCategory, decodeItemFlingEffect, decodeItemHolderPokemon, decodeItemHolderPokemonVersionDetail, decodeItemPocket, decodeItemSprites, decodeLanguage, decodeLocation, decodeLocationArea, decodeLocationAreaEncounter, decodeMachine, decodeMachineVersionDetail, decodeMove, decodeMoveAilment, decodeMoveBattleStyle, decodeMoveBattleStylePreference, decodeMoveCategory, decodeMoveDamageClass, decodeMoveFlavorText, decodeMoveLearnMethod, decodeMoveMetaData, decodeMoveStatAffect, decodeMoveStatAffectSets, decodeMoveStatChange, decodeMoveTarget, decodeName, decodeNature, decodeNaturePokeathlonStatAffect, decodeNaturePokeathlonStatAffectSets, decodeNatureStatAffectSets, decodeNatureStatChange,decodeNotFound, decodePalParkArea, decodePalParkEncounterArea, decodePalParkEncounterSpecies, decodePastMoveStatValues, decodePokeathlonStat, decodePokedex, decodePokemon, decodePokemonAbility, decodePokemonColor, decodePokemonEncounter, decodePokemonEntry, decodePokemonForm, decodePokemonFormSprites, decodePokemonHabitat, decodePokemonHeldItem, decodePokemonHeldItemVersion, decodePokemonMove, decodePokemonMoveVersion, decodePokemonShape, decodePokemonSpecies, decodePokemonSpeciesDexEntry, decodePokemonSpeciesGender, decodePokemonSpeciesVariety, decodePokemonSprites, decodePokemonStat, decodePokemonType, decodeRegion, decodeStat, decodeSuperContestEffect, decodeType, decodeTypePokemon, decodeTypeRelations, decodeVerboseEffect, decodeVersion, decodeVersionEncounterDetail, decodeVersionGameIndex, decodeVersionGroup, decodeVersionGroupFlavorText decodeVersionGroupFlavorText
 
 -}
 

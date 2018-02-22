@@ -88,19 +88,7 @@ Retrieves a single resource of the specific resource for that function
     -- gets the berry with id 5
     getBerryBy (idOf 5)
 
-@docs getAbilityBy, getBerryBy, getBerryFirmnessBy,
-getBerryFlavorBy, getCharacteristicBy, getContestEffectBy, getContestTypeBy,
-getEggGroupBy, getEncounterConditionBy, getEncounterConditionValueBy,
-getEncounterMethodBy, getEvolutionChainBy, getEvolutionTriggerBy, getGenderBy,
-getGenerationBy, getGrowthRateBy, getItemBy, getItemAttributeBy,
-getItemCategoryBy, getItemFlingEffectBy, getItemPocketBy, getLanguageBy,
-getLocationBy, getLocationAreaBy, getMachineBy, getMoveBy, getMoveAilmentBy,
-getMoveBattleStyleBy, getMoveCategoryBy, getMoveDamageClassBy,
-getMoveLearnMethodBy, getMoveTargetBy, getNatureBy, getPalParkAreaBy,
-getPokeathlonStatBy, getPokedexBy, getPokemonBy, getPokemonColorBy,
-getPokemonFormBy, getPokemonHabitatBy, getPokemonShapeBy, getPokemonSpeciesBy,
-getRegionBy, getStatBy, getSuperContestEffectBy, getTypeBy, getVersionBy,
-getVersionGroupBy, getBy
+@docs getAbilityBy, getBerryBy, getBerryFirmnessBy, getBerryFlavorBy, getCharacteristicBy, getContestEffectBy, getContestTypeBy, getEggGroupBy, getEncounterConditionBy, getEncounterConditionValueBy, getEncounterMethodBy, getEvolutionChainBy, getEvolutionTriggerBy, getGenderBy, getGenerationBy, getGrowthRateBy, getItemBy, getItemAttributeBy, getItemCategoryBy, getItemFlingEffectBy, getItemPocketBy, getLanguageBy, getLocationBy, getLocationAreaBy, getMachineBy, getMoveBy, getMoveAilmentBy, getMoveBattleStyleBy, getMoveCategoryBy, getMoveDamageClassBy, getMoveLearnMethodBy, getMoveTargetBy, getNatureBy, getPalParkAreaBy, getPokeathlonStatBy, getPokedexBy, getPokemonBy, getPokemonColorBy, getPokemonFormBy, getPokemonHabitatBy, getPokemonShapeBy, getPokemonSpeciesBy, getRegionBy, getStatBy, getSuperContestEffectBy, getTypeBy, getVersionBy, getVersionGroupBy, getBy
 
 -}
 
