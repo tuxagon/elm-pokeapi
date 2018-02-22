@@ -128,17 +128,18 @@ you with concrete types to all the applicable models
 
 # General
 
-@docs ApiUrl, ApiListUrl, Resource, asApiUrl, asApiListUrl,
-getUrl, getListUrl, asEvolutions, getChainLinkList
+@docs Resource, ApiUrl, ApiListUrl, asApiUrl, asApiListUrl, asEvolutions,
+getChainLinkList, getUrl, getListUrl
 
 
 # Poke API Models
 
-@docs Ability, AbilityEffectChange, AbilityFlavorText, AbilityPokemon, ApiResource,
-ApiResourceList, AwesomeName, Berry, BerryFirmness, BerryFlavor, BerryFlavorMap,
-ChainLink, Evolutions, Characteristic, ContestComboSets, ContestComboDetail,
-ContestEffect, ContestName, ContestType, Description, Effect, EggGroup,
-Encounter, EncounterCondition, EncounterConditionValue, EncounterMethod,
+@docs Ability, AbilityEffectChange, AbilityFlavorText, AbilityPokemon,
+ApiResource, ApiResourceList, AwesomeName, Berry,
+BerryFirmness, BerryFlavor, BerryFlavorMap, ChainLink, Evolutions,
+Characteristic, ContestComboSets, ContestComboDetail, ContestEffect,
+ContestName, ContestType, Description, Effect, EggGroup, Encounter,
+EncounterCondition, EncounterConditionValue, EncounterMethod,
 EncounterMethodRate, EncounterVersionDetails, EvolutionChain, EvolutionDetail,
 EvolutionTrigger, FlavorBerryMap, FlavorText, Generation, Gender,
 GenerationGameIndex, Genus, GrowthRate, GrowthRateExperienceLevel, Item,
@@ -146,18 +147,19 @@ ItemAttribute, ItemCategory, ItemFlingEffect, ItemHolderPokemon,
 ItemHolderPokemonVersionDetail, ItemPocket, ItemSprites, Language, Location,
 LocationArea, LocationAreaEncounter, Machine, MachineVersionDetail, Move,
 MoveAilment, MoveBattleStyle, MoveBattleStylePreference, MoveCategory,
-MoveDamageClass, MoveFlavorText, MoveLearnMethod, MoveMetaData, MoveStatAffect,
-MoveStatAffectSets, MoveStatChange, MoveTarget, Name, Nature, NaturePokeathlonStatAffect,
-NaturePokeathlonStatAffectSets, NatureStatAffectSets, NatureStatChange,
-PalParkArea, PalParkEncounterArea, PalParkEncounterSpecies, PastMoveStatValues,
+MoveDamageClass, MoveFlavorText, MoveLearnMethod, MoveMetaData,
+MoveStatAffect, MoveStatAffectSets, MoveStatChange, MoveTarget, Name,
+Nature, NaturePokeathlonStatAffect, NaturePokeathlonStatAffectSets,
+NatureStatAffectSets, NatureStatChange, NotFound, PalParkArea,
+PalParkEncounterArea, PalParkEncounterSpecies, PastMoveStatValues,
 PokeathlonStat, Pokedex, Pokemon, PokemonAbility, PokemonColor,
-PokemonEncounter, PokemonEntry, PokemonForm, PokemonFormSprites, PokemonHabitat,
-PokemonHeldItem, PokemonHeldItemVersion, PokemonMove, PokemonMoveVersion,
-PokemonShape, PokemonSpecies, PokemonSpeciesDexEntry, PokemonSpeciesGender,
-PokemonSpeciesVariety, PokemonSprites, PokemonStat, PokemonType, Region, Stat,
-SuperContestEffect, Type, TypePokemon, TypeRelations, VerboseEffect, Version,
-VersionEncounterDetail, VersionGameIndex, VersionGroup,
-VersionGroupFlavorText
+PokemonEncounter, PokemonEntry, PokemonForm, PokemonFormSprites,
+PokemonHabitat, PokemonHeldItem, PokemonHeldItemVersion, PokemonMove,
+PokemonMoveVersion, PokemonShape, PokemonSpecies, PokemonSpeciesDexEntry,
+PokemonSpeciesGender, PokemonSpeciesVariety, PokemonSprites, PokemonStat,
+PokemonType, Region, Stat, SuperContestEffect, Type, TypePokemon,
+TypeRelations, VerboseEffect, Version, VersionEncounterDetail,
+VersionGameIndex, VersionGroup, VersionGroupFlavorText
 
 -}
 
@@ -224,11 +226,13 @@ type ApiUrl
     = ApiUrl String
 
 
+{-| -}
 asApiUrl : String -> ApiUrl
 asApiUrl =
     ApiUrl
 
 
+{-| -}
 getUrl : ApiUrl -> String
 getUrl (ApiUrl url) =
     url
@@ -239,11 +243,13 @@ type ApiListUrl
     = ApiListUrl String
 
 
+{-| -}
 asApiListUrl : String -> ApiListUrl
 asApiListUrl =
     ApiListUrl
 
 
+{-| -}
 getListUrl : ApiListUrl -> String
 getListUrl (ApiListUrl url) =
     url
@@ -366,11 +372,13 @@ type Evolutions
     = Evolutions (List ChainLink)
 
 
+{-| -}
 asEvolutions : List ChainLink -> Evolutions
 asEvolutions =
     Evolutions
 
 
+{-| -}
 getChainLinkList : Evolutions -> List ChainLink
 getChainLinkList (Evolutions chainLinkList) =
     chainLinkList
