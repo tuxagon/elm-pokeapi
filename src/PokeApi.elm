@@ -128,19 +128,23 @@ you with concrete types to all the applicable models
 
 # General
 
-@docs ApiUrl, ApiListUrl, asApiUrl, asApiListUrl, asEvolutions, getChainLinkList, getUrl, getListUrl
+@docs Resource, ApiUrl, ApiListUrl, asApiUrl, asApiListUrl, asEvolutions, getChainLinkList, getUrl, getListUrl
 
 
 # Pokeapi Models
 
-@docs Ability, AbilityEffectChange, AbilityFlavorText, AbilityPokemon, ApiResource, ApiResourceList, AwesomeName, Berry, BerryFirmness, BerryFlavor, BerryFlavorMap, ChainLink, Characteristic, ContestComboDetail, ContestComboSets, ContestEffect, ContestName, ContestType, Description, Effect, EggGroup, Encounter, EncounterCondition , EncounterConditionValue, EncounterMethod, EncounterMethodRate, EncounterVersionDetails, EvolutionChain, EvolutionDetail, EvolutionTrigger, Evolutions, FlavorBerryMap, FlavorText, Gender, Generation, GenerationGameIndex, Genus, GrowthRate, GrowthRateExperienceLevel, Item, ItemAttribute, ItemCategory, ItemFlingEffect, ItemHolderPokemon, ItemHolderPokemonVersionDetail, ItemPocket, ItemSprites, Language, Location, LocationArea, LocationAreaEncounter, Machine, MachineVersionDetail, Move, MoveAilment, MoveBattleStyle, MoveBattleStylePreference, MoveCategory, MoveDamageClass, MoveFlavorText, MoveLearnMethod, MoveMetaData, MoveStatAffect, MoveStatAffectSets, MoveStatChange, MoveTarget, Name, Nature, NaturePokeathlonStatAffect, NaturePokeathlonStatAffectSets, NatureStatAffectSets, NatureStatChange, NotFound, PalParkArea, PalParkEncounterArea, PalParkEncounterSpecies, PastMoveStatValues, PokeathlonStat, Pokedex, Pokemon, PokemonAbility, PokemonColor, PokemonEncounter, PokemonEntry, PokemonForm, PokemonFormSprites, PokemonHabitat, PokemonHeldItem, PokemonHeldItemVersion, PokemonMove, PokemonMoveVersion, PokemonShape, PokemonSpecies, PokemonSpeciesDexEntry, PokemonSpeciesGender, PokemonSpeciesVariety, PokemonSprites, PokemonStat, PokemonType, Region, Resource, Stat, SuperContestEffect, Type, TypePokemon, TypeRelations, VerboseEffect, Version, VersionEncounterDetail, VersionGameIndex, VersionGroup, VersionGroupFlavorText
+Represents *most* of the models available through the API. For more information
+regarding what each particular model is, you can visit
+<https://pokeapi.co/docsv2/>
+
+@docs Ability, AbilityEffectChange, AbilityFlavorText, AbilityPokemon, ApiResource, ApiResourceList, AwesomeName, Berry, BerryFirmness, BerryFlavor, BerryFlavorMap, ChainLink, Characteristic, ContestComboDetail, ContestComboSets, ContestEffect, ContestName, ContestType, Description, Effect, EggGroup, Encounter, EncounterCondition , EncounterConditionValue, EncounterMethod, EncounterMethodRate, EncounterVersionDetails, EvolutionChain, EvolutionDetail, EvolutionTrigger, Evolutions, FlavorBerryMap, FlavorText, Gender, Generation, GenerationGameIndex, Genus, GrowthRate, GrowthRateExperienceLevel, Item, ItemAttribute, ItemCategory, ItemFlingEffect, ItemHolderPokemon, ItemHolderPokemonVersionDetail, ItemPocket, ItemSprites, Language, Location, LocationArea, LocationAreaEncounter, Machine, MachineVersionDetail, Move, MoveAilment, MoveBattleStyle, MoveBattleStylePreference, MoveCategory, MoveDamageClass, MoveFlavorText, MoveLearnMethod, MoveMetaData, MoveStatAffect, MoveStatAffectSets, MoveStatChange, MoveTarget, Name, Nature, NaturePokeathlonStatAffect, NaturePokeathlonStatAffectSets, NatureStatAffectSets, NatureStatChange, NotFound, PalParkArea, PalParkEncounterArea, PalParkEncounterSpecies, PastMoveStatValues, PokeathlonStat, Pokedex, Pokemon, PokemonAbility, PokemonColor, PokemonEncounter, PokemonEntry, PokemonForm, PokemonFormSprites, PokemonHabitat, PokemonHeldItem, PokemonHeldItemVersion, PokemonMove, PokemonMoveVersion, PokemonShape, PokemonSpecies, PokemonSpeciesDexEntry, PokemonSpeciesGender, PokemonSpeciesVariety, PokemonSprites, PokemonStat, PokemonType, Region, Stat, SuperContestEffect, Type, TypePokemon, TypeRelations, VerboseEffect, Version, VersionEncounterDetail, VersionGameIndex, VersionGroup, VersionGroupFlavorText
 
 -}
 
 
 {-| Resource represents each endpoint available to you on the API
 
-Note that each resource ends with an underscore because the design choice
+*Note* that each resource ends with an underscore because the design choice
 was to keep the name of each related model free of the underscore
 
 -}
@@ -195,35 +199,46 @@ type Resource
     | VersionGroup_
 
 
-{-| -}
+{-| Represents a url to a single resource
+
+Example
+
+    getBerryFirmnessBy (urlOf berry.firmness.url)
+
+-}
 type ApiUrl
     = ApiUrl String
 
 
-{-| -}
+{-| Wraps a URL into an `ApiUrl`
+-}
 asApiUrl : String -> ApiUrl
 asApiUrl =
     ApiUrl
 
 
-{-| -}
+{-| Extracts the URL from `ApiUrl`
+-}
 getUrl : ApiUrl -> String
 getUrl (ApiUrl url) =
     url
 
 
-{-| -}
+{-| Represents a url to a list of resources
+-}
 type ApiListUrl
     = ApiListUrl String
 
 
-{-| -}
+{-| Wraps a URL into an `ApiListUrl`
+-}
 asApiListUrl : String -> ApiListUrl
 asApiListUrl =
     ApiListUrl
 
 
-{-| -}
+{-| Extracts the URL from `ApiListUrl`
+-}
 getListUrl : ApiListUrl -> String
 getListUrl (ApiListUrl url) =
     url

@@ -63,19 +63,19 @@ module PokeApi.Tasks
 {-| A collection of tasks that represent endpoints to the PokeAPI
 
 
-# Models
+## Common
 
 @docs ParameterType, Page, nameOf, idOf, urlOf, onPage, onPageOfSize
 
 
-# List-based HTTP tasks
+## List-based HTTP tasks
 
 Gets a list of the specified resource
 
-@docs getResourceList, getResourceListByUrl
-
     -- gets a list of pokemon
     getResourceList Pokemon_ (onPage 1)
+
+@docs getResourceList, getResourceListByUrl
 
 
 # Single resource-based HTTP tasks
@@ -84,6 +84,7 @@ Retrieves a single resource of the specific resource for that function
 
     -- gets the pokemon with name "pikachu"
     getPokemonBy (nameOf "pikachu")
+
 
     -- gets the berry with id 5
     getBerryBy (idOf 5)
