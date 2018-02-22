@@ -684,7 +684,7 @@ type alias Language =
 type alias Location =
     { id : Int
     , name : String
-    , region : ApiResource
+    , region : Maybe ApiResource
     , names : List Name
     , gameIndices : List GenerationGameIndex
     , areas : List ApiResource
@@ -730,25 +730,25 @@ type alias MachineVersionDetail =
 type alias Move =
     { id : Int
     , name : String
-    , accuracy : Int
+    , accuracy : Maybe Int
     , effectChance : Maybe Int
     , pp : Maybe Int
     , priority : Int
-    , power : Int
+    , power : Maybe Int
     , contestCombos : Maybe ContestComboSets
-    , contestType : ApiResource
-    , contestEffect : ApiResource
+    , contestType : Maybe ApiResource
+    , contestEffect : Maybe ApiResource
     , damageClass : ApiResource
     , effectEntries : List VerboseEffect
     , effectChanges : List AbilityEffectChange
     , flavorTextEntries : List MoveFlavorText
     , generation : ApiResource
     , machines : List MachineVersionDetail
-    , meta : MoveMetaData
+    , meta : Maybe MoveMetaData
     , names : List Name
     , pastValues : List PastMoveStatValues
     , statChanges : List MoveStatChange
-    , superContestEffect : ApiResource
+    , superContestEffect : Maybe ApiResource
     , target : ApiResource
     , type_ : ApiResource
     }
@@ -951,7 +951,7 @@ type alias PastMoveStatValues =
     , power : Maybe Int
     , pp : Maybe Int
     , effectEntries : List VerboseEffect
-    , type_ : ApiResource
+    , type_ : Maybe ApiResource
     , versionGroup : ApiResource
     }
 
@@ -1051,10 +1051,10 @@ type alias PokemonForm =
 
 {-| -}
 type alias PokemonFormSprites =
-    { frontDefault : String
-    , frontShiny : String
-    , backDefault : String
-    , backShiny : String
+    { frontDefault : Maybe String
+    , frontShiny : Maybe String
+    , backDefault : Maybe String
+    , backShiny : Maybe String
     }
 
 

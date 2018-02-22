@@ -642,7 +642,7 @@ decodeLocation =
     decode Location
         |> required "id" int
         |> required "name" string
-        |> required "region" decodeApiResource
+        |> required "region" (maybe decodeApiResource)
         |> required "names" (list decodeName)
         |> required "game_indices" (list decodeGenerationGameIndex)
         |> required "areas" (list decodeApiResource)
@@ -693,25 +693,25 @@ decodeMove =
     decode Move
         |> required "id" int
         |> required "name" string
-        |> required "accuracy" int
+        |> required "accuracy" (maybe int)
         |> required "effect_chance" (maybe int)
         |> required "pp" (maybe int)
         |> required "priority" int
-        |> required "power" int
+        |> required "power" (maybe int)
         |> required "contest_combos" (maybe decodeContestComboSets)
-        |> required "contest_type" decodeApiResource
-        |> required "contest_effect" decodeApiResource
+        |> required "contest_type" (maybe decodeApiResource)
+        |> required "contest_effect" (maybe decodeApiResource)
         |> required "damage_class" decodeApiResource
         |> required "effect_entries" (list decodeVerboseEffect)
         |> required "effect_changes" (list decodeAbilityEffectChange)
         |> required "flavor_text_entries" (list decodeMoveFlavorText)
         |> required "generation" decodeApiResource
         |> required "machines" (list decodeMachineVersionDetail)
-        |> required "meta" decodeMoveMetaData
+        |> required "meta" (maybe decodeMoveMetaData)
         |> required "names" (list decodeName)
         |> required "past_values" (list decodePastMoveStatValues)
         |> required "stat_changes" (list decodeMoveStatChange)
-        |> required "super_contest_effect" decodeApiResource
+        |> required "super_contest_effect" (maybe decodeApiResource)
         |> required "target" decodeApiResource
         |> required "type" decodeApiResource
 
@@ -937,7 +937,7 @@ decodePastMoveStatValues =
         |> required "power" (maybe int)
         |> required "pp" (maybe int)
         |> required "effect_entries" (list decodeVerboseEffect)
-        |> required "type" decodeApiResource
+        |> required "type" (maybe decodeApiResource)
         |> required "version_group" decodeApiResource
 
 
@@ -1047,10 +1047,10 @@ decodePokemonForm =
 decodePokemonFormSprites : Decoder PokemonFormSprites
 decodePokemonFormSprites =
     decode PokemonFormSprites
-        |> required "front_default" string
-        |> required "front_shiny" string
-        |> required "back_default" string
-        |> required "back_shiny" string
+        |> required "front_default" (maybe string)
+        |> required "front_shiny" (maybe string)
+        |> required "back_default" (maybe string)
+        |> required "back_shiny" (maybe string)
 
 
 {-| -}
