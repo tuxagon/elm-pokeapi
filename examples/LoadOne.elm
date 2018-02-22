@@ -23,7 +23,7 @@ main =
 
 
 type alias Model =
-    { resources : List (Result Http.Error MoveCategory)
+    { resources : List (Result Http.Error Move)
     , urls : List String
     }
 
@@ -39,7 +39,7 @@ init =
 
 type Msg
     = TestAllClicked
-    | ReceivedResource (Result Http.Error MoveCategory)
+    | ReceivedResource (Result Http.Error Move)
     | ReceivedList (Result Http.Error ApiResourceList)
 
 
@@ -47,13 +47,13 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
         getResource url =
-            getMoveCategoryBy (urlOf url)
+            getMoveBy (urlOf url)
                 |> Task.attempt ReceivedResource
     in
         case msg of
             TestAllClicked ->
                 ( { model | resources = [] }
-                , getResourceList MoveCategory_ (onPageOfSize 1 1000)
+                , getResourceList Move_ (onPageOfSize 1 200)
                     |> Task.attempt ReceivedList
                 )
 
@@ -96,14 +96,14 @@ view model =
     in
         div
             []
-            [ h1 [] [ text "MoveCategory" ]
-            , ul [] (List.map viewLoadStatus model.resources)
+            [ h1 [] [ text "Move" ]
+            , ul [] (List.map viewLoadMove model.resources)
             , button [ onClick TestAllClicked ] [ text "Test All" ]
             ]
 
 
-viewLoadStatus : Result Http.Error MoveCategory -> Html msg
-viewLoadStatus result =
+viewLoadMove : Result Http.Error Move -> Html msg
+viewLoadMove result =
     li []
         [ case result of
             Err e ->
